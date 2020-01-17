@@ -1,6 +1,6 @@
 # I AM B.O.R.E.D
 
-A Progressive Web application to Read, Create, Share cooking recipes. 
+A Progressive Web application to Read, Create, Share cooking recipes. The Full name of the application stands for: `I am Book Of Recipes Easily Done`.
 
 ## App Names
 
