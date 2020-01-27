@@ -1,0 +1,5 @@
+server:
+  port: 5000
+
+db:
+  uri: 'mongodb://admin:zuko2352@ds123695.mlab.com:23695/i-am-bored-db'
