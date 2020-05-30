@@ -13,9 +13,27 @@ A Progressive Web application to Read, Create, Share cooking recipes. The Full n
 
 ---
 
+## ETA of Project Completion
+
+Comparing a Similar project I pulled off in the past. The Total time taken to complete this application would be:
+
+
+
+---
+
 ## Date Modelling
 
-![Data Modelling](.\design\data-modelling-annotated.png)
+![Data Modelling](./design/data-modelling-annotated.png)
+
+## Tech Stack
+
+- Node JS + Express (possibly Typescript)
+- GraphQL + Apollo
+- React + Typescript
+- Mongo DB (Compass / MLab)
+- OAuth 2.0 (Google) / Firebase Authentication
+
+---
 
 ## Important Links
 
@@ -31,8 +49,6 @@ A Progressive Web application to Read, Create, Share cooking recipes. The Full n
 # Clone Heroku repo
 $ heroku git:remote -a iamboard
 ```
-
----
 
 
 ## Adobe Color Wheel
