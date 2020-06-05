@@ -37,6 +37,7 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 
 ## Important Links
 
+- [Kanbanchi - Tasks / Backlog Link](https://kanban-chi.appspot.com/dashboard/5515963025588224-6179838427398144/d-5515963025588224)
 - [PWA assets generator - IOS](https://github.com/onderceylan/pwa-asset-generator)
 - [Material UI Theme Generator](https://cimdalli.github.io/mui-theme-generator/)
 - [NEW* - Material UI Theme Generator](https://github.com/in-your-saas/material-ui-theme-editor)
