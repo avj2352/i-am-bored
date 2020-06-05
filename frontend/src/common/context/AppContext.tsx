@@ -10,13 +10,13 @@ export enum CONTEXT_ACTION_TYPE {
     SET_VERSION,
 }
 
-const initialState: IAppContextState = {
+export const initialState: IAppContextState = {
     theme: 'theme-light',
     version: '1.0.0'
 };
 
-const AppStateContext = createContext<IAppContextState>(initialState); // Separate context for storing state
-const AppDispatchContext = createContext({}); // Separate context for updating state
+export const AppStateContext = createContext<IAppContextState>(initialState); // Separate context for storing state
+export const AppDispatchContext = createContext({}); // Separate context for updating state
 
 const appContextReducer = (state: IAppContextState, action: {type: CONTEXT_ACTION_TYPE, payload: any}): any => {
     const { type, payload } = action;
@@ -31,16 +31,16 @@ const appContextReducer = (state: IAppContextState, action: {type: CONTEXT_ACTIO
     }
 };
 
-export const AppContextProvder: FunctionComponent<any> = ({children}): JSX.Element => {
+export const AppContextProvider: FunctionComponent<any> = ({children}): JSX.Element => {
     const [state, dispatch] = useReducer(appContextReducer, initialState);
-    return (
-        <AppStateContext.Provider value={state}>
-            <AppDispatchContext.Provider value={dispatch}>
-                {children}
+    return (<React.Fragment>
+            <AppStateContext.Provider value={state}>
+                <AppDispatchContext.Provider value={dispatch}>
+                    {children}
             </AppDispatchContext.Provider>
-        </AppStateContext.Provider>
-    );
-}
+            </AppStateContext.Provider>
+        </React.Fragment>);
+};
 
 // Custom Hooks
 export const useGlobalState  = () => useContext(AppStateContext);
