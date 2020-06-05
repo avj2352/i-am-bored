@@ -86,59 +86,6 @@ $ heroku git:remote -a iamboard
 
 ---
 
-## Material UI Theme Configuration
-
-```javascript
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import * as Colors from 'material-ui/styles/colors';
-import { fade } from 'material-ui/utils/colorManipulator';
-
-
-
-const getTheme = () => {
-  let overwrites = {
-  "palette": {
-    "common": {
-      "black": "#000",
-      "white": "#fff"
-    },
-    "background": {
-      "paper": "#fff",
-      "default": "#fafafa"
-    },
-    "primary": {
-      "light": "rgba(239, 144, 54, 1)",
-      "main": "rgba(242, 118, 46, 1)",
-      "dark": "rgba(242, 82, 68, 1)",
-      "contrastText": "#fff"
-    },
-    "secondary": {
-      "light": "rgba(4, 191, 191, 1)",
-      "main": "rgba(11, 122, 191, 1)",
-      "dark": "rgba(29, 77, 124, 1)",
-      "contrastText": "#fff"
-    },
-    "error": {
-      "light": "rgba(242, 27, 66, 1)",
-      "main": "rgba(191, 27, 57, 1)",
-      "dark": "rgba(115, 34, 79, 1)",
-      "contrastText": "#fff"
-    },
-    "text": {
-      "primary": "rgba(0, 0, 0, 0.87)",
-      "secondary": "rgba(0, 0, 0, 0.54)",
-      "disabled": "rgba(0, 0, 0, 0.38)",
-      "hint": "rgba(0, 0, 0, 0.38)"
-    }
-  }
-};
-  return getMuiTheme(baseTheme, overwrites);
-}
-```
-
----
-
 # IOS
 
 ## Icons for IOS
