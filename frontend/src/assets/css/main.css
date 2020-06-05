@@ -4,6 +4,14 @@
 
 @tailwind utilities;
 
+.debug01 {
+    border: 1px solid red;
+}
+
+.debug02 {
+    border: 1px solid green;
+}
+
 .theme-light {
     --bg-background-primary: white;
     --bg-background-secondary: #f7fafc;
