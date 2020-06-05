@@ -20,6 +20,11 @@
     "react-toastify": "^6.0.5",
     "typescript": "~3.7.2"
   },
+  "devDependencies": {
+    "autoprefixer": "^9.8.0",
+    "postcss-cli": "^7.1.1",
+    "tailwindcss": "^1.4.6"
+  },
   "scripts": {
     "build:css": "postcss src/assets/css/main.css -o src/index.css",
     "watch:css": "postcss src/assets/css/main.css -o src/index.css -w",
@@ -42,10 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "autoprefixer": "^9.8.0",
-    "postcss-cli": "^7.1.1",
-    "tailwindcss": "^1.4.6"
   }
 }
