@@ -9,10 +9,11 @@ import { addBrowserRouter } from "../../common/util/RouterHelper";
 /**
  * TDD Objectives
  * 1. // Check if the Component Renders without any issues
- * 2. // TODO: on clicking "Continue" button - should trigger async call
- * 3. // TODO: on Promise resolve - should redirect to dashboard page
- * 4. // TODO: on Promise reject - should display - "Error signing in, Please try again"
- * 5  // TODO: on clicking About link - should route to AboutView page
+ * 2. // TODO: Page fade-in once the image has been loaded
+ * 3. // TODO: on clicking "Continue" button - should trigger async call
+ * 4. // TODO: on Promise resolve - should redirect to dashboard page
+ * 5. // TODO: on Promise reject - should display - "Error signing in, Please try again"
+ * 6. // TODO: on clicking About link - should route to AboutView page
  **/
 
 describe(' LoginView - Component renders ', ()=>{

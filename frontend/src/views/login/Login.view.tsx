@@ -1,68 +1,46 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent, useState, useRef, useEffect} from 'react';
+// custom
+import logo from './../../assets/img/logo.png';
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
 
 const LoginView: FunctionComponent = (props): JSX.Element => {
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const bannerDom = useRef<HTMLDivElement>(document.createElement('div'));
+    // event handlers
+    const handleLogoLoad = () => {
+        setImageLoaded(true);
+    };
+    // side-effects
+    useEffect(()=>{
+        if (imageLoaded) {
+            bannerDom.current.style.opacity = '1';
+        } else {
+            bannerDom.current.style.opacity = `0`;
+        }
+    },[imageLoaded]);
     return (
       <React.Fragment>
           <div className="newsletter bg-background-tertiary h-screen">
-              <header className="border-t-14 border-green-700"/>
-              <div className="container-inner mx-auto py-16 pb-8 text-center textl-xl">
-                  <h2 className="text-3xl text-green-700 font-bold mb-8">B.O.R.E.D</h2>
-                  <div className="w-4/5 mx-auto mb-8">
-                      <p className="mb-8 text-lg sm:text-xl">Login to your Account</p>
-                          <div className="flex flex-col justify-center sm:flex-row">
+              <Header/>
+              <div ref={bannerDom} className="opacity-0 transition-opacity duration-1000 ease-in-out container-inner mx-auto py-16 pb-8 text-center text-xl">
+                  <div className="flex flex-col justify-center items-center w-4/5 mx-auto mb-8">
+                      <img src={logo} onLoad={handleLogoLoad} alt={`logo`} className="w-2/3 md:w-1/2 h-auto rounded-lg shadow mb-4"/>
+                      <p className="mb-2 text-lg">Online PWA based Recipe Application</p>
+                      <p className="uppercase font-bold text-lg">Login to your Account</p>
+                          <div className="w-full md:w-1/2 flex flex-col justify-center">
                               <button
-                                  data-element="submit"
-                                  className="flex-2
+                                  className="w-full rounded
                                     shadow uppercase bg-green-700
-                                    text-white rounded sm:rounded-l-none
-                                    text-lg py-3 px-8 tracking-wide shadow
-                                    focus:outline-none hover:bg-green-800 focus:bg-green-800 z-10 w-full sm:w-auto mt-4 sm:mt-0">
-                                        <span>Continue with Google</span>
-                                  </button>
+                                    text-white
+                                    text-lg py-3 px-4 tracking-wide shadow
+                                    focus:outline-none hover:bg-green-800 focus:bg-green-900 z-10 mt-4">
+                                        <span>Login</span>
+                              </button>
                           </div>
                   </div>
               </div>
-              <footer className="absolute bottom-0 w-full bg-green-700 text-white">
-                  <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between py-8">
-                      <div className="mb-8 lg:mb-0">
-                          <div>Built with Tailwind CSS. All rights reserved.</div>
-                      </div>
-                      <ul className="flex items-center space-x-8">
-                          <li>
-                              <a href="mailto:pramod.jingade@gmail.com" className="text-white hover:text-gray-400">
-                                  <svg width="25" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path
-                                          d="M2.5 0h20A2.5 2.5 0 0 1 25 2.5v15a2.5 2.5 0 0 1-2.5 2.5h-20A2.5 2.5 0 0 1 0 17.5v-15C0 1.125 1.125 0 2.5 0zm20 4.225V2.5h-20v1.725l10 5 10-5zm0 2.8l-9.438 4.713a1.25 1.25 0 0 1-1.124 0L2.5 7.025V17.5h20V7.025z"
-                                          fill-rule="nonzero"/>
-                                  </svg>
-                              </a>
-                          </li>
-
-                          <li>
-                              <a href="https://github.com/drehimself/gridsome-portfolio-starter" target="_blank"
-                                 className="text-white hover:text-gray-400">
-                                  <svg width="20" height="19" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path
-                                          d="M10 0c1.814 0 3.487.435 5.02 1.306a9.827 9.827 0 0 1 3.639 3.542A9.33 9.33 0 0 1 20 9.734c0 2.121-.636 4.03-1.908 5.723a9.783 9.783 0 0 1-4.928 3.518c-.234.042-.408.012-.52-.09a.49.49 0 0 1-.17-.38l.006-.969c.005-.621.007-1.19.007-1.705 0-.82-.226-1.42-.677-1.8.495-.05.94-.126 1.335-.228a5.4 5.4 0 0 0 1.223-.494 3.62 3.62 0 0 0 1.055-.843c.282-.334.512-.777.69-1.33.178-.554.267-1.19.267-1.909a3.7 3.7 0 0 0-1.028-2.61c.32-.77.286-1.631-.105-2.586-.243-.076-.594-.03-1.054.14-.46.168-.86.354-1.198.557l-.495.304a9.478 9.478 0 0 0-2.5-.33c-.86 0-1.693.11-2.5.33a11.6 11.6 0 0 0-.553-.342c-.23-.135-.593-.298-1.088-.488-.494-.19-.863-.247-1.106-.171-.391.955-.426 1.816-.105 2.585A3.7 3.7 0 0 0 3.62 9.227c0 .719.089 1.352.267 1.902.178.549.406.993.683 1.33.278.339.627.622 1.048.85a5.4 5.4 0 0 0 1.224.494c.395.102.84.178 1.335.228-.338.305-.551.74-.638 1.306a2.631 2.631 0 0 1-.586.19 3.782 3.782 0 0 1-.742.063c-.287 0-.57-.09-.853-.272a2.256 2.256 0 0 1-.723-.792 2.068 2.068 0 0 0-.631-.66c-.256-.168-.471-.27-.645-.304l-.26-.038c-.182 0-.308.02-.378.057-.07.038-.09.087-.065.146.026.06.065.118.117.178.053.059.109.11.17.152l.09.063c.192.085.38.245.567.482.187.236.324.452.41.646l.13.292c.113.32.304.58.574.78.269.198.56.325.872.38.312.054.614.084.905.088.29.004.532-.01.723-.044l.299-.05c0 .32.002.694.007 1.12l.006.692a.49.49 0 0 1-.17.38c-.112.101-.286.13-.52.089a9.783 9.783 0 0 1-4.928-3.518C.636 13.763 0 11.855 0 9.734a9.33 9.33 0 0 1 1.341-4.886 9.827 9.827 0 0 1 3.64-3.542C6.512.436 8.185 0 10 0zM3.79 13.98c.025-.058-.005-.11-.092-.151-.087-.026-.143-.017-.17.025-.025.06.005.11.092.152.078.05.134.042.17-.025zm.403.432c.06-.043.052-.11-.026-.203-.087-.076-.157-.089-.209-.038-.06.042-.052.11.026.203.087.084.157.097.209.038zm.39.57c.078-.06.078-.14 0-.24-.07-.11-.143-.136-.221-.077-.078.042-.078.118 0 .228.078.11.152.14.221.089zm.547.532c.07-.067.052-.148-.052-.24-.104-.102-.19-.115-.26-.039-.078.068-.061.148.052.241.104.102.19.114.26.038zm.742.317c.026-.093-.03-.16-.169-.203-.13-.033-.213-.004-.247.09-.035.092.021.155.169.19.13.05.213.025.247-.077zm.82.064c0-.11-.073-.157-.22-.14-.14 0-.209.047-.209.14 0 .11.074.156.221.139.14 0 .209-.046.209-.14zm.756-.127c-.017-.093-.096-.131-.234-.114-.14.025-.2.088-.183.19.018.101.096.135.235.101.139-.034.2-.093.182-.177z"
-                                          fill-rule="nonzero"/>
-                                  </svg>
-                              </a>
-                          </li>
-
-                          <li>
-                              <a href="https://twitter.com/avj2352" target="_blank"
-                                 className="text-white hover:text-gray-400">
-                                  <svg width="20" height="17" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                      <path
-                                          d="M19.807 1.943a8.588 8.588 0 0 1-2.036 2.135 11.918 11.918 0 0 1-.465 3.854 12.085 12.085 0 0 1-1.452 3.177 12.426 12.426 0 0 1-2.318 2.691c-.897.78-1.978 1.402-3.243 1.867-1.265.464-2.618.697-4.06.697-2.27 0-4.348-.618-6.233-1.854.293.034.62.051.98.051 1.885 0 3.565-.588 5.04-1.764a3.915 3.915 0 0 1-2.363-.825 4.038 4.038 0 0 1-1.432-2.039c.276.043.532.064.766.064.36 0 .717-.047 1.068-.14A3.982 3.982 0 0 1 1.73 8.43c-.617-.754-.925-1.63-.925-2.627v-.051c.57.324 1.182.498 1.835.524a4.1 4.1 0 0 1-1.32-1.47 4.078 4.078 0 0 1-.49-1.969c0-.75.185-1.445.553-2.084a11.548 11.548 0 0 0 3.702 3.05 11.163 11.163 0 0 0 4.669 1.271c-.067-.324-.1-.639-.1-.946 0-1.142.395-2.116 1.187-2.92C11.632.402 12.589 0 13.712 0c1.173 0 2.161.435 2.966 1.304a7.878 7.878 0 0 0 2.576-.997 3.997 3.997 0 0 1-1.785 2.275 7.98 7.98 0 0 0 2.338-.639z"
-                                          fill-rule="nonzero"/>
-                                  </svg>
-                              </a>
-                          </li>
-
-                      </ul>
-                  </div>
-              </footer>
+              <Footer/>
           </div>
       </React.Fragment>
     );
