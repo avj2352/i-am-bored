@@ -69,15 +69,6 @@
 .content-wrapper {
     transition: background-color .25s;
 }
-
-a {
-    @apply text-green-700 font-bold;
-}
-
-a:hover {
-    @apply text-green-800;
-}
-
 nav .active {
     font-weight: bold;
     @apply border-black border-b;

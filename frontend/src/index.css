@@ -10346,19 +10346,6 @@ video {
   transition: background-color .25s;
 }
 
-a {
-  --text-opacity: 1;
-  color: #2f855a;
-  color: rgba(47, 133, 90, var(--text-opacity));
-  font-weight: 700;
-}
-
-a:hover {
-  --text-opacity: 1;
-  color: #276749;
-  color: rgba(39, 103, 73, var(--text-opacity));
-}
-
 nav .active {
   font-weight: bold;
   --border-opacity: 1;

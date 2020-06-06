@@ -1,4 +1,6 @@
 import React, {FunctionComponent} from 'react';
+import { FaHeart } from 'react-icons/fa';
+
 // custom
 import {useGlobalState} from "../../common/context/AppContext";
 
@@ -10,7 +12,7 @@ const Footer: FunctionComponent = (props): JSX.Element => {
                 <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between py-4">
                     <div className="mb-4 lg:mb-0">
                         <div>version {appContext.version}</div>
-                        <div>Built with Tailwind CSS.</div>
+                        <div className="flex flex-row justify-center items-center"><FaHeart className="mr-2 text-orange-200"/> from KL - Malaysia, 2020.</div>
                     </div>
                     <ul className="flex items-center space-x-8">
                         <li>
@@ -23,7 +25,7 @@ const Footer: FunctionComponent = (props): JSX.Element => {
                             </a>
                         </li>
                         <li>
-                            <a rel="noopener noreferrer" href="https://github.com/drehimself/gridsome-portfolio-starter" target="_blank"
+                            <a rel="noopener noreferrer" href="https://github.com/avj2352/" target="_blank"
                                className="text-white hover:text-gray-400">
                                 <svg width="20" height="19" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path
