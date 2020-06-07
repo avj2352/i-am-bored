@@ -1,0 +1,25 @@
+{
+  "server": {
+    "port": 5000
+  },
+  "google": {
+    "client_id": "1014313043742-3o8tjkq730kkcuc0gum4efbjs8fbdkpi.apps.googleusercontent.com",
+    "client_secret": "iHuNFNJT-i73D9KuWMEvtQeI",
+    "login_dialog_uri": "",
+    "oauth_redirect_uri": "/auth/google/callback",
+    "access_token_uri": "",
+    "scopes": [
+      "https://www.googleapis.com/auth/plus.login",
+      "https://www.googleapis.com/auth/plus.profile.emails.read"
+    ],
+    "response_type": "code",
+    "grant_type": "authorization_code"
+  },
+  "jwt": {
+    "secret": "bored2020",
+    "expiry": 360000
+  },
+  "db": {
+    "uri": "mongodb://admin:zuko2352@ds123695.mlab.com:23695/i-am-bored-db"
+  }
+}

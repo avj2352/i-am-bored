@@ -120,3 +120,6 @@ Include the following code in your `index.html` page
 ```bash
 mongodb://<dbuser>:<dbpassword>@ds123695.mlab.com:23695/i-am-bored-db
 ```
+
+---
+
