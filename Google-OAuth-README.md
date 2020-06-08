@@ -36,12 +36,21 @@ Head over this website and follow the instructions carefully.
 - Enter the name of the project (in this case: `i-am-bored`)
 - Google take a couple of mins to setup the project
 
+---
+
+## 2 Things to start using Google OAuth
+
+- Enable the OAuth Services for **i-am-bored** project
+- Generate OAuth 2.0 client ID and client Secret
+
+We need to do these two things to enable Google to talk to our server
+
 ![API](./design/screenshots/step02.png)
 
 
 
 - Now under the new project `i-am-bored`, Navigate to the sidebar
-- Choose 👉 **APIs & Services**  👉 **OAuth consent screen**
+- Choose **Sidebar** 👉 **APIs & Services**  👉 **OAuth consent screen**
 
 ![Consent](./design/screenshots/step03.png)
 
