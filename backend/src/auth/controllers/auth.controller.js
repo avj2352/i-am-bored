@@ -2,13 +2,15 @@
  * CRUD - Authentication flow
  */
 require('./../../util/colors');
-import { getGoogleClientId, getGoogleClientSecret, getGoogleOAuthRedirect } from "../../util/config.util";
-
 const passport  = require('passport') ;
 const passportStrategy = require('passport-google-oauth20');
 // custom
-
+import { User } from './../models/user.model';
+import { getGoogleClientId, getGoogleClientSecret, getGoogleOAuthRedirect } from "../../util/config.util";
 import { AuthService } from '../services/auth.service';
+
+
+
 export class AuthController {
     
     constructor () {
@@ -30,9 +32,16 @@ export class AuthController {
             clientSecret: getGoogleClientSecret(),
             callbackURL: getGoogleOAuthRedirect()
         }, (accessToken, refreshToken, profile, done) => {
-            console.log('Profile details: '.bgInfo, profile);
-            console.log('Accesstoken is:'.help, accessToken);
-            console.log('Refreshtoken is:'.help, refreshToken);
+            User.findOne({googleId: profile.id});
+            const record = new User({
+                googleId: profile.id,
+                name: profile.displayName,
+                email: profile.emails[0].value
+            });
+            record.save();
+            // console.log('Profile details: '.bgInfo, profile);
+            // console.log('Accesstoken is:'.help, accessToken);
+            // console.log('Refreshtoken is:'.help, refreshToken);
             // done(null, JSON.stringify(profile));
         }));
 

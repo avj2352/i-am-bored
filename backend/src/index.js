@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 require('./util/colors');
+require('./util/db.connect');
+
 
 import routes from './routes/app.routes';
 import { getPORT } from './util/config.util';
