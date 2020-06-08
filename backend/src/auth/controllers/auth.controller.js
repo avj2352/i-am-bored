@@ -2,7 +2,7 @@
  * CRUD - Authentication flow
  */
 require('./../../util/colors');
-const passport  = require('passport') ;
+const passport  = require('passport');
 const passportStrategy = require('passport-google-oauth20');
 // custom
 import { getGoogleClientId, getGoogleClientSecret, getGoogleOAuthRedirect } from "../../util/config.util";
@@ -15,18 +15,24 @@ export class AuthController {
     constructor () {
         let existingUser;
         const GoogleStrategy  = passportStrategy.Strategy;
-        passport.serializeUser(function(user, done) {
-            done(null, user.username);
+
+        // callback when done method is invoked on passport.use
+        passport.serializeUser(async (user, done) => {
+            done(null, user.id);
         });
-        passport.deserializeUser((username, done) => {
-            done(null, {username: username});
+
+        // callback when done method is invoked on passport.use
+        passport.deserializeUser(async (id, done) => {
+            const record = await this.authService.findUserRecordById(id);
+            done(null, record);
         });
+
         passport.use(new GoogleStrategy({
             clientID: getGoogleClientId(),
             clientSecret: getGoogleClientSecret(),
             callbackURL: getGoogleOAuthRedirect()
         }, async (accessToken, refreshToken, profile, done) => {
-            const result = await this.authService.findUserRecordById(profile.id);
+            const result = await this.authService.findUserRecordByGoogleId(profile.id);
             if(!result) {
                 const record = await this.authService.addNewUser(profile);
                 existingUser = record;
@@ -35,6 +41,7 @@ export class AuthController {
                 existingUser = result;
                 console.log(`User record already exists`.info, existingUser);
             }
+            done(null, existingUser);
         }));
         this.authService = new AuthService();
         //bind

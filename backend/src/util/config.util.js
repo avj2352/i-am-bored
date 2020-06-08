@@ -8,6 +8,7 @@ const config = require('config');
 const serverConfig = config.get('server');
 const dbConfig = config.get('db');
 const googleConfig = config.get('google');
+const jwtConfig = config.get('jwt');
 
 // MAIN ==============================================
 
@@ -33,4 +34,16 @@ export function getGoogleClientSecret () {
 
 export function getGoogleOAuthRedirect () {
     return process.env.gOAuthRedirect || googleConfig.oauth_redirect_uri;
+}
+
+/**
+ * PAJ - get maxAge in days
+**/
+export function getCookieSessionMaxAge () {
+    const days = process.env.jwtExpiry || jwtConfig.expiry;
+    return days*24*60*60*1000;
+}
+
+export function getCookieKeySignature () {
+    return process.env.jwtSecret || jwtConfig.secret;
 }
