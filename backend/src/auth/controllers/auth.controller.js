@@ -15,16 +15,20 @@ export class AuthController {
     constructor () {
         let existingUser;
         const GoogleStrategy  = passportStrategy.Strategy;
-
         // callback when done method is invoked on passport.use
-        passport.serializeUser(async (user, done) => {
-            done(null, user.id);
+        passport.serializeUser( async(user, done) => {
+            // console.log('User serialized', user);
+            await done(null, user.id);
         });
 
         // callback when done method is invoked on passport.use
+
+        // Eg: This functino is called for getUserDetails GET request
         passport.deserializeUser(async (id, done) => {
             const record = await this.authService.findUserRecordById(id);
-            done(null, record);
+            if (record) {
+                await done(null, record);
+            }
         });
 
         passport.use(new GoogleStrategy({
@@ -37,11 +41,12 @@ export class AuthController {
                 const record = await this.authService.addNewUser(profile);
                 existingUser = record;
                 console.log(`New User - Add Record`.info, existingUser);
+                await done(null, existingUser);
             } else {
                 existingUser = result;
                 console.log(`User record already exists`.info, existingUser);
+                await done(null, existingUser);
             }
-            done(null, existingUser);
         }));
         this.authService = new AuthService();
         //bind
@@ -51,8 +56,28 @@ export class AuthController {
 
     // google authenticate method
     authenticate = passport.authenticate('google', {session: 'false', scope: ['openid', 'email', 'profile']});
+
     // callback handler
-    authCallback = (passport.authenticate('google'));
+    authCallback = passport.authenticate('google', {
+        successRedirect: '/app',
+        failureRedirect: '/hello'
+    });
+
+    // testing OAuth
+    getUserDetails (req, res) {
+        // console.log('Request user: ', req.user);
+        if (req.user) {
+            res.send(req.user);
+        } else {
+            res.sendStatus(401);
+        }
+    }
+
+    // logout
+    logoutUser (req, res) {
+        req.logout(); // This is passport special feature added to the request. WORKS only with Cookie session
+        res.redirect('/');
+    }
 
 }
 

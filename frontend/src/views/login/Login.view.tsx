@@ -5,6 +5,7 @@ import { FaGoogle } from "react-icons/fa";
 import logo from './../../assets/img/logo.png';
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
+import { authenticateUser } from '../../common/async/AsyncCalls';
 
 
 const LoginView: FunctionComponent = (props): JSX.Element => {
@@ -13,6 +14,12 @@ const LoginView: FunctionComponent = (props): JSX.Element => {
     // event handlers
     const handleLogoLoad = () => {
         setImageLoaded(true);
+    };
+    const handleLogin = () => {
+        authenticateUser()
+            .then((res: any) => {
+                console.log('Response for the user: ', res);
+            });
     };
     // side-effects
     useEffect(()=>{
@@ -32,7 +39,7 @@ const LoginView: FunctionComponent = (props): JSX.Element => {
                       <p className="mb-2 text-lg">Book ▪ Of ▪ Recipes ▪ Easily ▪ Done </p>
                       <p className="uppercase font-bold text-lg">Login to your Account</p>
                           <div className="w-full md:w-1/2 flex flex-col justify-center">
-                              <button
+                              <button onClick={handleLogin}
                                   className="w-full rounded
                                     shadow uppercase bg-gray-400
                                     text-black

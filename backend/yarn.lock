@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@passport-next/passport-strategy@1.x.x":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@passport-next/passport-strategy/-/passport-strategy-1.1.0.tgz#4c0df069e2ec9262791b9ef1e23320c1d73bdb74"
+  integrity sha512-2KhFjtPueJG6xVj2HnqXt9BlANOfYCVLyu+pXYjPGBDT8yk+vQwc/6tsceIj+mayKcoxMau2JimggXRPHgoc8w==
+
+"@passport-next/passport@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@passport-next/passport/-/passport-3.1.0.tgz#13ddb9cb3d388634f8c0b87ea38bf169125f44a3"
+  integrity sha512-CRqxmh9A9StmDhHLm9pc9Z6wP672iyGElIYX66wlUzzDffzH8xLkaVwyqXvIr6j/19CHaRCeG1hNfiVq/4KG1A==
+  dependencies:
+    "@passport-next/passport-strategy" "1.x.x"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

@@ -16,7 +16,7 @@ ReactDOM.render (
   document.getElementById('root')
 );
 
-// axios.defaults.baseURL = 'http://localhost:5000'; // Comment for production deployment
+axios.defaults.baseURL = 'http://localhost:5000'; // Comment for production deployment
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
