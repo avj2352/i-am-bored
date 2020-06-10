@@ -1,5 +1,0 @@
-server:
-  port: 5000
-
-db:
-  uri: 'mongodb://localhost/iAmBored'

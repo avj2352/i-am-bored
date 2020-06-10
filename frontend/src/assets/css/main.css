@@ -4,6 +4,14 @@
 
 @tailwind utilities;
 
+.debug01 {
+    border: 1px solid red;
+}
+
+.debug02 {
+    border: 1px solid green;
+}
+
 .theme-light {
     --bg-background-primary: white;
     --bg-background-secondary: #f7fafc;
@@ -61,15 +69,6 @@
 .content-wrapper {
     transition: background-color .25s;
 }
-
-a {
-    @apply text-green-700 font-bold;
-}
-
-a:hover {
-    @apply text-green-800;
-}
-
 nav .active {
     font-weight: bold;
     @apply border-black border-b;
