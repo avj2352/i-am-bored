@@ -60,7 +60,7 @@ export class AuthController {
     // callback handler
     authCallback = passport.authenticate('google', {
         successRedirect: '/app',
-        failureRedirect: '/hello'
+        failureRedirect: '/failure'
     });
 
     // testing OAuth

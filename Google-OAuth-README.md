@@ -1,4 +1,10 @@
-# Google OAuth 2.0 using Node Express Mongo React
+
+
+# 🤖 Google OAuth 2.0 using Node Express Mongo 🍀 React ⚛
+
+## Github Repo
+
+- [OAuth - I.AM.B.O.R.E.D Kitchen App](https://github.com/avj2352/i-am-bored)
 
 The following document takes a step by step approach for creating and setting up Authentication Flow using social Login (Google) + Express + MongoDB + React.
 
