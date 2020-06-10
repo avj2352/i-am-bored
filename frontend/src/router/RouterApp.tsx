@@ -8,10 +8,10 @@ const RouterApp: FunctionComponent = () => {
     return (
         <Router>
             <Switch>
+                <Route path="/dashboard" component={DashboardLayout}/>
                 <Route path="/login" component={LoginView}/>
                 <Route path="/about" component={AboutView}/>
-                <Route path="/dashboard" component={DashboardLayout}/>
-                <Redirect exact from="/" to="/login" />
+                <Redirect exact from="/" to="/dashboard" />
             </Switch>
         </Router>
     );
