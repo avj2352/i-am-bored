@@ -1,55 +1,47 @@
 import React, {FunctionComponent} from 'react';
-import { BsList } from 'react-icons/bs';
-import { BsFolderPlus } from 'react-icons/bs';
-import { FaSlackHash } from 'react-icons/fa';
-import { RiBookmark3Line } from 'react-icons/ri';
-import { GiCoffeeBeans } from 'react-icons/gi';
-import { RiFileList3Line } from 'react-icons/ri';
+import clsx from "clsx";
 // custom
 import ProfileSection from "./sections/ProfileSection";
-import SidebarFooter from "./sections/SidebarFooter";
-import LogoutLink from "./components/LogoutLink";
 import LoginLink from "./components/LoginLink";
+import CommonLinkSection from "./sections/CommonLinkSection";
+import UserLinkSection from "./sections/UserLinkSection";
+import GroupLinkSection from "./sections/GroupLinkSection";
+import LogoutLink from "./components/LogoutLink";
+import FooterLinkSection from "./sections/FooterLinkSection";
 
 interface ISidebarProps {
     display: boolean;
+    onExit: (status: boolean) => void;
 }
 
 const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
+    const { display, onExit } = props;
+    const baseClass = clsx({
+        'z-10 bg-gray-200 absolute flex flex-col sm:flex-row sm:justify-around shadow-lg': true,
+        'hidden': !display,
+        'block': display
+    });
+    // event handlers
+    const handleClose = (status: boolean) => {
+        onExit(status);
+    };
+
     return (
         <React.Fragment>
-            <div className="bg-gray-200 absolute flex flex-col sm:flex-row sm:justify-around shadow-lg">
-                <div className="w-64 h-screen bg-gray-800 mt-0">
-                    <nav>
+            <div className={baseClass}>
+                <div className="relative flex flex-col justify-between p-0 m-0 w-64 h-screen bg-gray-800">
+                    <nav className="w-full absolute sidebar-section-01">
                         <ProfileSection/>
-                        <section className="flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
-                            <BsList/>
-                            <span className="mx-4 font-medium">All Recipes</span>
-                        </section>
-                        <section className="flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
-                            <FaSlackHash/>
-                            <span className="mx-4 font-medium">Add / Edit Tags</span>
-                        </section>
-                        <section className="flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
-                            <BsFolderPlus/>
-                            <span className="mx-4 font-medium">Add / Edit Groups</span>
-                        </section>
-                        <section className="flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
-                            <RiBookmark3Line/>
-                            <span className="mx-4 font-medium">Add / Edit Playlists</span>
-                        </section>
-                        <section className="flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
-                            <GiCoffeeBeans/>
-                            <span className="mx-4 font-medium">Add / Edit Item</span>
-                        </section>
-                        <section className="flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
-                            <RiFileList3Line/>
-                            <span className="mx-4 font-medium">My Inventory</span>
-                        </section>
+                        <CommonLinkSection/>
+                        <GroupLinkSection/>
+                        <UserLinkSection/>
                     </nav>
-                    <SidebarFooter>
-                        <LoginLink/>
-                    </SidebarFooter>
+                    <div className="absolute sidebar-section-02 bottom-0 py-4 border-t-2 border-gray-700 w-full">
+                        <FooterLinkSection onExit={handleClose}>
+                            <LoginLink/>
+                            <LogoutLink/>
+                        </FooterLinkSection>
+                    </div>
                 </div>
             </div>
         </React.Fragment>

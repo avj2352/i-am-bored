@@ -24,7 +24,7 @@ const AboutView: FunctionComponent = (props): JSX.Element => {
     return (
         <React.Fragment>
             <div className="newsletter bg-background-tertiary h-screen">
-                <Header/>
+                <Header isDashboard={false}/>
                 <div ref={bannerDom}
                      className="opacity-0 transition-opacity
                         duration-1000 ease-in-out container-inner mx-auto pb-8 text-center text-xl">

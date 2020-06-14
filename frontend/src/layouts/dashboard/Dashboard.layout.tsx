@@ -1,11 +1,27 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import Sidebar from "../../components/sidebar/Sidebar";
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
+import DashboardRouter from "./router/DashboardRouter";
 
 const DashboardLayout: FunctionComponent = (props): JSX.Element => {
+    const [ sidebarStatus, setSidebarStatus ] = useState(false);
+    // event handlers
+    const handleSidebarToggle = (status: boolean) => {
+        setSidebarStatus(status);
+    };
+
     return (
         <React.Fragment>
-            <Sidebar display={true}/>
-            Dashboard Layout
+            <Sidebar display={sidebarStatus} onExit={handleSidebarToggle}/>
+                <div className="fixed w-full overflow-y-scroll bg-background-tertiary h-screen">
+                    <Header isDashboard={true} onSideBarToggle={handleSidebarToggle}/>
+                    <div className="transition-opacity
+                        duration-1000 ease-in-out container-inner mx-auto pb-8 text-center text-xl">
+                        <DashboardRouter/>
+                    </div>
+                    <Footer/>
+                </div>
         </React.Fragment>
     );
 };
