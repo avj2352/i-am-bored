@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+// custom
 import LoginView from "../views/login/Login.view";
 import DashboardLayout from "../layouts/dashboard/Dashboard.layout";
 import AboutView from "../views/about/About.view";

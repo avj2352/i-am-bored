@@ -8,7 +8,7 @@ const Footer: FunctionComponent = (props): JSX.Element => {
     const appContext = useGlobalState();
     return (
         <React.Fragment>
-            <footer className="fixed bottom-0 w-full bg-green-600 text-white">
+            <footer className="z-10 fixed bottom-0 w-full bg-green-600 text-white">
                 <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between py-4">
                     <div className="mb-4 lg:mb-0">
                         <div>version {appContext.version}</div>

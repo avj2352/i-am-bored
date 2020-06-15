@@ -10419,7 +10419,7 @@ nav .active {
 }
 
 .border-section-title {
-  z-index: 20;
+  z-index: 5;
   display: inline-block;
   position: absolute;
   top: -20px;
