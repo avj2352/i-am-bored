@@ -6,8 +6,13 @@ import Footer from "../../components/footer/Footer";
 import DashboardRouter from "./router/DashboardRouter";
 import {showToasterTimed} from "../../common/util/ToasterHelper";
 import {getUserDetails} from "../../common/async/AsyncCalls";
+import {addLocalStorageJSON} from "../../common/util/LocalStorageHelper";
+import {CONTEXT_ACTION_TYPE, useGlobalDispatch} from "../../common/context/AppContext";
 
 const DashboardLayout: FunctionComponent = (props): JSX.Element => {
+    // context
+    const appDispatch: any = useGlobalDispatch();
+    // state
     const [ sidebarStatus, setSidebarStatus ] = useState(false);
     // event handlers
     const handleSidebarToggle = (status: boolean) => {
@@ -18,8 +23,12 @@ const DashboardLayout: FunctionComponent = (props): JSX.Element => {
     useEffect(()=>{
         getUserDetails()
             .then ((res: any) => {
-                console.log('User details: ', res.data);
-                showToasterTimed ('success', `Welcome ${res.data.name}`);
+                if (res.data) {
+                    appDispatch ({type: CONTEXT_ACTION_TYPE.SET_PROFILE_DATA, payload: res.data});
+                    showToasterTimed ('success', `Welcome ${res.data.name}`);
+                } else {
+                    showToasterTimed ('info', 'Welcome to B.O.R.E.D');
+                }
             })
             .catch ((err: any) => {
                 console.log('Not signed in / error: ', err);

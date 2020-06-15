@@ -3,8 +3,11 @@ import logo from "../../assets/img/logo.png";
 import {Link} from "react-router-dom";
 import RecipeCard from "../../components/cards/recipe-card/RecipeCard";
 import BorderCard from "../../components/cards/border-card/BorderCard";
+import {IAppContextState, useGlobalState} from "../../common/context/AppContext";
 
 const HomeView: FunctionComponent = (props): JSX.Element => {
+    // context
+    const appContext: IAppContextState = useGlobalState();
     // states
     const [ signInContent, setSignInContent] = useState<JSX.Element>(<React.Fragment/>);
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -21,15 +24,18 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
         } else {
             bannerDom.current.style.opacity = `0`;
         }
-        setSignInContent (
-            <React.Fragment>
-                <div className="flex flex-col md:flex-row items-center justify-between w-full mb-4">
-                    <img
-                        src={logo}
-                        onLoad={handleLogoLoad}
-                        alt={`logo`}
-                        className="w-1/2 md:w-1/4 h-auto rounded-lg shadow"/>
-                    <div className="flex flex-col mx-6 justify-start">
+        if (appContext.profile) {
+            setSignInContent(<React.Fragment/>);
+        } else {
+            setSignInContent (
+                <React.Fragment>
+                    <div className="flex flex-col md:flex-row items-center justify-between w-full mb-4">
+                        <img
+                            src={logo}
+                            onLoad={handleLogoLoad}
+                            alt={`logo`}
+                            className="w-1/2 md:w-1/4 h-auto rounded-lg shadow"/>
+                        <div className="flex flex-col mx-6 justify-start">
                             <p className="text-center md:text-left md:text-lg my-4">
                                 Welcome to <strong>Book.Of.Recipes.Easily.Done</strong><br/>
                             </p>
@@ -40,11 +46,12 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
                                 so please share this app!
                             </p>
                             <Link className="hover:underline text-sm text-orange-200 text-left md:text-lg mb-4" to={'/login'}> Sign In / Sign up to create your own Recipes !!</Link>
+                        </div>
                     </div>
-                </div>
-            </React.Fragment>
-        );
-    },[imageLoaded]);
+                </React.Fragment>
+            );
+        }
+    },[imageLoaded, appContext]);
 
     return (
         <div ref={bannerDom} className="opacity-0 transition-opacity
