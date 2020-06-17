@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import RecipeCard from "../../components/cards/recipe-card/RecipeCard";
 import BorderCard from "../../components/cards/border-card/BorderCard";
 import {IAppContextState, useGlobalState} from "../../common/context/AppContext";
+import SimpleModal from "../../components/modals/simple-modal/SimpleModal";
 
 const HomeView: FunctionComponent = (props): JSX.Element => {
     // context
@@ -11,12 +12,17 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
     // states
     const [ signInContent, setSignInContent] = useState<JSX.Element>(<React.Fragment/>);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [modalStatus, setModalStatus] = useState<boolean>(false);
     // ref
     const bannerDom = useRef<HTMLDivElement>(document.createElement('div'));
     // event handlers
     const handleLogoLoad = () => {
         setImageLoaded(true);
     };
+
+    const handleModalStatus = (status: boolean) => {
+        setModalStatus(status);
+    }
 
     useEffect(()=>{
         if (imageLoaded) {
@@ -57,6 +63,9 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
         <div ref={bannerDom} className="opacity-0 transition-opacity
                         duration-1000 ease-in-out flex flex-col justify-start w-full mb-16">
             {signInContent}
+            <SimpleModal title={`Hi There`} btnLabel={`Ok`} display={modalStatus} onClose={handleModalStatus}>
+                Hi There. This is a simple modal
+            </SimpleModal>
             <BorderCard title={`Recent Entered Recipes`}>
                 <RecipeCard/>
                 <RecipeCard/>
