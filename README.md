@@ -42,6 +42,7 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 - [PWA assets generator - IOS](https://github.com/onderceylan/pwa-asset-generator)
 - [Material UI Theme Generator](https://cimdalli.github.io/mui-theme-generator/)
 - [NEW* - Material UI Theme Generator](https://github.com/in-your-saas/material-ui-theme-editor)
+- [Tailwind Sidebar](https://tailwindcomponents.com/component/product-preview)
 
 ## Heroku Details
 

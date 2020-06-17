@@ -1,6 +1,7 @@
 import React, { FunctionComponent, createContext, useReducer, useContext } from 'react';
 
 export interface IAppContextState {
+    profile: any;
     theme: 'theme-light' | 'theme-dark';
     version: string;
 }
@@ -8,9 +9,11 @@ export interface IAppContextState {
 export enum CONTEXT_ACTION_TYPE {
     THEME_TOGGLE,
     SET_VERSION,
+    SET_PROFILE_DATA
 }
 
 export const initialState: IAppContextState = {
+    profile: undefined,
     theme: 'theme-light',
     version: '1.0.0'
 };
@@ -21,6 +24,8 @@ export const AppDispatchContext = createContext({}); // Separate context for upd
 const appContextReducer = (state: IAppContextState, action: {type: CONTEXT_ACTION_TYPE, payload: any}): any => {
     const { type, payload } = action;
     switch (type) {
+        case CONTEXT_ACTION_TYPE.SET_PROFILE_DATA:
+            return { ...state, profile: payload };
         case CONTEXT_ACTION_TYPE.THEME_TOGGLE:
             if (payload) return {...state, theme: 'theme-dark'};
             else return {...state, theme: 'theme-light'};

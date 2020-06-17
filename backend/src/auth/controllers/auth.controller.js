@@ -34,7 +34,8 @@ export class AuthController {
         passport.use(new GoogleStrategy({
             clientID: getGoogleClientId(),
             clientSecret: getGoogleClientSecret(),
-            callbackURL: getGoogleOAuthRedirect()
+            callbackURL: getGoogleOAuthRedirect(),
+            proxy: true
         }, async (accessToken, refreshToken, profile, done) => {
             const result = await this.authService.findUserRecordByGoogleId(profile.id);
             if(!result) {

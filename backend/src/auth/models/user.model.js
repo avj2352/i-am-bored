@@ -37,6 +37,14 @@ export const UserSchema = new Schema({
         type: String,
         default: USER_STATUS.INACTIVE
     },
+    playlistCount: {
+        type: Number,
+        default: 5
+    },
+    draftCount: {
+        type: Number,
+        default: 5
+    }
 });
 
 mongoose.model('users', UserSchema);
