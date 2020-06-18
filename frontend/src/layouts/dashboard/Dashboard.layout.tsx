@@ -6,7 +6,6 @@ import Footer from "../../components/footer/Footer";
 import DashboardRouter from "./router/DashboardRouter";
 import {showToasterTimed} from "../../common/util/ToasterHelper";
 import {getUserDetails} from "../../common/async/AsyncCalls";
-import {addLocalStorageJSON} from "../../common/util/LocalStorageHelper";
 import {CONTEXT_ACTION_TYPE, useGlobalDispatch} from "../../common/context/AppContext";
 
 const DashboardLayout: FunctionComponent = (props): JSX.Element => {
@@ -34,7 +33,7 @@ const DashboardLayout: FunctionComponent = (props): JSX.Element => {
                 console.log('Not signed in / error: ', err);
                 showToasterTimed ('info', 'Welcome to B.O.R.E.D');
             });
-    },[]);
+    },[appDispatch]);
 
     return (
         <React.Fragment>
