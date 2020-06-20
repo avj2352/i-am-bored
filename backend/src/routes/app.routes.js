@@ -3,8 +3,10 @@
 */
 
 import { AuthController } from '../auth/controllers/auth.controller';
+import {GroupController} from "../groups/controllers/group.controller";
 
 const auth = new AuthController();
+const group = new GroupController();
 
 const routes = (app) => {
     // Authentication =======================
@@ -19,6 +21,10 @@ const routes = (app) => {
     //logout User
     app.route('/auth/logout')
         .get(auth.logoutUser);
+
+    // GROUPS ===============================
+    app.route('/group')
+        .get(group.getAllGroups)
 
 };
 

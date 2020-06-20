@@ -8,7 +8,13 @@ import {User} from "../models/user.model";
         // bind
         this.addNewUser = this.addNewUser.bind(this);
         this.findUserRecordById = this.findUserRecordById.bind(this);
+        this.findUserRecordByGoogleId = this.findUserRecordByGoogleId.bind(this);
+        this.authenticateUser = this.authenticateUser.bind(this);
     }
+
+     authenticateUser (req) {
+        return !!req.user;
+     }
 
      /**
       * PAJ - Find User record by Mongo DB id
