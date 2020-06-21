@@ -6,7 +6,9 @@ import mongoose, { Schema } from 'mongoose';
 export const TagSchema = new Schema({
     name: {
         type: String,
-        required: 'Enter tag name'
+        required: 'Enter tag name',
+        lowercase: true,
+        trim: true,
     },
     description: {
         type: String,
