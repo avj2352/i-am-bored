@@ -6,11 +6,13 @@ import mongoose, { Schema } from 'mongoose';
 export const GroupSchema = new Schema({
     title: {
         type: String,
-        required: 'Enter group title'
+        required: 'Enter group title',
+        unique: true
     },
     slug: {
         type: String,
-        required: 'Enter group slug'
+        required: 'Enter group slug',
+        unique: true
     },
     description: {
         type: String,

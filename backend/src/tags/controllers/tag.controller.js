@@ -1,25 +1,25 @@
 /**
- * CRUD - Controller for Group Model
+ * CRUD - API Controller for Tag Model
  */
-require('./../../util/colors');
-import { GroupModel } from '../models/group.model';
-import {GroupService} from "../services/group.service";
-import {AuthService} from "../../auth/services/auth.service";
 
-export class GroupController {
+require('./../../util/colors');
+import { AuthService } from "../../auth/services/auth.service";
+import { TagService } from "../services/tag.service";
+
+export class TagController {
 
     constructor() {
-        this.logger = 'GroupController';
-        this.groupService = new GroupService();
+        this.logger = 'Tag Controller';
+        this.tagService = new TagService();
         this.authService = new AuthService();
-        // bind context
+        //bind context
         this.checkAuthentication = this.checkAuthentication.bind(this);
-        this.getAllGroups = this.getAllGroups.bind(this);
-        this.filterGroupsWithoutPremium = this.filterGroupsWithoutPremium.bind(this);
-        this.addNewGroup = this.addNewGroup.bind(this);
-        this.getGroupById = this.getGroupById.bind(this);
-        this.updateGroupById = this.updateGroupById.bind(this);
-        this.deleteGroupById = this.deleteGroupById.bind(this);
+        this.getAllTags = this.getAllTags.bind(this);
+        this.addNewTag = this.addNewTag.bind(this);
+        this.getTagByName = this.getTagByName.bind(this);
+        this.getTagById = this.getTagById.bind(this);
+        this.updateTagById = this.updateTagById.bind(this);
+        this.deleteTagById = this.deleteTagById.bind(this);
     }
 
     /**
@@ -28,7 +28,7 @@ export class GroupController {
      * @param res
      * @returns user / 401
      */
-    checkAuthentication (req, res) {
+    async checkAuthentication (req, res) {
         if (!this.authService.authenticateUser(req)) {
             return res.sendStatus(401);
         } else {
@@ -37,48 +37,32 @@ export class GroupController {
     }
 
     /**
-     * PAJ - Fetch all Groups. Requires Cookie Session
+     * PAJ - Fetch all records. Requires Cookie Session
      * @param req
      * @param res
      * @returns {Promise<any>}
      */
-    async getAllGroups (req, res) {
+    async getAllTags (req, res) {
         this.checkAuthentication (req, res);
         try {
-            const result = await this.groupService.getAllGroups();
+            const result = await this.tagService.getAllGroups();
             return res.json(result);
-        } catch (err) {
-            console.log(`${this.logger} error fetch all groups: ${JSON.stringify(err)}`.error);
-            return res.sendStatus(500);
-        }
-    }
-
-    /***
-     * PAJ - Filter Groups with Premium true / false.
-     * @param req
-     * @param res
-     * @returns {Promise<any>}
-     */
-    async filterGroupsWithoutPremium (req, res) {
-        try {
-            const result = await this.groupService.filterGroupsWithoutPremium(false);
-            return res.json(result);
-        } catch (err) {
-            console.log(`${this.logger} error fetch all groups: ${JSON.stringify(err)}`.error);
-            return res.sendStatus(500);
+        }catch(err) {
+            console.log(`${this.logger} - Error fetching all records ${JSON.stringify(err)}`.error);
+            res.sendStatus(500);
         }
     }
 
     /**
-     * PAJ - Create a new group record. Requires Cookie Session
+     * PAJ - Create a new record. Requires Cookie Session
      * @param req
      * @param res
      * @returns {Promise<any>}
      */
-    async addNewGroup (req, res) {
-        this.checkAuthentication(req, res);
+    async addNewTag (req, res) {
+        this.checkAuthentication (req, res);
         try {
-            const result = await this.groupService.addNewGroup(req.body);
+            const result = await this.tagService.addNewTag (req.body);
             console.log(`${this.logger} - New Record added`, result);
             return res.sendStatus(201);
         } catch (err) {
@@ -93,15 +77,32 @@ export class GroupController {
     }
 
     /**
+     * PAJ - Fetch record by name. Requires Cookie Session
+     * @param req
+     * @param res
+     * @returns {Promise<*>}
+     */
+    async getTagByName (req, res) {
+        this.checkAuthentication(req, res);
+        try {
+            const result = await this.tagService.getTagByName(req.params.name);
+            return res.json(result);
+        } catch (err) {
+            console.log(`${this.logger} Error Retrieving Id: ${JSON.stringify(err)}`.error);
+            return res.sendStatus(400);
+        }
+    }
+
+    /**
      * PAJ - Fetch record by id. Requires Cookie Session
      * @param req
      * @param res
      * @returns {Promise<*>}
      */
-    async getGroupById (req, res) {
+    async getTagById (req, res) {
         this.checkAuthentication(req, res);
         try {
-            const result = await this.groupService.getGroupById(req.params.groupId);
+            const result = await this.tagService.getTagById(req.params.tagId);
             return res.json(result);
         } catch (err) {
             console.log(`${this.logger} Error Retrieving Id: ${JSON.stringify(err)}`.error);
@@ -115,10 +116,10 @@ export class GroupController {
      * @param res
      * @returns {Promise<*>}
      */
-    async updateGroupById (req, res) {
+    async updateTagById (req, res) {
         this.checkAuthentication(req, res);
         try {
-            const result = await this.groupService.updateGroupById(req.params.groupId, req.body);
+            const result = await this.tagService.updateTagById(req.params.tagId, req.body);
             console.log(`${this.logger} - Record updated: `, result);
             return res.sendStatus(200);
         } catch (err) {
@@ -133,10 +134,10 @@ export class GroupController {
      * @param res
      * @returns {Promise<*>}
      */
-    async deleteGroupById (req, res) {
+    async deleteTagById(req, res) {
         this.checkAuthentication(req, res);
         try {
-            const result = await this.groupService.deleteGroupById(req.params.groupId);
+            const result = await this.tagService.deleteTagById(req.params.tagId);
             console.log(`${this.logger} - Record deleted: `, result);
             return res.sendStatus(200);
         } catch (err) {
