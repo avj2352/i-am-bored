@@ -25,13 +25,27 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 
 ![Data Modelling](./design/data-modelling-annotated.png)
 
+### Models
+
+The following are the defined / possible Models in B.O.R.E.D DB -
+- **User** : For Authentication - Google OAuth 2.0
+- **Groups** : Creating Group, Filter recipes, Sidebar
+- **Tags** : Adding Tags to Recipes
+- **Items**: Important Items that a Recipse is composed of
+- **Images**: Any Images that are uploaded to the application
+- **Inventory**: Most important*. A manifest of Items that are in a User's possession / archive - ie., Fridge, Kitchen
+- **Recipe**: An Article on how to prepare a dish
+- **MyRecipe**: User's personal / private collection of Recipes
+- **Collections**: Make a playlist of group of recipes for an occasion
+
 ## Tech Stack
 
 - Node JS + Express (possibly Typescript)
-- GraphQL + Apollo
+- ~~GraphQL + Apollo~~
 - React + Typescript
+- Cookie Session
 - Mongo DB (Compass / MLab)
-- OAuth 2.0 (Google) / Firebase Authentication
+- OAuth 2.0 (Google) / ~~Firebase Authentication~~
 
 ---
 
@@ -40,9 +54,8 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 - [Release Countdown Timer](https://timely-travel.herokuapp.com/#/preview/5ed21485c51b01001783b512) 
 - [Kanbanchi - Tasks / Backlog Link](https://kanban-chi.appspot.com/dashboard/5515963025588224-6179838427398144/d-5515963025588224)
 - [PWA assets generator - IOS](https://github.com/onderceylan/pwa-asset-generator)
-- [Material UI Theme Generator](https://cimdalli.github.io/mui-theme-generator/)
-- [NEW* - Material UI Theme Generator](https://github.com/in-your-saas/material-ui-theme-editor)
-- [Tailwind Sidebar](https://tailwindcomponents.com/component/product-preview)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Tailwind - Components](https://tailwindcomponents.com/component/product-preview)
 
 ## Heroku Details
 
