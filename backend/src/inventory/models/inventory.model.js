@@ -3,30 +3,40 @@
  */
 import mongoose, { Schema } from 'mongoose';
 
-export const QuestionnaireSchema = new Schema({
+export const InventorySchema = new Schema({
     title: {
         type: String,
-        unique: true,
         required: 'Enter Inventory title'
     },
-    question: {
-        type: String
+    description: {
+        type: String,
+        required: 'Provide group description'
     },
-    answer: {
-        type: String
-    },
-    date: {
-        type: Number,
-        required: 'Provide Date of creation'
-    },
-    tags: [{
+    createdBy: {
         type: Schema.Types.ObjectId,
-        ref: 'tags'
+        ref: 'users'
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
+    meta: [{
+        item: {
+            type: Schema.Types.ObjectId,
+            ref: 'items'
+        },
+        remarks: {
+            type: String,
+        },
+        quantity: {
+            type: Number,
+            default: 0
+        },
+        expiry: {
+            type: Date,
+            default: Date.now
+        }
     }],
-    groups: [{
-        type: Schema.Types.ObjectId,
-        ref: 'groups'
-    }]
 });
 
-export const QuestionnaireModel = mongoose.model('questions', QuestionnaireSchema);
+export const InventoryModel = mongoose.model('inventory', InventorySchema);

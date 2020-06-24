@@ -1,29 +1,10 @@
 # I AM B.O.R.E.D
 
-![I am B.O.R.E.D Logo](design/images/logo.png)
-
 A Progressive Web application to Read, Create, Share cooking recipes. The Full name of the application stands for: `I am Book Of Recipes Easily Done`.
-
-## App Names
-
-- **I am B.O.R.E.D** : I am Book Of Recipes Easily Done
-- **G.I.R.A** : Great Indian Recipe Application
-- **Y.M.C.A** : Yo! My Cooking App / Your Mobile Cooking App
-- **C.R.Y** : Cookbook Recipe, Yeah !!
-
----
-
-## ETA of Project Completion
-
-Comparing a Similar project I pulled off in the past. The Total time taken to complete this application would be:
-
-
-
----
 
 ## Date Modelling
 
-![Data Modelling](./design/data-modelling-annotated.png)
+![Data Modelling](./design/data-model-annotated.png)
 
 ### Models
 
@@ -37,6 +18,22 @@ The following are the defined / possible Models in B.O.R.E.D DB -
 - **Recipe**: An Article on how to prepare a dish
 - **MyRecipe**: User's personal / private collection of Recipes
 - **Collections**: Make a playlist of group of recipes for an occasion
+
+## App Names
+
+- **I am B.O.R.E.D** : I am Book Of Recipes Easily Done
+- **G.I.R.A** : Great Indian Recipe Application
+- **Y.M.C.A** : Yo! My Cooking App / Your Mobile Cooking App
+- **C.R.Y** : Cookbook Recipe, Yeah !!
+
+---
+
+## ETA of Project Completion
+
+Comparing a Similar project I pulled off in the past. The Total time taken to complete this application would be:
+- [Days Left to Complete Application](https://timely-travel.herokuapp.com/#/preview/5eae03b085b06800176ebd7d)
+
+---
 
 ## Tech Stack
 

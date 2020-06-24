@@ -37,7 +37,7 @@ export const UserSchema = new Schema({
         type: String,
         default: USER_STATUS.INACTIVE
     },
-    playlistCount: {
+    collectionCount: {
         type: Number,
         default: 5
     },
