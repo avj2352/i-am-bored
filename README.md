@@ -12,11 +12,10 @@ The following are the defined / possible Models in B.O.R.E.D DB -
 - **User** : For Authentication - Google OAuth 2.0
 - **Groups** : Creating Group, Filter recipes, Sidebar
 - **Tags** : Adding Tags to Recipes
-- **Items**: Important Items that a Recipse is composed of
+- **Items**: Important Items that a Recipe is composed of
 - **Images**: Any Images that are uploaded to the application
 - **Inventory**: Most important*. A manifest of Items that are in a User's possession / archive - ie., Fridge, Kitchen
-- **Recipe**: An Article on how to prepare a dish
-- **MyRecipe**: User's personal / private collection of Recipes
+- **Recipe**: An Article on how to prepare a dish. Type Private / Public
 - **Collections**: Make a playlist of group of recipes for an occasion
 
 ## App Names
