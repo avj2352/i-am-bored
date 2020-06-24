@@ -124,12 +124,5 @@ Below is the icons content for your manifest.json file. You can copy/paste it ma
 
 Include the following code in your `index.html` page
 
-
-# DB value (to be deleted)
-
-```bash
-mongodb://<dbuser>:<dbpassword>@ds123695.mlab.com:23695/i-am-bored-db
-```
-
 ---
 
