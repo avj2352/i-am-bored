@@ -1,3 +1,5 @@
+import {GroupModel} from "../../groups/models/group.model";
+
 /**
  * PAJ - Image Service Layer
  * */
@@ -10,14 +12,15 @@ export class InventoryService {
         //bind context
         this.getAllInventory = this.getAllInventory.bind(this);
         this.addNewInventory = this.addNewInventory.bind(this);
+        this.updateInventoryById = this.updateInventoryById.bind(this);
         this.getInventoryById = this.getInventoryById.bind(this);
         this.deleteInventoryById = this.deleteInventoryById.bind(this);
     }
 
     // Fetch all records
-    async getAllInventory () {
+    async getAllInventory (userId) {
         return new Promise((resolve, reject) => {
-            InventoryModel.find({})
+            InventoryModel.find({ createdBy: userId })
                 .populate('users')
                 .populate('items')
                 .exec((err, data) => {
@@ -31,13 +34,13 @@ export class InventoryService {
     async addNewInventory (payload, userId) {
         return new Promise((resolve, reject) => {
             const { title, description, meta } = payload;
-            let newImageRecord = new InventoryModel({
+            let newRecord = new InventoryModel({
                 title,
                 description,
                 createdBy: userId,
                 meta: meta
             });
-            newImageRecord.save((err, data) => {
+            newRecord.save((err, data) => {
                 if (err) reject(err);
                 else resolve(data);
             });
@@ -54,6 +57,16 @@ export class InventoryService {
                     if (err) reject(err);
                     else resolve(data);
                 });
+        });
+    }
+
+    // CREATE - new record
+    async updateInventoryById (id, payload) {
+        return new Promise((resolve, reject) => {
+            InventoryModel.findOneAndUpdate({_id: id}, payload, {new: true}, (err, data) => {
+                if (err) reject(err);
+                else resolve(data); // Get JSON format of contact
+            });
         });
     }
 

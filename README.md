@@ -47,6 +47,7 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 
 ## Important Links
 
+- [Collection of UI Designs - XD, Wireframes](https://uidesigndaily.com/posts/sketch-file-upload-form-day-919)
 - [Release Countdown Timer](https://timely-travel.herokuapp.com/#/preview/5ed21485c51b01001783b512) 
 - [Kanbanchi - Tasks / Backlog Link](https://kanban-chi.appspot.com/dashboard/5515963025588224-6179838427398144/d-5515963025588224)
 - [PWA assets generator - IOS](https://github.com/onderceylan/pwa-asset-generator)
