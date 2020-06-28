@@ -4,10 +4,6 @@
 import mongoose, { Schema } from 'mongoose';
 
 export const RecipeSchema = new Schema({
-    recipeId: {
-        type: String,
-        required: true
-    },
     created: {
         type: Date,
         default: Date.now
@@ -18,6 +14,10 @@ export const RecipeSchema = new Schema({
         lowercase: true,
         trim: true,
     },
+    isPrivate: {
+        type: String,
+        default: false
+    },
     description: {
         type: String,
         required: 'Enter Item Description'
@@ -27,6 +27,10 @@ export const RecipeSchema = new Schema({
         required: 'Enter Item Description'
     }],
     createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    },
+    updatedBy: {
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
