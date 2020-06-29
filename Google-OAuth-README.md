@@ -115,6 +115,8 @@ iHuNFNJT-i73D9KuWMEvtQeI
 
 # NodeJS + Mongoose  = OAuth Flow
 
+![Passport High Level Flow](./design/passport-high-level-flow.png)
+
 Actually for my current implementation to work, the following Tech Stack is required at backend.
 
 > **NOTE:** *Currently, Mongo DB + Mongoose + Express is a tightly coupled logic, required for OAuth flow. ie., without a DB, The OAuth flow cannot be achieved.* 
