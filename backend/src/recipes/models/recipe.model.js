@@ -10,7 +10,7 @@ export const RecipeSchema = new Schema({
     },
     title: {
         type: String,
-        required: 'Enter Item',
+        required: 'Enter Recipe Title',
         lowercase: true,
         trim: true,
     },
@@ -20,11 +20,11 @@ export const RecipeSchema = new Schema({
     },
     description: {
         type: String,
-        required: 'Enter Item Description'
+        required: 'Enter Recipe Description'
     },
     content: [{
         type: String,
-        required: 'Enter Item Description'
+        required: 'Enter Recipe Content'
     }],
     createdBy: {
         type: Schema.Types.ObjectId,

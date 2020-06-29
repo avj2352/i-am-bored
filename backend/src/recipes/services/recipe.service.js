@@ -7,7 +7,7 @@ import { RecipeModel } from './../models/recipe.model';
 
 export class RecipeService {
     constructor() {
-        this.logger = 'Recipe Service';
+        this.logger = 'RecipeService';
         //bind context
         this.getAllRecipes = this.getAllRecipes.bind(this);
         this.getAllRecipesByUserId = this.getAllRecipesByUserId.bind(this);
