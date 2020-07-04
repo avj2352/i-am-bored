@@ -25,11 +25,7 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
     }
 
     useEffect(()=>{
-        if (imageLoaded) {
-            bannerDom.current.style.opacity = '1';
-        } else {
-            bannerDom.current.style.opacity = `0`;
-        }
+        bannerDom.current.style.opacity = `1`;
         if (appContext.profile) {
             setSignInContent(<React.Fragment/>);
         } else {

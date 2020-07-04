@@ -12,7 +12,7 @@ const RouterApp: FunctionComponent = () => {
                 <Route path="/dashboard" render={(props: any) => <DashboardLayout {...props} />}/>
                 <Route path="/login" component={LoginView}/>
                 <Route path="/about" component={AboutView}/>
-                <Redirect from="/" to="/dashboard" />
+                <Redirect from="/" to="/dashboard/home" />
             </Switch>
         </Router>
     );

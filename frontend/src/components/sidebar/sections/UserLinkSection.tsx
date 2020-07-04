@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import  { Link } from 'react-router-dom';
 import {FaSlackHash, FaHeartbeat} from "react-icons/fa";
 import {BsFolderPlus} from "react-icons/bs";
 import {RiBookmark3Line} from "react-icons/ri";
@@ -12,14 +13,14 @@ const UserLinkSection: FunctionComponent = (props): JSX.Element => {
                 <FaHeartbeat/>
                 <span className="cursor-pointer mx-4 font-medium">My Favourite</span>
             </section>
-            <section className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
+            <Link to={'/dashboard/tags'} className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
                 <FaSlackHash/>
                 <span className="cursor-pointer mx-4 font-medium">Add / Edit Tags</span>
-            </section>
-            <section className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
+            </Link>
+            <Link to={'/dashboard/groups'} className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
                 <BsFolderPlus/>
                 <span className="mx-4 font-medium">Add / Edit Groups</span>
-            </section>
+            </Link>
             <section className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
                 <RiBookmark3Line/>
                 <span className="mx-4 font-medium">My Playlists</span>
