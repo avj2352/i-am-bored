@@ -3,7 +3,8 @@ import React, { FunctionComponent } from 'react';
 const RecipeCard: FunctionComponent = (props): JSX.Element => {
     return (
         <React.Fragment>
-            <div className="md:flex shadow-lg max-w-lg m-2">
+            <div className="w-full md:w-1/2">
+                <div className="md:flex shadow-lg max-w-lg m-2">
                     <div className="w-full px-4 py-4 bg-background-primary text-copy-primary rounded-lg">
                         <div className="flex flex-col items-center">
                             <h2 className="text-xl font-medium mr-auto">Easy Beef Fry</h2>
@@ -20,6 +21,7 @@ const RecipeCard: FunctionComponent = (props): JSX.Element => {
 
                         </div>
                     </div>
+                </div>
             </div>
         </React.Fragment>
     );

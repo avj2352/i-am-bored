@@ -11,3 +11,16 @@ export const authenticateUser = async () => {
 export const getUserDetails = async () => {
   return axios.get('/auth/getUserDetails');
 };
+
+
+export const addGroupDetails = async (payload: any) => {
+  return axios.post('/group', payload);
+};
+
+export const getAllCardList = async () => {
+    return axios.get('/group');
+};
+
+export const deleteCardById = async(id: string) => {
+    return axios.delete(`/group/${id}`);
+};

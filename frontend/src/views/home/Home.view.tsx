@@ -63,9 +63,9 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
                 Hi There. This is a simple modal
             </SimpleModal>
             <BorderCard title={`Recent Entered Recipes`}>
-                <RecipeCard/>
-                <RecipeCard/>
-                <RecipeCard/>
+                    <RecipeCard/>
+                    <RecipeCard/>
+                    <RecipeCard/>
             </BorderCard>
             <BorderCard title={`Dashboard`} borderBottom={true}>
                 <RecipeCard/>
