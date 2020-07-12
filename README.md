@@ -53,6 +53,7 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 - [PWA assets generator - IOS](https://github.com/onderceylan/pwa-asset-generator)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Tailwind - Components](https://tailwindcomponents.com/component/product-preview)
+- [SVG Loaders](https://codepen.io/nikhil8krishnan/pen/rVoXJa)
 
 ## Heroku Details
 

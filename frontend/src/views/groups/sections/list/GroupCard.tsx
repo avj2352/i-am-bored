@@ -8,13 +8,18 @@ interface IGroupCard {
     description: string;
     premium: boolean;
     onDelete: (id: string) => void;
+    onEdit: (id: string) => void;
 };
 
 const GroupCard: FunctionComponent<IGroupCard> = (props): JSX.Element => {
-    const { id, title, slug, description, premium, onDelete } = props;
+    const { id, title, slug, description, premium, onDelete, onEdit } = props;
 
     const handleDeleteClick = (id: string) => {
       onDelete(id);
+    };
+
+    const handleEditClick = (id: string) => {
+      onEdit(id);
     };
 
     return (
@@ -36,6 +41,7 @@ const GroupCard: FunctionComponent<IGroupCard> = (props): JSX.Element => {
                     </p>}
                     <div className="relative flex justify-end mt-2">
                         <button
+                            onClick={handleEditClick.bind(null, id)}
                             className="hover:bg-green-300 hover:text-gray-700 p-2
                                     mx-2 rounded-full focus:outline-none">
                             <BsPencil/>

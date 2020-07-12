@@ -12,15 +12,44 @@ export const getUserDetails = async () => {
   return axios.get('/auth/getUserDetails');
 };
 
+// GROUPS RELATED =====================================
 
+/**
+ * Add a New Group
+ * @param payload
+ */
 export const addGroupDetails = async (payload: any) => {
   return axios.post('/group', payload);
 };
 
-export const getAllCardList = async () => {
+/**
+ * Get a list of all Groups
+ */
+export const getAllGroups = async () => {
     return axios.get('/group');
 };
 
+/**
+ * Get group details by Id
+ * @param id
+ */
+export const getGroupDetailsById = async (id: string) => {
+    return axios.get(`/group/${id}`);
+};
+
+/**
+ * Add a New Group
+ * @param id
+ * @param payload
+ */
+export const updateGroupById = async (id: string, payload: any) => {
+    return axios.put(`/group/${id}`, payload);
+};
+
+/**
+ * Delete a Group by Id
+ * @param id
+ */
 export const deleteCardById = async(id: string) => {
     return axios.delete(`/group/${id}`);
 };
