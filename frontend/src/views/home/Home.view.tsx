@@ -5,12 +5,19 @@ import RecipeCard from "../../components/cards/recipe-card/RecipeCard";
 import BorderCard from "../../components/cards/border-card/BorderCard";
 import {IAppContextState, useGlobalState} from "../../common/context/AppContext";
 import SimpleModal from "../../components/modals/simple-modal/SimpleModal";
+import AddEditGroupCard from "../../components/cards/add-edit-cards/AddEditGroupCard";
+import AddEditTagCard from "../../components/cards/add-edit-cards/AddEditTagCard";
+import AddEditItemsCard from "../../components/cards/add-edit-cards/AddEditItemCard";
+import AddEditRecipeCard from "../../components/cards/add-edit-cards/AddEditRecipeCard";
+import AddEditImageCard from "../../components/cards/add-edit-cards/AddEditImageCard";
+import AddEditFavouritesCard from "../../components/cards/add-edit-cards/AddEditFavouritesCard";
 
 const HomeView: FunctionComponent = (props): JSX.Element => {
     // context
     const appContext: IAppContextState = useGlobalState();
     // states
     const [ signInContent, setSignInContent] = useState<JSX.Element>(<React.Fragment/>);
+    const [ dashboardCardContent, setDashboardCardContent] = useState<JSX.Element>(<React.Fragment/>);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [modalStatus, setModalStatus] = useState<boolean>(false);
     // ref
@@ -28,7 +35,20 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
         bannerDom.current.style.opacity = `1`;
         if (appContext.profile) {
             setSignInContent(<React.Fragment/>);
+            setDashboardCardContent(
+                <React.Fragment>
+                    <BorderCard title={`Dashboard`} borderBottom={true}>
+                        <AddEditRecipeCard/>
+                        <AddEditFavouritesCard/>
+                        <AddEditGroupCard/>
+                        <AddEditTagCard/>
+                        <AddEditItemsCard/>
+                        <AddEditImageCard/>
+                    </BorderCard>
+                </React.Fragment>
+            );
         } else {
+            setDashboardCardContent(<React.Fragment/>);
             setSignInContent (
                 <React.Fragment>
                     <div className="flex flex-col md:flex-row items-center justify-between w-full mb-4">
@@ -67,9 +87,7 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
                     <RecipeCard/>
                     <RecipeCard/>
             </BorderCard>
-            <BorderCard title={`Dashboard`} borderBottom={true}>
-                <RecipeCard/>
-            </BorderCard>
+            {dashboardCardContent}
         </div>
     );
 };
