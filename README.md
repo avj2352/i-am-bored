@@ -54,6 +54,7 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Tailwind - Components](https://tailwindcomponents.com/component/product-preview)
 - [SVG Loaders](https://codepen.io/nikhil8krishnan/pen/rVoXJa)
+- [Tailwind Components - Tooltip](https://tailwindcomponents.com/component/tooltip)
 
 ## Heroku Details
 
