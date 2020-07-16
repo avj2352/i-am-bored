@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useState, useEffect, useRef} from 'react';
 import logo from "../../assets/img/logo.png";
 import {Link} from "react-router-dom";
-import RecipeCard from "../../components/cards/recipe-card/RecipeCard";
+import RecipeCard from "../../components/cards/recipe-cards/RecipeCard";
 import BorderCard from "../../components/cards/border-card/BorderCard";
 import {IAppContextState, useGlobalState} from "../../common/context/AppContext";
 import SimpleModal from "../../components/modals/simple-modal/SimpleModal";
@@ -11,6 +11,7 @@ import AddEditItemsCard from "../../components/cards/add-edit-cards/AddEditItemC
 import AddEditRecipeCard from "../../components/cards/add-edit-cards/AddEditRecipeCard";
 import AddEditImageCard from "../../components/cards/add-edit-cards/AddEditImageCard";
 import AddEditFavouritesCard from "../../components/cards/add-edit-cards/AddEditFavouritesCard";
+import RecipeSection from "./sections/RecipeSection";
 
 const HomeView: FunctionComponent = (props): JSX.Element => {
     // context
@@ -82,11 +83,7 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
             <SimpleModal title={`Hi There`} btnLabel={`Ok`} display={modalStatus} onClose={handleModalStatus}>
                 Hi There. This is a simple modal
             </SimpleModal>
-            <BorderCard title={`Recent Entered Recipes`}>
-                    <RecipeCard/>
-                    <RecipeCard/>
-                    <RecipeCard/>
-            </BorderCard>
+            <RecipeSection/>
             {dashboardCardContent}
         </div>
     );

@@ -1,6 +1,12 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect } from 'react';
+import {IAppContextState, useGlobalState} from "../../../common/context/AppContext";
 
 const ProfileSection: FunctionComponent = (props): JSX.Element => {
+    const appContext: IAppContextState = useGlobalState();
+
+    useEffect(()=>{
+        console.log('User profile is: ', appContext?.profile);
+    },[]);
     return (
         <React.Fragment>
             <span className="flex items-center py-2 px-8 block bg-gray-900 text-gray-100 mb-8 ">
@@ -14,7 +20,7 @@ const ProfileSection: FunctionComponent = (props): JSX.Element => {
                                       stroke="currentColor" strokeWidth="2" strokeLinecap="round"
                                       strokeLinejoin="round"/>
                             </svg>
-                            <span className="mx-4 font-medium">Pramod Jingade</span>
+                            <span className="mx-4 font-medium">{appContext?.profile?.name}</span>
                         </span>
         </React.Fragment>
     );

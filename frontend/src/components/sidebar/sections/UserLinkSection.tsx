@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import  { Link } from 'react-router-dom';
 import {FaSlackHash, FaHeartbeat} from "react-icons/fa";
 import {BsFolderPlus} from "react-icons/bs";
@@ -9,6 +9,10 @@ import {AiOutlineTrophy} from "react-icons/ai";
 const UserLinkSection: FunctionComponent = (props): JSX.Element => {
     return (
         <React.Fragment>
+            <Link to={'/dashboard/groups'} className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
+                <BsFolderPlus/>
+                <span className="mx-4 font-medium">Add / Edit Groups</span>
+            </Link>
             <section className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
                 <FaHeartbeat/>
                 <span className="cursor-pointer mx-4 font-medium">My Favourite</span>
@@ -16,10 +20,6 @@ const UserLinkSection: FunctionComponent = (props): JSX.Element => {
             <Link to={'/dashboard/tags'} className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
                 <FaSlackHash/>
                 <span className="cursor-pointer mx-4 font-medium">Add / Edit Tags</span>
-            </Link>
-            <Link to={'/dashboard/groups'} className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
-                <BsFolderPlus/>
-                <span className="mx-4 font-medium">Add / Edit Groups</span>
             </Link>
             <section className="cursor-pointer flex items-center mt-5 py-2 px-8 block text-gray-400 border-r-4 border-gray-800 hover:bg-gray-700 hover:text-gray-100 hover:border-gray-100">
                 <RiBookmark3Line/>
