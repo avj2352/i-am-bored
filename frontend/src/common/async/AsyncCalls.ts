@@ -33,7 +33,7 @@ export const getAllGroups = async () => {
  * Get a list of all Filtered (w/o premium) Groups
  */
 export const getAllFilteredGroups = async () => {
-    return axios.get('/group?g="filtered"');
+    return axios.get('/group?q=filtered');
 };
 
 /**
