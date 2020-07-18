@@ -28,8 +28,6 @@ const routes = (app) => {
         .post(group.addNewGroup);
 
     // FILTERED Groups
-    app.route('/group/filtered')
-        .get(group.filterGroupsWithoutPremium);
 
     // RUD Groups
     app.route('/group/:groupId')

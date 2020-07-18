@@ -15,7 +15,6 @@ export class GroupController {
         // bind context
         this.checkAuthentication = this.checkAuthentication.bind(this);
         this.getAllGroups = this.getAllGroups.bind(this);
-        this.filterGroupsWithoutPremium = this.filterGroupsWithoutPremium.bind(this);
         this.addNewGroup = this.addNewGroup.bind(this);
         this.getGroupById = this.getGroupById.bind(this);
         this.updateGroupById = this.updateGroupById.bind(this);
@@ -30,7 +29,7 @@ export class GroupController {
      */
     checkAuthentication (req, res) {
         if (!this.authService.authenticateUser(req)) {
-            return res.sendStatus(401);
+            res.sendStatus(401);
         } else {
             return req.user;
         }
@@ -43,26 +42,17 @@ export class GroupController {
      * @returns {Promise<any>}
      */
     async getAllGroups (req, res) {
-        this.checkAuthentication (req, res);
         try {
-            const result = await this.groupService.getAllGroups();
-            return res.json(result);
-        } catch (err) {
-            console.log(`${this.logger} error fetch all groups: ${JSON.stringify(err)}`.error);
-            return res.sendStatus(500);
-        }
-    }
-
-    /***
-     * PAJ - Filter Groups with Premium true / false.
-     * @param req
-     * @param res
-     * @returns {Promise<any>}
-     */
-    async filterGroupsWithoutPremium (req, res) {
-        try {
-            const result = await this.groupService.filterGroupsWithoutPremium(false);
-            return res.json(result);
+            if (req.query.q === 'filtered') {
+                const result = await this.groupService.filterGroupsWithoutPremium(false);
+                return res.json(result);
+            } else {
+                const user = this.checkAuthentication(req, res);
+                if (user) {
+                    const result = await this.groupService.getAllGroups();
+                    return res.json(result);
+                }
+            }
         } catch (err) {
             console.log(`${this.logger} error fetch all groups: ${JSON.stringify(err)}`.error);
             return res.sendStatus(500);

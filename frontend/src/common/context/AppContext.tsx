@@ -15,7 +15,7 @@ export enum CONTEXT_ACTION_TYPE {
 export const initialState: IAppContextState = {
     profile: undefined,
     theme: 'theme-light',
-    version: '1.0.0'
+    version: '0.2.2'
 };
 
 export const AppStateContext = createContext<IAppContextState>(initialState); // Separate context for storing state
