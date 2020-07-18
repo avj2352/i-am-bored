@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useState, useEffect, useRef} from 'react';
 import logo from "../../assets/img/logo.png";
 import {Link} from "react-router-dom";
-import RecipeCard from "../../components/cards/recipe-cards/RecipeCard";
 import BorderCard from "../../components/cards/border-card/BorderCard";
 import {IAppContextState, useGlobalState} from "../../common/context/AppContext";
 import SimpleModal from "../../components/modals/simple-modal/SimpleModal";

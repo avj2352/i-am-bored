@@ -23,7 +23,7 @@ const GroupLinkSection: FunctionComponent = (props): JSX.Element => {
 
     useEffect(()=>{
         getAllGroupList(appContext.profile?.name);
-    },[appContext.profile]);
+    },[appContext.profile, getAllGroupList]);
 
     return (
         <React.Fragment>

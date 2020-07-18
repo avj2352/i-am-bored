@@ -45,7 +45,7 @@ export const getGroupDetailsById = async (id: string) => {
 };
 
 /**
- * Add a New Group
+ * Update record by its id
  * @param id
  * @param payload
  */
@@ -59,4 +59,38 @@ export const updateGroupById = async (id: string, payload: any) => {
  */
 export const deleteCardById = async(id: string) => {
     return axios.delete(`/group/${id}`);
+};
+
+// TAGS RELATED =====================================
+
+/**
+ * Add a New Record
+ * @param payload
+ */
+export const addTagDetails = async (payload: any) => {
+    return axios.post('/tag', payload);
+};
+
+/**
+ * Get a list of all records
+ */
+export const getAllTags = async () => {
+    return axios.get('/tag');
+};
+
+/**
+ * Get record details by Id
+ * @param id
+ */
+export const getTagDetailsById = async (id: string) => {
+    return axios.get(`/tag/${id}`);
+};
+
+/**
+ * Update record by its id
+ * @param id
+ * @param payload
+ */
+export const updateTagById = async (id: string, payload: any) => {
+    return axios.put(`/tag/${id}`, payload);
 };

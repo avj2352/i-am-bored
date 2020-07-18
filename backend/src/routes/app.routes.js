@@ -4,9 +4,11 @@
 
 import { AuthController } from '../auth/controllers/auth.controller';
 import {GroupController} from "../groups/controllers/group.controller";
+import {TagController} from "../tags/controllers/tag.controller";
 
 const auth = new AuthController();
 const group = new GroupController();
+const tag = new TagController();
 
 const routes = (app) => {
     // AUTHENTICATION =======================
@@ -35,6 +37,19 @@ const routes = (app) => {
         .put(group.updateGroupById)
         .delete(group.deleteGroupById);
 
+
+    // TAGS ===============================
+    app.route('/tag')
+        .get(tag.getAllTags)
+        .post(tag.addNewTag);
+
+    // FILTERED Groups
+
+    // RUD Groups
+    app.route('/tag/:tagId')
+        .get(tag.getTagById)
+        .put(tag.updateTagById)
+        .delete(tag.deleteTagById);
 };
 
 

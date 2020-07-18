@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import  { Link } from 'react-router-dom';
 import {FaSlackHash, FaHeartbeat} from "react-icons/fa";
-import {BsFolderPlus} from "react-icons/bs";
 import {RiBookmark3Line} from "react-icons/ri";
 import {GiCoffeeBeans} from "react-icons/gi";
 import {AiOutlineTrophy} from "react-icons/ai";

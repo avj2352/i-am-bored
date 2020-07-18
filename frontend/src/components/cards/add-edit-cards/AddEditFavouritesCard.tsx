@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {AiFillGold, AiOutlineEdit} from 'react-icons/ai';
+import { AiOutlineEdit } from 'react-icons/ai';
 import { FaHeartbeat } from 'react-icons/fa';
 
 const AddEditFavouritesCard: FunctionComponent = (props): JSX.Element => {

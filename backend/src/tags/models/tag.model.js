@@ -7,6 +7,7 @@ export const TagSchema = new Schema({
     name: {
         type: String,
         required: 'Enter tag name',
+        unique: true,
         lowercase: true,
         trim: true,
     },
