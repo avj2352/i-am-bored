@@ -4,14 +4,18 @@ import BorderCard from "../../components/cards/border-card/BorderCard";
 import WaveLoader from "../../components/loaders/wave-loader/WaveLoader";
 import NoTags from "./sections/no-tags/NoTags";
 import AddTag from "./sections/add/AddTag";
-import { getAllTags } from "../../common/async/AsyncCalls";
+import {deleteTagById, getAllTags} from "../../common/async/AsyncCalls";
 import TagCard from "./sections/list/TagCard";
 import EditTagModal from "./modals/edit-tag/EditTagModal";
+import DeleteTagModal from "./modals/delete-tag/DeleteTagModal";
+import {showToasterTimed} from "../../common/util/ToasterHelper";
 
 const TagsView: FunctionComponent = (props): JSX.Element => {
     // states
     const [loaderStatus, setLoaderStatus] = useState<boolean>(true);
     const [cardList, setCardList] = useState([]);
+    const [deleteCardDetails, setDeleteCardDetails] = useState<{name: string, id: string}>({name:'', id: ''});
+    const [deleteModalStatus, setDeleteModalStatus] = useState(false);
     const [editModalStatus, setEditModalStatus] = useState(false);
     const [ tagId, setTagId ] = useState('');
     // lifecycle methods
@@ -37,15 +41,34 @@ const TagsView: FunctionComponent = (props): JSX.Element => {
         getAllTagsFlow();
     };
 
-    const handleDeleteCard = (id: string) => {
+    const handleDeleteCardDisplay = (id: string, name: string) => {
         console.log('Tag View - Delete card: ', id);
+        setDeleteCardDetails({id, name});
+        setDeleteModalStatus(true);
     };
 
-    const handleEditCard = (id: string) => {
-        console.log('Tag View - Update card: ', id);
+    const handleEditCardDisplay = (id: string) => {
         setTagId(id);
         setEditModalStatus(true);
     };
+
+    const handleDeleteCardSubmit = (id: string) => {
+        deleteTagById(id)
+            .then((res: any)=>{
+                showToasterTimed("success", `Card deleted successfully`);
+                setDeleteModalStatus(false);
+                getAllTagsFlow();
+            })
+            .catch((err: any)=>{
+                console.log('Error deleting card: ', id, err);
+            });
+    };
+
+    const handleDeleteCardCancel = () => {
+      setDeleteModalStatus(false);
+    };
+
+
 
     useEffect(()=>{
         getAllTagsFlow();
@@ -60,6 +83,11 @@ const TagsView: FunctionComponent = (props): JSX.Element => {
                 </h1>
                 <BorderCard title={`Create New Tag`}>
                     <AddTag onSuccess={refreshCardList}/>
+                    <DeleteTagModal
+                        display={deleteModalStatus}
+                        id={deleteCardDetails.id}
+                        name={deleteCardDetails.name}
+                        onSubmit={handleDeleteCardSubmit} onCancel={handleDeleteCardCancel}/>
                     <EditTagModal display={editModalStatus} id={tagId} onSubmit={handleModal}/>
                 </BorderCard>
                 <div className="mb-12">
@@ -69,12 +97,11 @@ const TagsView: FunctionComponent = (props): JSX.Element => {
                         {!loaderStatus && cardList.length>0 && cardList.map((item: any, index: number) =>
                             <div key={index} className="w-full md:w-1/2">
                                 <TagCard key={index}
-                                           id={item._id}
-                                           name={item.name}
-                                           description={item.description}
-                                           onEdit={handleEditCard}
-                                           onDelete={handleDeleteCard}
-                                />
+                                     id={item._id}
+                                     name={item.name}
+                                     description={item.description}
+                                     onEdit={handleEditCardDisplay}
+                                     onDelete={handleDeleteCardDisplay.bind(null, item._id, item.name)}/>
                             </div>
                         )}
                     </BorderCard>

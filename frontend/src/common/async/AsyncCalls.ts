@@ -57,7 +57,7 @@ export const updateGroupById = async (id: string, payload: any) => {
  * Delete a Group by Id
  * @param id
  */
-export const deleteCardById = async(id: string) => {
+export const deleteGroupById = async(id: string) => {
     return axios.delete(`/group/${id}`);
 };
 
@@ -93,4 +93,12 @@ export const getTagDetailsById = async (id: string) => {
  */
 export const updateTagById = async (id: string, payload: any) => {
     return axios.put(`/tag/${id}`, payload);
+};
+
+/**
+ * Delete a record by Id
+ * @param id
+ */
+export const deleteTagById = async(id: string) => {
+    return axios.delete(`/tag/${id}`);
 };

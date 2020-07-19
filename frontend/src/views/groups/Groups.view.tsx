@@ -3,7 +3,7 @@ import {BsFolderPlus} from "react-icons/bs";
 import NoGroups from "./sections/no-groups/NoGroups";
 import BorderCard from "../../components/cards/border-card/BorderCard";
 import AddGroup from "./sections/add/AddGroup";
-import {deleteCardById, getAllGroups} from "../../common/async/AsyncCalls";
+import {deleteGroupById, getAllGroups} from "../../common/async/AsyncCalls";
 import GroupCard from "./sections/list/GroupCard";
 import {showToasterTimed} from "../../common/util/ToasterHelper";
 import EditGroupModal from "./modals/edit-group/EditGroupModal";
@@ -28,7 +28,7 @@ const GroupsView: FunctionComponent = (props): JSX.Element => {
     },[]);
 
     const deleteCard = useCallback((id:string)=>{
-        deleteCardById(id)
+        deleteGroupById(id)
             .then((res: any)=>{
                 showToasterTimed("success", `Card deleted successfully`);
                 getAllCards();

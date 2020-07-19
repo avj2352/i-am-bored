@@ -146,8 +146,7 @@ export class TagController {
     async deleteTagById(req, res) {
         this.checkAuthentication(req, res);
         try {
-            const result = await this.tagService.deleteTagById(req.params.tagId);
-            console.log(`${this.logger} - Record deleted: `, result);
+            await this.tagService.deleteTagById(req.params.tagId);
             return res.sendStatus(200);
         } catch (err) {
             console.log(`${this.logger} Error updating record: ${JSON.stringify(err)}`.error);

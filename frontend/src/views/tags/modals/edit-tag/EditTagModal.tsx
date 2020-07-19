@@ -47,12 +47,10 @@ const EditTagModal: FunctionComponent<IEditTagModalProps> = (props):JSX.Element 
     const onFormSubmit = (data: any) => {
         if (data) {
             showToasterTimed('info', `Posting data`)
-            const { title, slug, description, premium } = data;
+            const { name, description } = data;
             updateTagById( id, {
-                title,
-                slug,
+                name,
                 description,
-                premium
             }).then(()=>{
                 showToasterTimed('success', `Tag updated successfully`);
                 clearFormFields();
@@ -60,7 +58,7 @@ const EditTagModal: FunctionComponent<IEditTagModalProps> = (props):JSX.Element 
             }).catch((err: any) => {
                 showToasterTimed('error', `Error - Error updating group`);
                 clearFormFields();
-            })
+            });
         }
     };
 

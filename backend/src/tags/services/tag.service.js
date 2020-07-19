@@ -69,7 +69,7 @@ export class TagService {
         return new Promise((resolve, reject) => {
             TagModel.deleteOne({_id: id}, (err) => {
                 if (err) reject(err);
-                else resolve(data); // Get JSON format of contact
+                else resolve(); // Get JSON format of contact
             });
         });
     }
