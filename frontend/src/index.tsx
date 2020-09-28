@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 // custom
-import './index.css';
+import {AppContextProvider} from "./common/context/AppContext";
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
-import {AppContextProvider} from "./common/context/AppContext";
+import "./index.css";
 
 ReactDOM.render (
   <React.StrictMode>
