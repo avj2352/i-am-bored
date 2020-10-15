@@ -15,15 +15,15 @@ export const getThemeOptions = () : ThemeOptions => {
                 "default": "rgba(244, 244, 244, 1)"
             },
             "primary": {
-                "light": "rgba(240, 52, 122, 1)",
-                "main": "rgba(184, 15, 79, 1)",
-                "dark": "rgba(133, 11, 57, 1)",
-                "contrastText": "#fff"
-            },
-            "secondary": {
                 "light": "rgba(20, 124, 166, 1)",
                 "main": "rgba(22, 85, 140, 1)",
                 "dark": "rgba(10, 36, 89, 1)",
+                "contrastText": "#fff"
+            },
+            "secondary": {
+                "light": "rgba(240, 52, 122, 1)",
+                "main": "rgba(184, 15, 79, 1)",
+                "dark": "rgba(133, 11, 57, 1)",
                 "contrastText": "#fff"
             },
             "error": {
@@ -40,26 +40,26 @@ export const getThemeOptions = () : ThemeOptions => {
             }
         },
         typography: {
-            fontFamily: ['"Montserrat"' , 'sans-serif'].join(','),
-            fontSize: 16,
-            h5: {
-                fontWeight: 500,
-                fontSize: 26,
-                letterSpacing: 0.5,
-            },
+          fontFamily: ['"Montserrat"' , 'sans-serif'].join(','), 
+          fontSize: 16,
+          h5: {
+            fontWeight: 500,
+            fontSize: 26,
+            letterSpacing: 0.5,
+          },
         },
         shape: {
-            borderRadius: 8,
+          borderRadius: 8,
         },
         props: {
-            MuiTab: {
-                disableRipple: true,
-            },
+          MuiTab: {
+            disableRipple: true,
+          },
         },
         mixins: {
-            toolbar: {
-                minHeight: 48,
-            },
+          toolbar: {
+            minHeight: 48,
+          },
         }
     });
 
@@ -105,7 +105,7 @@ export const getThemeOptions = () : ThemeOptions => {
                         theme
                             .breakpoints
                             .up('md')
-                        ]: {
+                    ]: {
                         padding: 0,
                         minWidth: 0
                     }
