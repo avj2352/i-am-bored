@@ -1,29 +1,27 @@
 import {createMuiTheme, ThemeOptions} from '@material-ui/core/styles';
+import {useGlobalState} from "../context/AppContext";
 
-export const getThemeOptions = () : ThemeOptions => {
-
+export const useThemeOptions = () : ThemeOptions => {
+    const appContext = useGlobalState();
     // default material theme configuration
 
     let theme = createMuiTheme({
         palette: {
+            type: appContext.theme,
             "common": {
                 "black": "#000",
                 "white": "#fff"
             },
-            "background": {
-                "paper": "#fff",
-                "default": "rgba(244, 244, 244, 1)"
-            },
-            "primary": {
+            "secondary": {
                 "light": "rgba(240, 52, 122, 1)",
                 "main": "rgba(184, 15, 79, 1)",
                 "dark": "rgba(133, 11, 57, 1)",
                 "contrastText": "#fff"
             },
-            "secondary": {
-                "light": "rgba(20, 124, 166, 1)",
-                "main": "rgba(22, 85, 140, 1)",
-                "dark": "rgba(10, 36, 89, 1)",
+            "primary": {
+                "light": "rgb(173,232,244)",
+                "main": "rgb(0,180,216)",
+                "dark": "rgba(0, 150, 199, 1)",
                 "contrastText": "#fff"
             },
             "error": {
@@ -32,12 +30,6 @@ export const getThemeOptions = () : ThemeOptions => {
                 "dark": "rgba(128, 44, 67, 1)",
                 "contrastText": "#fff"
             },
-            "text": {
-                "primary": "rgba(0, 0, 0, 0.87)",
-                "secondary": "rgba(0, 0, 0, 0.54)",
-                "disabled": "rgba(0, 0, 0, 0.38)",
-                "hint": "rgba(0, 0, 0, 0.38)"
-            }
         },
         typography: {
             fontFamily: ['"Montserrat"' , 'sans-serif'].join(','),
@@ -60,7 +52,7 @@ export const getThemeOptions = () : ThemeOptions => {
             toolbar: {
                 minHeight: 48,
             },
-        }
+        },
     });
 
     // Overrides, specific to application - Paperbase
@@ -68,11 +60,6 @@ export const getThemeOptions = () : ThemeOptions => {
     theme = {
         ...theme,
         overrides: {
-            MuiDrawer: {
-                paper: {
-                    backgroundColor: '#18202c'
-                }
-            },
             MuiButton: {
                 label: {
                     textTransform: 'none'

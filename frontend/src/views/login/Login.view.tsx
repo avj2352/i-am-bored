@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import gsap, { CSSPlugin, TimelineLite, Back } from 'gsap';
+import { FaGoogle } from 'react-icons/fa';
 // material
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -35,7 +36,7 @@ const LoginView : FunctionComponent = () => {
     const [username,setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [noteMsg, setNoteMsg] = useState('');
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState(false);
     //refs
     let emailRef = useRef<HTMLInputElement>(document.createElement("input"));
     let passwordRef = useRef<HTMLInputElement>(document.createElement("input"));
@@ -87,19 +88,7 @@ const LoginView : FunctionComponent = () => {
     const authenticate = async (evt: any) => {
         setLoading(true);
         evt.preventDefault();
-        // authenticateUser({username, password})
-        // .then(res => {
-        //     addLocalStorageItem ('token', res.data.accessToken);          
-        //     setLoading(false);
-        //     dispatch ({
-        //         type: NAMED_ROUTES.APP
-        //     });
-
-        // })
-        // .catch(err => {
-        //   setLoading(false);
-        //   setNoteMsg(`INVALID USERNAME / PASSWORD`);
-        // });
+        window.location.href = '/google';
     };
 
     // componentDidMount
@@ -141,7 +130,7 @@ const LoginView : FunctionComponent = () => {
                             color="primary"
                             onKeyDown={authenticate}
                             className={classes.socialBtn}>
-                            Sign In with Google
+                            <FaGoogle/>&nbsp;&nbsp;Sign In with Google
                         </Button>
                     </div>
                     <footer className={classes.footer}>

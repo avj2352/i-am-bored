@@ -1,22 +1,25 @@
 import React, { FunctionComponent } from 'react';
 // material
-import { ThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { pink } from '@material-ui/core/colors';
 import { SnackbarProvider } from 'notistack';
-import { getThemeOptions } from './../common/theme/ThemeConfigProvider';
+import { useThemeOptions } from './../common/theme/ThemeConfigProvider';
 
 import RouterApp from '../router/RouterApp';
 
 const App: FunctionComponent = () => {
     return (
-        <ThemeProvider theme={getThemeOptions()}>
-            <SnackbarProvider
-                maxSnack={3} anchorOrigin={{
+        <MuiThemeProvider
+            theme = {useThemeOptions()} >
+            <SnackbarProvider maxSnack={3} anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'center',
+                horizontal: 'right',
             }}>
-                <RouterApp/>
+                <div className="App">
+                    <RouterApp />
+                </div>
             </SnackbarProvider>
-        </ThemeProvider>
+        </MuiThemeProvider>
     );
 };
 

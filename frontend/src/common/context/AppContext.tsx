@@ -2,8 +2,9 @@ import React, { FunctionComponent, createContext, useReducer, useContext } from 
 
 export interface IAppContextState {
     profile: any;
-    theme: 'theme-light' | 'theme-dark';
+    theme: 'light' | 'dark';
     version: string;
+    title: string;
 }
 
 export enum CONTEXT_ACTION_TYPE {
@@ -14,8 +15,9 @@ export enum CONTEXT_ACTION_TYPE {
 
 export const initialState: IAppContextState = {
     profile: undefined,
-    theme: 'theme-light',
-    version: '0.2.3'
+    theme: 'light',
+    version: '0.2.3',
+    title: 'B.O.R.E.D'
 };
 
 export const AppStateContext = createContext<IAppContextState>(initialState); // Separate context for storing state
@@ -27,8 +29,8 @@ const appContextReducer = (state: IAppContextState, action: {type: CONTEXT_ACTIO
         case CONTEXT_ACTION_TYPE.SET_PROFILE_DATA:
             return { ...state, profile: payload };
         case CONTEXT_ACTION_TYPE.THEME_TOGGLE:
-            if (payload) return {...state, theme: 'theme-dark'};
-            else return {...state, theme: 'theme-light'};
+            if (payload) return {...state, theme: 'dark'};
+            else return {...state, theme: 'light'};
         case CONTEXT_ACTION_TYPE.SET_VERSION:
             return { ...state, version: payload};
         default:
