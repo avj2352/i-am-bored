@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useEffect } from 'react';
 // material
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 // router
 import { useHistory } from 'react-router-dom';
+import {getUserDetails} from "../../common/async/AsyncCalls";
 
 interface IMenuOptionProps {
     label: string;
@@ -53,6 +54,13 @@ const MenuDropdown: FunctionComponent = (props) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    // Testing - getUserDetails
+    useEffect(()=>{
+        getUserDetails()
+            .then((res: any) => console.log('user details is: ', res))
+            .catch((err: any) => console.log('Error fetching user details: ', err));
+    },[]);
 
     return (
         <div>

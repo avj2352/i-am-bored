@@ -56,7 +56,8 @@ export class AuthController {
     }
 
     // google authenticate method
-    authenticate = passport.authenticate('google', {session: 'false', scope: ['openid', 'email', 'profile']});
+    authenticate = passport.authenticate('google',
+        {session: 'false', scope: ['openid', 'email', 'profile']});
 
     // callback handler
     authCallback = passport.authenticate('google', {
@@ -66,11 +67,11 @@ export class AuthController {
 
     // testing OAuth
     getUserDetails (req, res) {
-        // console.log('Request user: ', req.user);
+        console.log('Request user: ', req.user);
         if (req.user) {
             res.send(req.user);
         } else {
-            res.sendStatus(401);
+            res.status(401).send(req.user);
         }
     }
 
