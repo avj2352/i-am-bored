@@ -77,7 +77,7 @@ const LoginView : FunctionComponent = () => {
     const authenticate = async (evt: any) => {
         setLoading(true);
         evt.preventDefault();
-        window.location.href = '/google';
+        window.location.href = '/auth/google';
     };
 
     
