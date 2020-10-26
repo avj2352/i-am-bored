@@ -30,6 +30,7 @@ export const useStyles = makeStyles(theme => ({
       top: '1%',
       left: '20%',
       borderRadius: '10px',
+      boxShadow: theme.shadows[3]
     },
     listGroup: {
       position: 'relative',

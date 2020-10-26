@@ -16,7 +16,7 @@ import { addLocalStorageItem } from './../../common/helper/LocalStorageProvider'
 import { LinearLoader } from './../../components/loaders/linear-loader/LinearLoader';
 // context
 import { RouterDispatchContext, NAMED_ROUTES } from '../../router/context/RouterContext';
-import {AppStateContext} from './../../common/context/AppContext';
+import {AppStateContext, CONTEXT_ACTION_TYPE, useGlobalDispatch} from './../../common/context/AppContext';
 import { getUserDetails } from './../../common/async/AsyncCalls';
 import { getLocalStorageItem } from './../../common/helper/LocalStorageProvider';
 // notification
@@ -31,15 +31,12 @@ gsap.registerPlugin(CSSPlugin);
 const LoginView : FunctionComponent = () => {
     const classes = useStyles();
     const appContext = useContext(AppStateContext);
-    const dispatch: any = useContext (RouterDispatchContext);
-    //states
-    const [username,setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const routeDispatch: any = useContext(RouterDispatchContext);
+    const appDispatch: any = useGlobalDispatch();
+    //states    
     const [noteMsg, setNoteMsg] = useState('');
     const [isLoading, setLoading] = useState(false);
-    //refs
-    let emailRef = useRef<HTMLInputElement>(document.createElement("input"));
-    let passwordRef = useRef<HTMLInputElement>(document.createElement("input"));
+    //refs    
     let submitRef = useRef<HTMLButtonElement>(document.createElement("button"));
     let loginBoxDom = useRef<HTMLDivElement>(document.createElement("div"));
 
@@ -51,39 +48,31 @@ const LoginView : FunctionComponent = () => {
         // .then((res: any) => {
         //     setLoading(false);
         //     // console.log('User details are: ', res.data);
-        //     dispatch ({
+        //     routeDispatch ({
         //         type: NAMED_ROUTES.APP
         //     });
         // }, err => {
         //     setLoading(false);
         //     console.log('Error fetching user details: ', err);
         // });
-    },[dispatch]);
+    },[routeDispatch]);
 
-    // event handlers
-    const handleEmailKeyDown = (evt: React.KeyboardEvent<HTMLDivElement>) => {
-        if (evt.key === 'Enter') {
-            passwordRef.current.focus();
-        }
-    };
-    
-    const handlePasswordKeyDown = (evt: React.KeyboardEvent<HTMLDivElement>) => {
-        if (evt.key === 'Enter') {
-            submitRef.current.focus();
-        }
-    };
-    
 
-    const handleChange = (event: any) => {
-        if (event.target.value !== '') {
-            setNoteMsg('');
-        }
-        if (event.target.name === 'email') {
-            setUserName(event.target.value);
-        } else {
-            setPassword(event.target.value);
-        }
-    };
+    const animateIn = useCallback(()=>{
+        const t1 = new TimelineLite();
+        // reset mode to always white
+        appDispatch ({
+            type: CONTEXT_ACTION_TYPE.THEME_TOGGLE,
+            payload: false
+        });
+        setTimeout(()=>{
+            console.log('Login Box Reference is: ', loginBoxDom);
+            t1.to(loginBoxDom.current, 1, {top: 0, opacity: 1, ease: Back.easeOut.config(1)});
+            t1.play();
+        },1000);
+    },[]);
+
+   
 
     const authenticate = async (evt: any) => {
         setLoading(true);
@@ -91,24 +80,15 @@ const LoginView : FunctionComponent = () => {
         window.location.href = '/google';
     };
 
-    // componentDidMount
-    useEffect(()=>{
-        // step 1 - check if session ID is valid
-        setTimeout(()=>{
-            fetchLoggedInUserDetails();
-        },1000);
-        emailRef.current.focus();
-
-    },[fetchLoggedInUserDetails]);
+    
 
     //componentDidMount
     useEffect(()=>{
-        const t1 = new TimelineLite();
+        animateIn();
         setTimeout(()=>{
-            console.log('Login Box Reference is: ', loginBoxDom);
-            t1.to(loginBoxDom.current, 1, {top: 0, opacity: 1, ease: Back.easeOut.config(1)});
-            t1.play();
+            fetchLoggedInUserDetails();
         },1000);
+        submitRef.current.focus();
     },[]);
 
     return (

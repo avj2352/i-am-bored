@@ -13,13 +13,8 @@ export type IRouterContextState = {
 export enum NAMED_ROUTES {
     APP = 'app',
     ABOUT = 'about',
-    TIMER = 'timer',
-    TODO = 'todo',
-    QUOTES = 'quotes',
-    SETTINGS = 'settings',
     PREVIEW = 'preview',
-    LOGIN = 'login',
-    REGISTER = 'register',
+    LOGIN = 'login',    
 };
 
 const contextDefaultState: IRouterContextState = {
@@ -47,13 +42,6 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             history.push (location);
             return {...state, name: NAMED_ROUTES.LOGIN};
         
-        case NAMED_ROUTES.REGISTER:
-            // console.log(`Dispatch Route: ${NAMED_ROUTES.REGISTER}`);
-            location = {
-                pathname: `/${NAMED_ROUTES.REGISTER}`
-            };
-            history.push (location);
-            return {...state, name: NAMED_ROUTES.REGISTER};
 
         case NAMED_ROUTES.APP:
             // console.log(`Dispatch Route: ${NAMED_ROUTES.APP}`);
@@ -71,29 +59,6 @@ const useRouterContextReducer = (state: IRouterContextState, action: {type: NAME
             history.push (location);
             return {...state, name: NAMED_ROUTES.ABOUT};
 
-        case NAMED_ROUTES.TIMER:
-            // console.log(`Dispatch Route: ${NAMED_ROUTES.TIMER}`);
-            location = {
-                pathname: `/${NAMED_ROUTES.TIMER}`
-            };
-            history.push (location);
-            return {...state, name: NAMED_ROUTES.TIMER};
-
-        case NAMED_ROUTES.QUOTES:
-            // console.log(`Dispatch Route: ${NAMED_ROUTES.QUOTES}`);
-            location = {
-                pathname: `/${NAMED_ROUTES.QUOTES}`
-            };
-            history.push (location);
-            return {...state, name: NAMED_ROUTES.QUOTES};
-
-        case NAMED_ROUTES.TODO:
-            // console.log(`Dispatch Route: ${NAMED_ROUTES.TODO}`);
-            location = {
-                pathname: `/${NAMED_ROUTES.TODO}`
-            };
-            history.push (location);
-            return {...state, name: NAMED_ROUTES.TODO};
 
         case NAMED_ROUTES.PREVIEW:
             // console.log(`Dispatch Route: ${NAMED_ROUTES.PREVIEW}`);

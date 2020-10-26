@@ -1,17 +1,48 @@
 import React, {FunctionComponent} from 'react';
+// material
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+// router
+import { useHistory } from 'react-router-dom';
 
-const options = [
-    'Sign In',
-    'About',
-];
+interface IMenuOptionProps {
+    label: string;
+    event: (data: any | null) =>  void;
+};
 
 const ITEM_HEIGHT = 48;
 
 const MenuDropdown: FunctionComponent = (props) => {
+    const history = useHistory();
+    // event handlers
+    const handleLogin = (data: any) => {
+        const location = {
+            pathname: '/login'
+        };
+
+        history.push(location);
+    };
+
+    const routeToAbout = () => {
+        const location = {
+            pathname: '/about'
+        };
+        history.push(location);
+    };
+
+    // menu options list
+    const options: IMenuOptionProps[] = [
+        {
+            label: 'Sign In',
+            event: handleLogin
+        },
+        {
+            label: 'About',
+            event: routeToAbout
+        }    
+    ];
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -26,6 +57,7 @@ const MenuDropdown: FunctionComponent = (props) => {
     return (
         <div>
             <IconButton
+                color="inherit"
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
@@ -46,9 +78,9 @@ const MenuDropdown: FunctionComponent = (props) => {
                     },
                 }}
             >
-                {options.map((option) => (
-                    <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                        {option}
+                {options.map((el: IMenuOptionProps, index: number) => (
+                    <MenuItem key={index} onClick={el.event}>
+                        {el.label}
                     </MenuItem>
                 ))}
             </Menu>
