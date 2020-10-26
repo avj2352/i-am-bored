@@ -1,10 +1,10 @@
 {
-    "name": "Time-Travel",
-    "short_name": "Time-Travel",
+    "name": "B.O.R.E.D",
+    "short_name": "B.O.R.E.D",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#16558C",
-    "theme_color": "#0A2459",
+    "theme_color": "#00B4D8",
     "orientation": "portrait-primary",
     "icons": [
       {
