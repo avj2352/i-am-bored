@@ -1,5 +1,7 @@
 backend/node_modules
 frontend/node_modules
 .idea
+.DS_Store
+/**/.DS_Store
 frontend/debug.log
 .idea/vcs.xml
