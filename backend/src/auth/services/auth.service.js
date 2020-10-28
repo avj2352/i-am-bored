@@ -6,14 +6,34 @@ import {User} from "../models/user.model";
  export class AuthService {
     constructor() {
         // bind
+        this.fetchUserDetails = this.fetchUserDetails.bind(this);
+        this.checkIfAdminUser = this.checkIfAdminUser.bind(this);
         this.addNewUser = this.addNewUser.bind(this);
         this.findUserRecordById = this.findUserRecordById.bind(this);
         this.findUserRecordByGoogleId = this.findUserRecordByGoogleId.bind(this);
-        this.authenticateUser = this.authenticateUser.bind(this);
     }
 
-     authenticateUser (req) {
-        return !!req.user;
+    /* Check Cookie header present
+    * @param req
+    * @param res
+    * @returns user / 401
+    */
+     fetchUserDetails (req) {
+         if (req.user) {
+             return req.user;
+         } else {
+             return null;
+         }
+     }
+
+     /**
+      * Check user role is admin
+      * @param user {role}
+      * @returns {boolean}
+      */
+     checkIfAdminUser (user) {
+         if (user.role && user.role === 'admin') return true;
+         else return false;
      }
 
      /**

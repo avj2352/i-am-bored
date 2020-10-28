@@ -18,35 +18,35 @@ const routes = (app) => {
     app.route('/auth/google/callback')
         .get(auth.authCallback);
     // testing OAuth
-    app.route('/auth/getUserDetails')
-        .get(auth.getUserDetails);
+    app.route('/auth/userDetails')
+        .get(auth.userDetails);
     //logout User
     app.route('/auth/logout')
         .get(auth.logoutUser);
 
     // GROUPS ===============================
-    app.route('/group')
-        .get(group.getAllGroups)
+    app.route('/groups')
+        .get(group.getGroups)
         .post(group.addNewGroup);
 
     // FILTERED Groups
 
     // RUD Groups
-    app.route('/group/:groupId')
+    app.route('/groups/:groupId')
         .get(group.getGroupById)
         .put(group.updateGroupById)
         .delete(group.deleteGroupById);
 
 
     // TAGS ===============================
-    app.route('/tag')
+    app.route('/tags')
         .get(tag.getAllTags)
         .post(tag.addNewTag);
 
     // FILTERED Groups
 
     // RUD Groups
-    app.route('/tag/:tagId')
+    app.route('/tags/:tagId')
         .get(tag.getTagById)
         .put(tag.updateTagById)
         .delete(tag.deleteTagById);

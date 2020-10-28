@@ -9,7 +9,7 @@ export const authenticateUser = async () => {
 };
 
 export const getUserDetails = async () => {
-  return axios.get('/auth/getUserDetails');
+  return axios.get('/auth/userDetails');
 };
 
 // GROUPS RELATED =====================================

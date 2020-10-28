@@ -33,9 +33,14 @@ export class GroupService {
         });
     }
 
-    // CREATE - new Group record
+    /**
+     * Create a new record
+     * @param payload {title, slug, description, premium}
+     * @returns Promise
+     */
     async addNewGroup (payload) {
         return new Promise((resolve, reject) => {
+            const { title, slug, description, premium } = payload;
             let newGroupRecord = new GroupModel(payload);
             newGroupRecord.save((err, data) => {
                 if (err) reject(err);

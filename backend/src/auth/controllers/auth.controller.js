@@ -66,12 +66,12 @@ export class AuthController {
     });
 
     // testing OAuth
-    getUserDetails (req, res) {
+    userDetails (req, res) {
         console.log('Request user: ', req.user);
         if (req.user) {
             res.send(req.user);
         } else {
-            res.status(401).send(req.user);
+            res.sendStatus(401);
         }
     }
 
