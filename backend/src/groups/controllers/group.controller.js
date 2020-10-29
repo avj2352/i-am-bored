@@ -2,7 +2,6 @@
  * CRUD - Controller for Group Model
  */
 require('./../../util/colors');
-import { GroupModel } from '../models/group.model';
 import {GroupService} from "../services/group.service";
 import {AuthService} from "../../auth/services/auth.service";
 
@@ -10,6 +9,7 @@ export class GroupController {
 
     constructor() {
         this.logger = 'GroupController';
+        // Inject
         this.groupService = new GroupService();
         this.authService = new AuthService();
         // bind context
@@ -30,10 +30,10 @@ export class GroupController {
         try {
             const user = this.authService.fetchUserDetails(req);
             if (user) {
-                const result = await this.groupService.filterGroupsWithoutPremium(false);
+                const result = await this.groupService.getAllGroups();
                 return res.json(result);
             } else {
-                const result = await this.groupService.getAllGroups();
+                const result = await this.groupService.filterGroupsWithoutPremium(false);
                 return res.json(result);
             }
         } catch (err) {
@@ -87,6 +87,8 @@ export class GroupController {
      * @returns {Promise<*>}
      */
     async getGroupById (req, res) {
+        // check if authenticated
+        console.log(`${this.logger} - Group ID is: ${JSON.stringify(req.params.groupId)}`.info);
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
         try {
