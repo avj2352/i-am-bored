@@ -63,7 +63,7 @@ export class GroupController {
                 premium: req.body.premium
             });
             console.log(`${this.logger} - New Record added`, result);
-            return res.sendStatus(201);
+            return res.status(201).send(result._id);
         } catch (err) {
             if (err.code === 11000) {
                 console.log(`${this.logger} - Duplicate Record: ${JSON.stringify(err)}`.error);
@@ -107,9 +107,23 @@ export class GroupController {
      * @returns {Promise<*>}
      */
     async updateGroupById (req, res) {
-        this.authService.authenticateUser(req, res);
+        // check if authenticated
+        console.log(`${this.logger} - Update group ID is: ${JSON.stringify(req.params.groupId)}`.info);
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
+        if (!req.body.title || req.body.title === '' ||
+            !req.body.slug || req.body.slug === '' ||
+            !req.body.description || req.body.description === '' ||
+            !req.body.hasOwnProperty(`premium`)) {
+            return res.sendStatus(400);
+        }
         try {
-            const result = await this.groupService.updateGroupById(req.params.groupId, req.body);
+            const result = await this.groupService.updateGroupById(req.params.groupId, {
+                title: req.body.title,
+                description: req.body.description,
+                slug: req.body.slug,
+                premium: req.body.premium,
+            });
             console.log(`${this.logger} - Record updated: `, result);
             return res.sendStatus(200);
         } catch (err) {
@@ -125,7 +139,10 @@ export class GroupController {
      * @returns {Promise<*>}
      */
     async deleteGroupById (req, res) {
-        this.authService.authenticateUser(req, res);
+        // check if authenticated
+        console.log(`${this.logger} - Delete group ID: ${JSON.stringify(req.params.groupId)}`.info);
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
         try {
             const result = await this.groupService.deleteGroupById(req.params.groupId);
             console.log(`${this.logger} - Record deleted: `, result);

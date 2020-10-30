@@ -77,8 +77,10 @@ export class GroupService {
      * @returns Promise<any>
      */
     async updateGroupById (id, payload) {
+        const { title, slug, description, premium } = payload;
         return new Promise((resolve, reject) => {
-            GroupModel.findOneAndUpdate({_id: id}, payload, {new: true}, (err, data) => {
+            GroupModel.findOneAndUpdate({_id: id}, {title, slug, description, premium},
+                {new: true}, (err, data) => {
                 if (err) reject(err);
                 else resolve(data); // Get JSON format of contact
             });
