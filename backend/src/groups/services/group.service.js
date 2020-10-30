@@ -100,4 +100,33 @@ export class GroupService {
             });
         });
     }
+
+    /**
+     * search full text in Group Model
+     * @param text {string} full text query string
+     * @returns Promise<any>
+     */
+    async searchFullText (text) {
+        return new Promise((resolve, reject) => {
+            GroupModel.find({$text: {$search: text}}, (err, data) => {
+                if (err) reject(err);
+                else resolve(data); // Get JSON format of contact
+            });
+        });
+    }
+
+    /**
+     * search partial text in Group Model
+     * @param partial {string} partial query string
+     * @returns Promise<any>
+     */
+    async searchFullText (partial) {
+        return new Promise((resolve, reject) => {
+            GroupModel.find({description: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
+                if (err) reject(err);
+                else resolve(data); // Get JSON format of contact
+            });
+        });
+    }
+
 }

@@ -144,9 +144,30 @@ export class GroupController {
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
         try {
-            const result = await this.groupService.deleteGroupById(req.params.groupId);
-            console.log(`${this.logger} - Record deleted: `, result);
+            const result = await this.groupService.deleteGroupById(req.params.groupId);            
             return res.sendStatus(200);
+        } catch (err) {
+            console.log(`${this.logger} Error updating record: ${JSON.stringify(err)}`.error);
+            return res.sendStatus(400);
+        }
+    }
+
+    /**
+     * PAJ - Full Text Search in Groups Model
+     * @param req
+     * @param res
+     * @returns {Promise<*>}
+     */
+    async searchFullText (req, res) {
+        // check if authenticated
+        console.log(`${this.logger} - Search Text: ${JSON.stringify(req.query.text)}`.info);
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
+        if (!req.query.hasOwnProperty('text') || req.query.text === '') return res.sendStatus(400);
+        try {
+            const result = await this.groupService.searchFullText(req.query.text);
+            console.log(`${this.logger} - Query result is: ${JSON.stringify(result)}`.info);
+            return res.status(200).send(result);
         } catch (err) {
             console.log(`${this.logger} Error updating record: ${JSON.stringify(err)}`.error);
             return res.sendStatus(400);
