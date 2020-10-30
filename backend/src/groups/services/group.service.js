@@ -11,6 +11,8 @@ export class GroupService {
         this.getGroupById = this.getGroupById.bind(this);
         this.updateGroupById = this.updateGroupById.bind(this);
         this.deleteGroupById = this.deleteGroupById.bind(this);
+        this.searchFullText = this.searchFullText.bind(this);
+        this.searchPartialText = this.searchPartialText.bind(this);
     }
 
     /**
@@ -120,7 +122,7 @@ export class GroupService {
      * @param partial {string} partial query string
      * @returns Promise<any>
      */
-    async searchFullText (partial) {
+    async searchPartialText (partial) {
         return new Promise((resolve, reject) => {
             GroupModel.find({description: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
                 if (err) reject(err);

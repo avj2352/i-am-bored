@@ -18,6 +18,7 @@ export class GroupController {
         this.getGroupById = this.getGroupById.bind(this);
         this.updateGroupById = this.updateGroupById.bind(this);
         this.deleteGroupById = this.deleteGroupById.bind(this);
+        this.search = this.search.bind(this);
     }
 
     /**
@@ -158,18 +159,31 @@ export class GroupController {
      * @param res
      * @returns {Promise<*>}
      */
-    async searchFullText (req, res) {
+    async search(req, res) {
         // check if authenticated
-        console.log(`${this.logger} - Search Text: ${JSON.stringify(req.query.text)}`.info);
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
-        if (!req.query.hasOwnProperty('text') || req.query.text === '') return res.sendStatus(400);
+        console.log(`${this.logger} - Search Text: ${JSON.stringify(req.query.text)}`.info);
+        if (
+            !req.query.text || req.query.text === '' ||
+            !req.query.type || req.query.type === ''
+        ) return res.sendStatus(400);
         try {
-            const result = await this.groupService.searchFullText(req.query.text);
-            console.log(`${this.logger} - Query result is: ${JSON.stringify(result)}`.info);
-            return res.status(200).send(result);
+            let result;
+            console.log(`${this.logger} - Search Type is: ${req.query.type}`.info);
+            if (req.query.type === 'full') {
+                console.log(`${this.logger} - Query result is: ${JSON.stringify(result)}`.info);
+                result = await this.groupService.searchFullText(req.query.text);
+                return res.status(200).send(result);
+            } else if (req.query.type === 'partial') {
+                console.log(`${this.logger} - Query result is: ${JSON.stringify(result)}`.info);
+                result = await this.groupService.searchPartialText(req.query.text);
+                return res.status(200).send(result);
+            } else {
+                return res.sendStatus(400);    
+            }
         } catch (err) {
-            console.log(`${this.logger} Error updating record: ${JSON.stringify(err)}`.error);
+            console.log(`${this.logger} Error searching : ${JSON.stringify(err)}`.error);
             return res.sendStatus(400);
         }
     }

@@ -37,6 +37,8 @@ const routes = (app) => {
         .put(group.updateGroupById)
         .delete(group.deleteGroupById);
 
+    app.route('/groups/search/text')
+        .get(group.search);
 
     // TAGS ===============================
     app.route('/tags')
