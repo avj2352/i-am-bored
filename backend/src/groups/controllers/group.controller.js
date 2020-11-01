@@ -172,11 +172,9 @@ export class GroupController {
             let result;
             console.log(`${this.logger} - Search Type is: ${req.query.type}`.info);
             if (req.query.type === 'full') {
-                console.log(`${this.logger} - Query result is: ${JSON.stringify(result)}`.info);
                 result = await this.groupService.searchFullText(req.query.text);
                 return res.status(200).send(result);
             } else if (req.query.type === 'partial') {
-                console.log(`${this.logger} - Query result is: ${JSON.stringify(result)}`.info);
                 result = await this.groupService.searchPartialText(req.query.text);
                 return res.status(200).send(result);
             } else {

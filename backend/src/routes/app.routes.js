@@ -36,7 +36,7 @@ const routes = (app) => {
         .get(group.getGroupById)
         .put(group.updateGroupById)
         .delete(group.deleteGroupById);
-
+    // search Groups
     app.route('/groups/search/text')
         .get(group.search);
 

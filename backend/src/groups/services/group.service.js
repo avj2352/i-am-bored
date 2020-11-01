@@ -109,6 +109,7 @@ export class GroupService {
      * @returns Promise<any>
      */
     async searchFullText (text) {
+        console.log('Calling Full text query: ', text);
         return new Promise((resolve, reject) => {
             GroupModel.find({$text: {$search: text}}, (err, data) => {
                 if (err) reject(err);
