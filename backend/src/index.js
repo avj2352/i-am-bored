@@ -23,7 +23,6 @@ app.use(express.urlencoded({extended: false}));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname,'/build')));
-app.use('/app', express.static(path.join(__dirname,'/build')));
 // Failure
 app.get('/failure', (req, res)=>{
     res.send('Error: Authentication Failed, Please retry');

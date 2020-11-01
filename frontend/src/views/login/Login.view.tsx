@@ -1,75 +1,126 @@
-import React, {FunctionComponent, useState, useRef, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import { FaGoogle } from "react-icons/fa";
+import React, { FunctionComponent, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import gsap, { CSSPlugin, TimelineLite, Back } from 'gsap';
+import { FaGoogle } from 'react-icons/fa';
+// material
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 // custom
+import {useStyles} from './login.style';
+import RegisterButton from '../../components/buttons/register-button/RegisterButton';
 import logo from './../../assets/img/logo.png';
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
-import BannerCard from "../../components/cards/banner-card/BannerCard";
+import { authenticateUser } from './../../common/async/AsyncCalls';
+import { addLocalStorageItem } from './../../common/helper/LocalStorageProvider';
+import { LinearLoader } from './../../components/loaders/linear-loader/LinearLoader';
+// context
+import { RouterDispatchContext, NAMED_ROUTES } from '../../router/context/RouterContext';
+import {AppStateContext, CONTEXT_ACTION_TYPE, useGlobalDispatch} from './../../common/context/AppContext';
+import { getUserDetails } from './../../common/async/AsyncCalls';
+import { getLocalStorageItem } from './../../common/helper/LocalStorageProvider';
+// notification
+import { SimpleNotification, NOTIFICATION_TYPE } from '../../common/snackbar/SnackbarHelper';
+import SimpleLinkButton from '../../components/buttons/links/SimpleLinkButton';
 
 
-const LoginView: FunctionComponent = (props): JSX.Element => {
-    // states
-    const [imageLoaded, setImageLoaded] = useState(false);
-    const bannerDom = useRef<HTMLDivElement>(document.createElement('div'));
 
-    // event handlers
-    const handleLogoLoad = () => {
-        setImageLoaded(true);
+// Force CSSPlugin to not get dropped during build
+gsap.registerPlugin(CSSPlugin);
+
+const LoginView : FunctionComponent = () => {
+    const classes = useStyles();
+    const appContext = useContext(AppStateContext);
+    const routeDispatch: any = useContext(RouterDispatchContext);
+    const appDispatch: any = useGlobalDispatch();
+    //states    
+    const [noteMsg, setNoteMsg] = useState('');
+    const [isLoading, setLoading] = useState(false);
+    //refs    
+    let submitRef = useRef<HTMLButtonElement>(document.createElement("button"));
+    let loginBoxDom = useRef<HTMLDivElement>(document.createElement("div"));
+
+    // life-cycle
+    const fetchLoggedInUserDetails = useCallback(() => {
+        const token: string = getLocalStorageItem('token');
+        // console.log('Token is: ', token);
+        // getUserDetails(token)
+        // .then((res: any) => {
+        //     setLoading(false);
+        //     // console.log('User details are: ', res.data);
+        //     routeDispatch ({
+        //         type: NAMED_ROUTES.APP
+        //     });
+        // }, err => {
+        //     setLoading(false);
+        //     console.log('Error fetching user details: ', err);
+        // });
+    },[routeDispatch]);
+
+
+    const animateIn = useCallback(()=>{
+        const t1 = new TimelineLite();
+        // reset mode to always white
+        appDispatch ({
+            type: CONTEXT_ACTION_TYPE.THEME_TOGGLE,
+            payload: false
+        });
+        setTimeout(()=>{
+            console.log('Login Box Reference is: ', loginBoxDom);
+            t1.to(loginBoxDom.current, 1, {top: 0, opacity: 1, ease: Back.easeOut.config(1)});
+            t1.play();
+        },1000);
+    },[]);
+
+   
+
+    const authenticate = async (evt: any) => {
+        setLoading(true);
+        evt.preventDefault();
+        window.location.href = '/auth/google';
     };
 
-    // side-effects
+    
+
+    //componentDidMount
     useEffect(()=>{
-        if (imageLoaded) {
-            bannerDom.current.style.opacity = '1';
-        } else {
-            bannerDom.current.style.opacity = `0`;
-        }
-    },[imageLoaded]);
+        animateIn();
+        setTimeout(()=>{
+            fetchLoggedInUserDetails();
+        },1000);
+        submitRef.current.focus();
+    },[]);
 
     return (
-      <React.Fragment>
-          <div className="newsletter bg-background-tertiary h-screen">
-              <Header isDashboard={false}/>
-              <div
-                  ref={bannerDom}
-                  className="opacity-0 transition-opacity duration-1000
-                                ease-in-out container-inner mx-auto
-                                py-16 pb-8 text-center text-xl">
-                  <div className="flex flex-col justify-center items-center w-4/5 mx-auto mb-8">
-                      <img
-                          src={logo}
-                          onLoad={handleLogoLoad}
-                          alt={`logo`}
-                          className="w-2/3 md:w-1/2 h-auto rounded-lg shadow mb-4"/>
-                      <p className="mb-2 text-lg">Book ▪ Of ▪ Recipes ▪ Easily ▪ Done </p>
-                      <p className="uppercase font-bold text-lg">Login to your Account</p>
-                          <div className="w-full md:w-1/2 flex flex-col justify-center">
-                              <a href="/auth/google"
-                                  className="w-full rounded
-                                    shadow uppercase bg-gray-400
-                                    text-black
-                                    text-lg py-3 px-4 tracking-wide shadow
-                                    focus:outline-none hover:bg-gray-500 focus:bg-gray-500 z-10 mt-4">
-                                        <span
-                                            className="flex flex-row
-                                            justify-center items-center">
-                                            Continue with<FaGoogle className="ml-2"/>
-                                        </span>
-                              </a>
-                              <Link to={`/about`}
-                                  className="mt-4 text-sm no-underline
-                                            font-normal hover:text-orange-300
-                                            focus:text-orange-300">
-                                  About B.O.R.E.D
-                              </Link>
-                          </div>
-                  </div>
-              </div>
-              <Footer/>
-              <BannerCard/>
-          </div>
-      </React.Fragment>
+        <React.Fragment>
+            <Grid container spacing={1} className={classes.root} alignItems="center">
+                <SimpleNotification type={NOTIFICATION_TYPE.ERROR} message={noteMsg} />
+                <Paper className={classes.paper} ref={loginBoxDom}>
+                    <div className={classes.contentWrapper}>
+                        <img src={logo} className={classes.imageIcon} alt="logo"/>
+                        <Typography color="textSecondary" align="center" className={classes.title}>
+                            {`I AM B.O.R.E.D v${appContext.version}`}
+                        </Typography>
+                        <LinearLoader display={isLoading}/>                        
+                        <Button
+                            onClick={authenticate}
+                            fullWidth
+                            buttonRef={submitRef}
+                            variant="contained"
+                            color="primary"
+                            onKeyDown={authenticate}
+                            className={classes.socialBtn}>
+                            <FaGoogle/>&nbsp;&nbsp;Sign In with Google
+                        </Button>
+                    </div>
+                    <footer className={classes.footer}>
+                        <SimpleLinkButton link="/about">
+                            About B.O.R.E.D
+                        </SimpleLinkButton>
+                    </footer>
+                </Paper>
+            </Grid>
+        </React.Fragment>
     );
 };
 

@@ -1,18 +1,17 @@
 import React, { FunctionComponent } from 'react';
 import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import DashboardLayout from '../layouts/dashboard/DashboardLayout';
 // custom
+import HomeView from "../views/home/Home.view";
 import LoginView from "../views/login/Login.view";
-import DashboardLayout from "../layouts/dashboard/Dashboard.layout";
-import AboutView from "../views/about/About.view";
 
 const RouterApp: FunctionComponent = () => {
     return (
         <Router>
             <Switch>
-                <Route path="/dashboard" render={(props: any) => <DashboardLayout {...props} />}/>
-                <Route path="/login" component={LoginView}/>
-                <Route path="/about" component={AboutView}/>
-                <Redirect from="/" to="/dashboard" />
+                <Route path="/app" component={DashboardLayout}/>
+                <Route path="/login" component={LoginView} /> 
+                <Redirect from="/" to="/app" />
             </Switch>
         </Router>
     );

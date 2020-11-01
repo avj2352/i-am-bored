@@ -3,8 +3,8 @@
  */
 
 require('./../../util/colors');
-import { AuthService } from "../../auth/services/auth.service";
-import { TagService } from "../services/tag.service";
+import {AuthService} from "../../auth/services/auth.service";
+import {TagService} from "../services/tag.service";
 
 export class TagController {
 
@@ -30,7 +30,7 @@ export class TagController {
      */
     async checkAuthentication (req, res) {
         if (!this.authService.authenticateUser(req)) {
-            return res.sendStatus(401);
+            return 401;
         } else {
             return req.user;
         }
@@ -42,14 +42,18 @@ export class TagController {
      * @param res
      * @returns {Promise<any>}
      */
-    async getAllTags (req, res) {
-        this.checkAuthentication (req, res);
-        try {
-            const result = await this.tagService.getAllGroups();
-            return res.json(result);
-        }catch(err) {
-            console.log(`${this.logger} - Error fetching all records ${JSON.stringify(err)}`.error);
-            res.sendStatus(500);
+    async getAllTags(req, res) {
+        const user = await this.checkAuthentication(req, res);
+        if (user !== 401) {
+            try {
+                const result = await this.tagService.getAllTags();
+                return res.json(result);
+            } catch (err) {
+                console.log(`${this.logger} Internal Server error: ${JSON.stringify(err)}`.error);
+                return res.sendStatus(500);
+            }
+        } else {
+            res.sendStatus(401);
         }
     }
 
@@ -60,20 +64,25 @@ export class TagController {
      * @returns {Promise<any>}
      */
     async addNewTag (req, res) {
-        this.checkAuthentication (req, res);
-        try {
-            const result = await this.tagService.addNewTag (req.body);
-            console.log(`${this.logger} - New Record added`, result);
-            return res.sendStatus(201);
-        } catch (err) {
-            if (err.code === 11000) {
-                console.log(`${this.logger} Duplicate Record: ${JSON.stringify(err)}`.error);
-                return res.sendStatus(400);
-            } else {
-                console.log(`${this.logger} Internal Server error: ${JSON.stringify(err)}`.error);
-                return res.sendStatus(500);
+        const user = await this.checkAuthentication(req, res);
+        if (user !== 401) {
+            try {
+                const result = await this.tagService.addNewTag (req.body);
+                console.log(`${this.logger} - New Record added`, result);
+                return res.sendStatus(201);
+            } catch (err) {
+                if (err.code === 11000) {
+                    console.log(`${this.logger} Duplicate Record: ${JSON.stringify(err)}`.error);
+                    return res.sendStatus(400);
+                } else {
+                    console.log(`${this.logger} Internal Server error: ${JSON.stringify(err)}`.error);
+                    return res.sendStatus(500);
+                }
             }
+        } else {
+            res.sendStatus(401);
         }
+
     }
 
     /**
@@ -137,8 +146,7 @@ export class TagController {
     async deleteTagById(req, res) {
         this.checkAuthentication(req, res);
         try {
-            const result = await this.tagService.deleteTagById(req.params.tagId);
-            console.log(`${this.logger} - Record deleted: `, result);
+            await this.tagService.deleteTagById(req.params.tagId);
             return res.sendStatus(200);
         } catch (err) {
             console.log(`${this.logger} Error updating record: ${JSON.stringify(err)}`.error);

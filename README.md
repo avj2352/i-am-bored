@@ -53,6 +53,9 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 - [PWA assets generator - IOS](https://github.com/onderceylan/pwa-asset-generator)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Tailwind - Components](https://tailwindcomponents.com/component/product-preview)
+- [SVG Loaders](https://codepen.io/nikhil8krishnan/pen/rVoXJa)
+- [Tailwind Components - Tooltip](https://tailwindcomponents.com/component/tooltip)
+- [Mongoose - Full Text & Partial Text Search](https://www.youtube.com/watch?v=ZC2aRON3fWw)
 
 ## Heroku Details
 
@@ -62,6 +65,9 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 # Clone Heroku repo
 $ heroku git:remote -a iamboard
 ```
+
+## UI Wireframes
+- []
 
 
 ## Adobe Color Wheel

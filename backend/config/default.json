@@ -20,6 +20,6 @@
     "expiry": 10
   },
   "db": {
-    "uri": "mongodb://admin:zuko2352@ds123695.mlab.com:23695/i-am-bored-db"
+    "uri": "mongodb+srv://admin:zuko2352@own-apps-cluster.4jagm.mongodb.net/bored-v3?authSource=admin&replicaSet=atlas-rtd8tp-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true"
   }
 }

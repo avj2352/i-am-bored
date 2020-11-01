@@ -1,53 +1,55 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import { FiSearch } from 'react-icons/fi';
+import React, { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import { withStyles } from '@material-ui/core/styles';
+//Material
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Typography from '@material-ui/core/Typography';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
 // custom
-import {CONTEXT_ACTION_TYPE, useGlobalDispatch} from "../../common/context/AppContext";
-import ThemeSwitcher from "../theme-switcher/ThemeSwitcher";
-import MenuSwitcher from "../menu/MenuSwitcher";
+import { useGlobalState } from '../../common/context/AppContext';
+import MenuDropDown from '../menu-drop-down/MenuDropdown';
+//CSS in JS
+import { useStyles } from './header-style';
+import { FunctionComponent } from 'react';
 
 interface IHeaderProps {
-    isDashboard: boolean;
-    onSideBarToggle? : (status: boolean) => void;
+  open: boolean;
+  handleDrawerOpen: ()=>void; 
 }
 
-const Header: FunctionComponent<IHeaderProps> = (props):JSX.Element => {
-    const { isDashboard, onSideBarToggle } = props;
-    const appDispatchContext: any = useGlobalDispatch();
-    const [status, setStatus] = useState<boolean>(false);
-    // event handler
-    const toggleTheme = () => {
-        setStatus(prev => !prev);
-    };
+const Header:FunctionComponent<IHeaderProps> = (props):JSX.Element => {
+    //context
+    const appContext = useGlobalState();
+    const classes = useStyles();
+    const { open, handleDrawerOpen } = props;    
+    
 
-    const handleToggle = (status: boolean) => {
-        onSideBarToggle && onSideBarToggle(status);
-    };
-    // side-effect
-    useEffect(()=>{
-        appDispatchContext({
-           type: CONTEXT_ACTION_TYPE.THEME_TOGGLE,
-           payload: status
-        });
-
-    },[status, appDispatchContext]);
-
-    return (
-      <React.Fragment>
-          <header className="border-t-14 border-green-600">
-              <nav className="container mx-auto flex flex-wrap justify-end items-center py-8">
-                  {isDashboard && <button className="outline-none text-2xl mx-8 focus:outline-none text-copy-primary hover:text-gray-700">
-                      <FiSearch/>
-                  </button>}
-                  {isDashboard && <button className="outline-none mx-8 focus:outline-none text-copy-primary hover:text-gray-700">
-                      <MenuSwitcher onToggle={handleToggle}/>
-                  </button>}
-                  <button className="outline-none focus:outline-none mx-8 text-copy-primary hover:text-gray-700" onClick={toggleTheme}>
-                      <ThemeSwitcher status={status}/>
-                  </button>
-              </nav>
-          </header>
-      </React.Fragment>
+    return(
+        <AppBar          
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}>
+          <Toolbar disableGutters={!open}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={handleDrawerOpen}
+              className={clsx(classes.menuButton, open && classes.hide)}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" noWrap>
+              {`${appContext.title}`}
+            </Typography>            
+          </Toolbar>
+        </AppBar>
     );
-};
+}
+
 
 export default Header;
