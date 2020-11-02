@@ -42,8 +42,7 @@ const routes = (app) => {
 
     // TAGS ===============================
     app.route('/tags')
-        .get(tag.getAllTags)
-        .post(tag.addNewTag);
+        .get(tag.getTags);
 
     // FILTERED Groups
 

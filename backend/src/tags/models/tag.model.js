@@ -2,6 +2,7 @@
  * Model for Tag server side schema
  */
 import mongoose, { Schema } from 'mongoose';
+import {GroupModel, GroupSchema} from "../../groups/models/group.model";
 
 export const TagSchema = new Schema({
     name: {
@@ -17,4 +18,6 @@ export const TagSchema = new Schema({
     }
 });
 
+TagSchema.index({ name: 'text', description: 'text' });
 export const TagModel = mongoose.model('tags', TagSchema);
+TagModel.createIndexes();
