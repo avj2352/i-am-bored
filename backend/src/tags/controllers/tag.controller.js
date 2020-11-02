@@ -12,7 +12,6 @@ export class TagController {
         this.logger = 'Tag Controller';
         this.tagService = new TagService();
         this.authService = new AuthService();
-
         //bind context
         this.validatePayload = this.validatePayload.bind(this);
         this.getTags = this.getTags.bind(this);
@@ -89,7 +88,10 @@ export class TagController {
      * @returns {Promise<*>}
      */
     async getTagById (req, res) {
-
+        console.log(`${this.logger} - Tag ID is: ${JSON.stringify(req.params.tagId)}`.info);
+        // check if authenticated
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
         try {
             const result = await this.tagService.getTagById(req.params.tagId);
             return res.json(result);
@@ -106,9 +108,18 @@ export class TagController {
      * @returns {Promise<*>}
      */
     async updateTagById (req, res) {
-
+        console.log(`${this.logger} - Tag ID is: ${JSON.stringify(req.params.tagId)}`.info);
+        // check if authenticated
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
+        if (this.validatePayload(req)) {
+            return res.sendStatus(400);
+        }
         try {
-            const result = await this.tagService.updateTagById(req.params.tagId, req.body);
+            const result = await this.tagService.updateTagById(req.params.tagId, {
+                name: req.body.name,
+                description: req.body.description
+            });
             console.log(`${this.logger} - Record updated: `, result);
             return res.sendStatus(200);
         } catch (err) {
@@ -124,6 +135,10 @@ export class TagController {
      * @returns {Promise<*>}
      */
     async deleteTagById(req, res) {
+        console.log(`${this.logger} - Tag ID is: ${JSON.stringify(req.params.tagId)}`.info);
+        // check if authenticated
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
         try {
             await this.tagService.deleteTagById(req.params.tagId);
             return res.sendStatus(200);

@@ -52,6 +52,11 @@ const routes = (app) => {
         .get(tag.getTagById)
         .put(tag.updateTagById)
         .delete(tag.deleteTagById);
+    // search Groups
+    app.route('/tags/search/text')
+        .get(tag.search);
+
+
 };
 
 
