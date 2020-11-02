@@ -14,6 +14,7 @@ export class TagController {
         this.authService = new AuthService();
 
         //bind context
+        this.validatePayload = this.validatePayload.bind(this);
         this.getTags = this.getTags.bind(this);
         this.addNewTag = this.addNewTag.bind(this);
         this.getTagById = this.getTagById.bind(this);
@@ -21,6 +22,17 @@ export class TagController {
         this.deleteTagById = this.deleteTagById.bind(this);
         this.search = this.search.bind(this);
     }
+
+    /***
+     * Validate payload
+     * @param req
+     * @returns boolean
+     */
+    validatePayload (req) {
+        return !req.body.name || req.body.name === '' ||
+            !req.body.description || req.body.description === '';
+    }
+
 
     /**
      * PAJ - Fetch all Groups. Requires Cookie Session
@@ -46,13 +58,22 @@ export class TagController {
         // check if authenticated
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
+        // check if admin user
+        if (!this.authService.checkIfAdminUser(user)) return res.sendStatus(401);
+        // validate payload
+        if (this.validatePayload(req)) {
+            return res.sendStatus(400);
+        }
         try {
             const result = await this.tagService.addNewTag (req.body);
             console.log(`${this.logger} - New Record added`, result);
-            return res.sendStatus(201);
+            return res.status(201).send(result._id);
         } catch (err) {
             if (err.code === 11000) {
                 console.log(`${this.logger} Duplicate Record: ${JSON.stringify(err)}`.error);
+                return res.status(400).send('Duplicate Record');
+            } else if (err.errors && err.errors.premium.name === 'ValidatorError') {
+                console.log(`${this.logger} - Bad Request: ${JSON.stringify(err)}`.error);
                 return res.sendStatus(400);
             } else {
                 console.log(`${this.logger} Internal Server error: ${JSON.stringify(err)}`.error);

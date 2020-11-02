@@ -26,7 +26,8 @@ export class TagService {
     // CREATE - new Tag record
     async addNewTag (payload) {
         return new Promise((resolve, reject) => {
-            let newTagRecord = new TagModel(payload);
+            const { name, description } = payload;
+            let newTagRecord = new TagModel({ name, description });
             newTagRecord.save((err, data) => {
                 if (err) reject(err);
                 else resolve(data);

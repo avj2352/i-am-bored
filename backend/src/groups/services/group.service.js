@@ -50,7 +50,7 @@ export class GroupService {
     async addNewGroup (payload) {
         return new Promise((resolve, reject) => {
             const { title, slug, description, premium } = payload;
-            let newGroupRecord = new GroupModel(payload);
+            let newGroupRecord = new GroupModel({ title, slug, description, premium });
             newGroupRecord.save((err, data) => {
                 if (err) reject(err);
                 else resolve(data);
