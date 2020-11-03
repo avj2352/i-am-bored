@@ -5,7 +5,7 @@ export class ItemService {
     constructor() {
         this.logger = `ItemService`;
         // bind context
-        this.getAllItems = this.getAllItems.bind(this);
+        this.getItems = this.getItems.bind(this);
         this.addNewItem = this.addNewItem.bind(this);
         this.getItemById = this.getItemById.bind(this);
         this.updateItemById = this.updateItemById.bind(this);
@@ -13,7 +13,7 @@ export class ItemService {
     }
 
     // Fetch all records
-    async getAllItems () {
+    async getItems () {
         return new Promise((resolve, reject) => {
             ItemModel.find({}, (err, data) => {
                 if (err) reject(err);

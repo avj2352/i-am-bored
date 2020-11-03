@@ -29,4 +29,6 @@ export const ItemSchema = new Schema({
     }],
 });
 
+ItemSchema.index({ title: 'text', description: 'text', meta: 'text' });
 export const ItemModel = mongoose.model('items', ItemSchema);
+ItemModel.createIndexes();

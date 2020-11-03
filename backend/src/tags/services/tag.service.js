@@ -5,7 +5,7 @@ export class TagService {
     constructor() {
         this.logger = `TagService`;
         // bind context
-        this.getAllTags = this.getAllTags.bind(this);
+        this.getTags = this.getTags.bind(this);
         this.addNewTag = this.addNewTag.bind(this);
         this.getTagById = this.getTagById.bind(this);
         this.updateTagById = this.updateTagById.bind(this);
@@ -16,7 +16,7 @@ export class TagService {
      * fetch all group records
      * @returns Promise<any>
      */
-    async getAllTags () {
+    async getTags () {
         return new Promise((resolve, reject) => {
             TagModel.find({}, (err, data) => {
                 if (err) reject(err);

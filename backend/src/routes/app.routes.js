@@ -5,10 +5,12 @@
 import { AuthController } from '../auth/controllers/auth.controller';
 import {GroupController} from "../groups/controllers/group.controller";
 import {TagController} from "../tags/controllers/tag.controller";
+import {ItemController} from "../items/controllers/item.controller";
 
 const auth = new AuthController();
 const group = new GroupController();
 const tag = new TagController();
+const item = new ItemController();
 
 const routes = (app) => {
     // AUTHENTICATION =======================
@@ -56,6 +58,22 @@ const routes = (app) => {
     app.route('/tags/search/text')
         .get(tag.search);
 
+
+    // ITEMS ===============================
+    app.route('/items')
+        .get(item.getItems)
+        .post(item.addNewItem);
+
+    // FILTERED Groups
+
+    // RUD Groups
+    app.route('/items/:itemId')
+        .get(item.getItemById)
+        .put(item.updateItemById)
+        .delete(item.deleteItemById);
+    // search Groups
+    app.route('/items/search/text')
+        .get(item.search);
 
 };
 

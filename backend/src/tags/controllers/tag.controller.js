@@ -43,8 +43,13 @@ export class TagController {
         // check if authenticated
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
-        const result = await this.tagService.getAllTags();
-        return res.json(result);
+        try {
+            const result = await this.tagService.getTags();
+            return res.json(result);
+        } catch (err) {
+            console.log(`${this.logger} - Error fetching all records ${JSON.stringify(err)}`.error);
+            res.sendStatus(500);
+        }
     }
 
     /**
