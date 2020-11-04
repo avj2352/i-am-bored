@@ -28,10 +28,8 @@ export class ItemController {
      * @returns boolean
      */
     validatePayload (req) {
-        return !req.body.title || req.body.title === '' ||
-            !req.body.slug || req.body.slug === '' ||
-            !req.body.description || req.body.description === '' ||
-            !req.body.hasOwnProperty(`premium`);
+        return !req.body.name || req.body.name === '' ||
+            !req.body.description || req.body.description === '';
     }
 
     /**
@@ -60,15 +58,23 @@ export class ItemController {
      * @returns {Promise<any>}
      */
     async addNewItem (req, res) {
-        this.checkAuthentication (req, res);
+        // check if authenticated
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
+        // check if admin user
+        if (!this.authService.checkIfAdminUser(user)) return res.sendStatus(401);
+        if (this.validatePayload(req)) return res.sendStatus(400);
         try {
-            const result = await this.itemService.addNewItem (req.body);
+            const result = await this.itemService.addNewItem ({
+                name: req.body.name,
+                description: req.body.description
+            });
             console.log(`${this.logger} - New Record added`, result);
-            return res.sendStatus(201);
+            return res.status(201).send(result._id);
         } catch (err) {
             if (err.code === 11000) {
                 console.log(`${this.logger} Duplicate Record: ${JSON.stringify(err)}`.error);
-                return res.sendStatus(400);
+                return res.status(400).send('Duplicate Record');
             } else {
                 console.log(`${this.logger} Internal Server error: ${JSON.stringify(err)}`.error);
                 return res.sendStatus(500);
@@ -83,10 +89,22 @@ export class ItemController {
      * @returns {Promise<*>}
      */
     async getItemById (req, res) {
-        this.checkAuthentication(req, res);
+        // check if authenticated
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
         try {
-            const result = await this.itemService.getItemById(req.params.tagId);
-            return res.json(result);
+            const result = await this.itemService.getItemById(req.params.itemId);
+            if (result && result.length && result.length > 0) {
+                const html = this.itemService.convertHTML(result[0].description);
+                // console.log(`HTML version is: ${html}`.info);
+                return res.status(200).json({
+                    name: result[0].name,
+                    description: result[0].description,
+                    created: result[0].created,
+                    html});
+            } else {
+                return res.status(400).send('No Record');
+            }
         } catch (err) {
             console.log(`${this.logger} Error Retrieving Id: ${JSON.stringify(err)}`.error);
             return res.sendStatus(400);
@@ -100,9 +118,15 @@ export class ItemController {
      * @returns {Promise<*>}
      */
     async updateItemById (req, res) {
-        this.checkAuthentication(req, res);
+        // check if authenticated
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
+        if (this.validatePayload(req)) return res.sendStatus(400);
         try {
-            const result = await this.itemService.updateItemById(req.params.tagId, req.body);
+            const result = await this.itemService.updateItemById(req.params.tagId, {
+                name: req.body.name,
+                description: req.body.description
+            });
             console.log(`${this.logger} - Record updated: `, result);
             return res.sendStatus(200);
         } catch (err) {
@@ -118,9 +142,12 @@ export class ItemController {
      * @returns {Promise<*>}
      */
     async deleteItemById(req, res) {
-        this.checkAuthentication(req, res);
+        console.log(`${this.logger} - Delete item ID: ${JSON.stringify(req.params.itemId)}`.info);
+        // check if authenticated
+        const user = this.authService.fetchUserDetails(req);
+        if (!Boolean(user)) return res.sendStatus(401);
         try {
-            const result = await this.itemService.deleteItemById(req.params.tagId);
+            const result = await this.itemService.deleteItemById(req.params.itemId);
             console.log(`${this.logger} - Record deleted: `, result);
             return res.sendStatus(200);
         } catch (err) {
@@ -135,7 +162,7 @@ export class ItemController {
      * @param res
      * @returns {Promise<*>}
      */
-    async search(req, res) {
+    async search (req, res) {
         // check if authenticated
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);

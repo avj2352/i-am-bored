@@ -4,9 +4,9 @@
 import mongoose, { Schema } from 'mongoose';
 
 export const ItemSchema = new Schema({
-    title: {
+    name: {
         type: String,
-        required: 'Enter Item',
+        required: 'Provide Item Name',
         unique: true,
         lowercase: true,
         trim: true,
@@ -17,18 +17,10 @@ export const ItemSchema = new Schema({
     },
     description: {
         type: String,
-        required: 'Enter Item Description'
-    },
-    meta: [{
-        name: {
-            type: String
-        },
-        description: {
-            type: String
-        }
-    }],
+        required: 'Provide Item Description'
+    }
 });
 
-ItemSchema.index({ title: 'text', description: 'text', meta: 'text' });
+ItemSchema.index({ title: 'text', description: 'text' });
 export const ItemModel = mongoose.model('items', ItemSchema);
 ItemModel.createIndexes();

@@ -1,3 +1,4 @@
+import converter from "../../util/showdown-converter";
 require('./../../util/colors');
 import { ItemModel } from '../models/item.model';
 
@@ -10,9 +11,15 @@ export class ItemService {
         this.getItemById = this.getItemById.bind(this);
         this.updateItemById = this.updateItemById.bind(this);
         this.deleteItemById = this.deleteItemById.bind(this);
+        this.searchFullText = this.searchFullText.bind(this);
+        this.searchPartialText = this.searchPartialText.bind(this);
+        this.convertHTML = this.convertHTML.bind(this);
     }
 
-    // Fetch all records
+    /**
+     * fetch all group records
+     * @returns Promise<any>
+     */
     async getItems () {
         return new Promise((resolve, reject) => {
             ItemModel.find({}, (err, data) => {
@@ -22,10 +29,15 @@ export class ItemService {
         });
     }
 
-    // CREATE - new record
+    /**
+     * Create a new record
+     * @param payload { name, description }
+     * @returns Promise<any>
+     */
     async addNewItem (payload) {
         return new Promise((resolve, reject) => {
-            let newItemRecord = new ItemModel(payload);
+            const { name, description } = payload;
+            let newItemRecord = new ItemModel({name, description });
             newItemRecord.save((err, data) => {
                 if (err) reject(err);
                 else resolve(data);
@@ -33,7 +45,11 @@ export class ItemService {
         });
     }
 
-    // RETRIEVE - Item by Id
+    /**
+     * get group record details by Id
+     * @param id { string }
+     * @returns Promise<any>
+     */
     async getItemById (id) {
         return new Promise((resolve, reject) => {
             ItemModel.find({_id: id}, (err, data) => {
@@ -43,23 +59,73 @@ export class ItemService {
         });
     }
 
-    // UPDATE - Item by Id, Payload
+    /**
+     * update group record details by its Id
+     * @param id { string }
+     * @param payload { name, description }
+     * @returns Promise<any>
+     */
     async updateItemById (id, payload) {
         return new Promise((resolve, reject) => {
-            ItemModel.findOneAndUpdate({_id: id}, payload, {new: true}, (err, data) => {
+            const { name, description } = payload;
+            ItemModel.findOneAndUpdate({_id: id}, {
+                name, description
+            }, {new: true}, (err, data) => {
                 if (err) reject(err);
                 else resolve(data); // Get JSON format of contact
             });
         });
     }
 
-    // DELETE - Item by Id
+    /**
+     * delete group record details by its Id
+     * @param id { string }
+     * @returns Promise<any>
+     */
     async deleteItemById (id) {
         return new Promise((resolve, reject) => {
             ItemModel.deleteOne({_id: id}, (err) => {
                 if (err) reject(err);
+                else resolve(); // Get JSON format of contact
+            });
+        });
+    }
+
+    /**
+     * search full text in Group Model
+     * @param text {string} full text query string
+     * @returns Promise<any>
+     */
+    async searchFullText (text) {
+        console.log('Calling Full text query: ', text);
+        return new Promise((resolve, reject) => {
+            ItemModel.find({$text: {$search: text}}, (err, data) => {
+                if (err) reject(err);
                 else resolve(data); // Get JSON format of contact
             });
         });
+    }
+
+    /**
+     * search partial text in Group Model
+     * @param partial {string} partial query string
+     * @returns Promise<any>
+     */
+    async searchPartialText (partial) {
+        return new Promise((resolve, reject) => {
+            ItemModel.find({description: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
+                if (err) reject(err);
+                else resolve(data); // Get JSON format of contact
+            });
+        });
+    }
+
+    /**
+     * convert markdown to html
+     * @param text {string} markdown text
+     * @returns html {string}
+     */
+    convertHTML (text) {
+        return converter.makeHtml(text);
     }
 }
