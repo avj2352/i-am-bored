@@ -18,9 +18,13 @@ export const ItemSchema = new Schema({
     description: {
         type: String,
         required: 'Provide Item Description'
+    },
+    html: {
+        type: String,
+        required: 'Provide HTML Version of Description'
     }
 });
 
-ItemSchema.index({ title: 'text', description: 'text' });
+ItemSchema.index({ title: 'text', description: 'text', html: 'text' });
 export const ItemModel = mongoose.model('items', ItemSchema);
 ItemModel.createIndexes();

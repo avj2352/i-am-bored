@@ -2281,7 +2281,7 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Contains HTML field" enabled="true">
             <stringProp name="TestPlan.comments">JSON Assertion</stringProp>
-            <stringProp name="JSON_PATH">html</stringProp>
+            <stringProp name="JSON_PATH">$..html</stringProp>
             <stringProp name="EXPECTED_VALUE"></stringProp>
             <boolProp name="JSONVALIDATION">false</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
@@ -2726,7 +2726,7 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
               </elementProp>
               <elementProp name="text" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">2019</stringProp>
+                <stringProp name="Argument.value">leaves</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">text</stringProp>
@@ -2786,7 +2786,7 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
               </elementProp>
               <elementProp name="text" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Re</stringProp>
+                <stringProp name="Argument.value">Le</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">text</stringProp>
@@ -2872,7 +2872,7 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="API Calls" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="API Calls" enabled="false">
         <stringProp name="TestPlan.comments">Group containing API calls for CRUD operations across any module</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -3347,7 +3347,7 @@ vars.put(&quot;groupId&quot;, id);</stringProp>
           </HeaderManager>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Items - Add new Record (Success)" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Items - Add new Record (Success)" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">

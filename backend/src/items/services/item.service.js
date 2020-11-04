@@ -31,13 +31,13 @@ export class ItemService {
 
     /**
      * Create a new record
-     * @param payload { name, description }
+     * @param payload { name, description, html }
      * @returns Promise<any>
      */
     async addNewItem (payload) {
         return new Promise((resolve, reject) => {
-            const { name, description } = payload;
-            let newItemRecord = new ItemModel({name, description });
+            const { name, description, html } = payload;
+            let newItemRecord = new ItemModel({name, description, html });
             newItemRecord.save((err, data) => {
                 if (err) reject(err);
                 else resolve(data);
@@ -62,14 +62,14 @@ export class ItemService {
     /**
      * update group record details by its Id
      * @param id { string }
-     * @param payload { name, description }
+     * @param payload { name, description, html }
      * @returns Promise<any>
      */
     async updateItemById (id, payload) {
         return new Promise((resolve, reject) => {
-            const { name, description } = payload;
+            const { name, description, html } = payload;
             ItemModel.findOneAndUpdate({_id: id}, {
-                name, description
+                name, description, html
             }, {new: true}, (err, data) => {
                 if (err) reject(err);
                 else resolve(data); // Get JSON format of contact

@@ -65,9 +65,11 @@ export class ItemController {
         if (!this.authService.checkIfAdminUser(user)) return res.sendStatus(401);
         if (this.validatePayload(req)) return res.sendStatus(400);
         try {
+            const html = this.itemService.convertHTML(req.body.description);
             const result = await this.itemService.addNewItem ({
                 name: req.body.name,
-                description: req.body.description
+                description: req.body.description,
+                html
             });
             console.log(`${this.logger} - New Record added`, result);
             return res.status(201).send(result._id);
@@ -94,17 +96,7 @@ export class ItemController {
         if (!Boolean(user)) return res.sendStatus(401);
         try {
             const result = await this.itemService.getItemById(req.params.itemId);
-            if (result && result.length && result.length > 0) {
-                const html = this.itemService.convertHTML(result[0].description);
-                // console.log(`HTML version is: ${html}`.info);
-                return res.status(200).json({
-                    name: result[0].name,
-                    description: result[0].description,
-                    created: result[0].created,
-                    html});
-            } else {
-                return res.status(400).send('No Record');
-            }
+            return res.status(200).json(result);
         } catch (err) {
             console.log(`${this.logger} Error Retrieving Id: ${JSON.stringify(err)}`.error);
             return res.sendStatus(400);
@@ -123,9 +115,11 @@ export class ItemController {
         if (!Boolean(user)) return res.sendStatus(401);
         if (this.validatePayload(req)) return res.sendStatus(400);
         try {
+            const html = this.itemService.convertHTML(req.body.description);
             const result = await this.itemService.updateItemById(req.params.tagId, {
                 name: req.body.name,
-                description: req.body.description
+                description: req.body.description,
+                html
             });
             console.log(`${this.logger} - Record updated: `, result);
             return res.sendStatus(200);
@@ -175,10 +169,10 @@ export class ItemController {
             let result;
             console.log(`${this.logger} - Search Type is: ${req.query.type}`.info);
             if (req.query.type === 'full') {
-                result = await this.tagService.searchFullText(req.query.text);
+                result = await this.itemService.searchFullText(req.query.text);
                 return res.status(200).send(result);
             } else if (req.query.type === 'partial') {
-                result = await this.tagService.searchPartialText(req.query.text);
+                result = await this.itemService.searchPartialText(req.query.text);
                 return res.status(200).send(result);
             } else {
                 return res.sendStatus(400);
