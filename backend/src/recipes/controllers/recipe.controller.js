@@ -12,8 +12,9 @@ export class RecipeController {
         this.recipeService = new RecipeService();
         this.authService = new AuthService();
         // bind context
-        this.checkAuthentication = this.checkAuthentication.bind(this);
+        this.validatePayload = this.validatePayload.bind(this);
         this.getAllRecipes = this.getAllRecipes.bind(this);
+        this.getPrivateRecipes = this.getPrivateRecipes.bind(this);
         this.getRecipesByUserId = this.getRecipesByUserId.bind(this);
         this.getRecipeById = this.getRecipeById.bind(this);
         this.addNewRecipe = this.addNewRecipe.bind(this);

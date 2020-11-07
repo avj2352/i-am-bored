@@ -8,19 +8,20 @@ export const CommentSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    name: {
+        type: String,
+        required: 'Enter Name',
+        trim: true
+    },
     comment: {
         type: String,
         required: 'Enter Comment',
         lowercase: true,
-        trim: true,
+        trim: true
     },
     likes: {
         type: Number,
         required: 'Number of likes required'
-    },
-    createdBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
     },
     recipe: {
         type: Schema.Types.ObjectId,

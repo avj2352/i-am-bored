@@ -9,31 +9,18 @@ export class CommentService {
     constructor() {
         this.logger = 'CommentService';
         //bind context
-        this.getAllComments = this.getAllComments.bind(this);
         this.getCommentsByRecipeId = this.getCommentsByRecipeId.bind(this);
         this.addNewComment = this.addNewComment.bind(this);
         this.updateCommentById = this.updateCommentById.bind(this);
         this.deleteCommentById = this.deleteCommentById.bind(this);
     }
 
-    // Fetch all records by user id
-    async getAllComments ()                                                      {
-        return new Promise((resolve, reject) => {
-            CommentModel.find({})
-                .populate('users')
-                .populate('recipes')
-                .exec((err, data) => {
-                    if (err) reject(err);
-                    else resolve(data);
-                });
-        });
-    }
+
 
     // RETRIEVE - record by Id
     async getCommentsByRecipeId (recipeId) {
         return new Promise((resolve, reject) => {
             CommentModel.find({recipe: recipeId})
-                .populate('users')
                 .populate('recipes')
                 .exec((err, data) => {
                     if (err) reject(err);
@@ -42,31 +29,39 @@ export class CommentService {
         });
     }
 
-    // CREATE - new record
-    async addNewComment (payload, userId) {
+    /**
+     *
+     * @param payload {name, comment, likes, recipe}
+     * @returns {Promise<unknown>}
+     */
+    async addNewComment (payload) {
         return new Promise((resolve, reject) => {
-            const { comment, likes, recipe } = payload;
-            let newCommentRecord = new CommentModel({
+            const { name, comment, likes, recipe } = payload;
+            let newRecord = new CommentModel({
+                name,
                 comment,
                 likes,
-                createdBy: userId,
                 recipe,
             });
-            newCommentRecord.save((err, data) => {
+            newRecord.save((err, data) => {
                 if (err) reject(err);
                 else resolve(data);
             });
         });
     }
 
-    // UPDATE - Recipe by Id, Payload
-    async updateCommentById (id, payload, userId) {
+    /**
+     * @param id
+     * @param payload {name, comment, likes, recipe}
+     * @returns {Promise<unknown>}
+     */
+    async updateCommentById ( id, payload ) {
         return new Promise((resolve, reject) => {
-            const { comment, likes, recipe } = payload;
-            CommentModel.findOneAndUpdate({_id: id, createdBy: userId}, {
+            const { name, comment, likes, recipe } = payload;
+            CommentModel.findOneAndUpdate({_id: id }, {
+                name,
                 comment,
                 likes,
-                createdBy: userId,
                 recipe,
             }, {new: true}, (err, data) => {
                 if (err) reject(err);
@@ -79,7 +74,7 @@ export class CommentService {
     // DELETE - Record by Id
     async deleteCommentById (id, userId) {
         return new Promise((resolve, reject) => {
-            CommentModel.deleteOne({_id: id, createdBy: userId}, (err) => {
+            CommentModel.deleteOne({_id: id }, (err) => {
                 if (err) reject(err);
                 else resolve(data); // Get JSON format of contact
             });

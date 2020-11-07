@@ -2,7 +2,6 @@
  * Model for Tag server side schema
  */
 import mongoose, { Schema } from 'mongoose';
-import {GroupModel, GroupSchema} from "../../groups/models/group.model";
 
 export const TagSchema = new Schema({
     name: {

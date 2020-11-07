@@ -15,17 +15,19 @@ export const RecipeSchema = new Schema({
         trim: true,
     },
     isPrivate: {
-        type: String,
+        type: Boolean,
         default: false
     },
     description: {
         type: String,
-        required: 'Enter Recipe Description'
+        required: 'Enter Recipe Description',
+        trim: true
     },
-    content: [{
+    content: {
         type: String,
-        required: 'Enter Recipe Content'
-    }],
+        required: 'Enter Recipe Content',
+        trim: true
+    },
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: 'users'
@@ -36,7 +38,8 @@ export const RecipeSchema = new Schema({
     },
     group: {
         type: Schema.Types.ObjectId,
-        ref: 'groups'
+        ref: 'groups',
+        required: 'Provide group Id'
     },
     tags: [{
         type: Schema.Types.ObjectId,
@@ -46,10 +49,17 @@ export const RecipeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'items'
     }],
-    images: [{
+    timers: [{
         type: Schema.Types.ObjectId,
-        ref: 'images'
+        ref: 'timers'
     }],
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'comments'
+        }
+    ]
 });
 
+RecipeSchema.index({ title: 'text', description: 'text', content: 'text' });
 export const RecipeModel = mongoose.model('recipes', RecipeSchema);
+RecipeModel.createIndexes();
