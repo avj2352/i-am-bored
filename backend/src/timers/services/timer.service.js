@@ -13,13 +13,13 @@ export class TimerService {
 
     /**
      * Create a new record
-     * @param payload { description, time }
+     * @param payload { description, timerType, time }
      * @returns Promise<any>
      */
     async addNewTimer (payload) {
         return new Promise((resolve, reject) => {
-            const { description, time } = payload;
-            let newRecord = new TimerModel({ description, time });
+            const { description, timerType, time } = payload;
+            let newRecord = new TimerModel({ description, timerType, time });
             newRecord.save((err, data) => {
                 if (err) reject(err);
                 else resolve(data);

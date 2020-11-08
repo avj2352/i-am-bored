@@ -7,12 +7,14 @@ import {GroupController} from "../groups/controllers/group.controller";
 import {TagController} from "../tags/controllers/tag.controller";
 import {ItemController} from "../items/controllers/item.controller";
 import {TimerController} from "../timers/controllers/timer.controller";
+import {RecipeController} from "../recipes/controllers/recipe.controller";
 
 const auth = new AuthController();
 const group = new GroupController();
 const tag = new TagController();
 const item = new ItemController();
 const timer = new TimerController();
+const recipe = new RecipeController();
 
 const routes = (app) => {
     // AUTHENTICATION =======================
@@ -33,8 +35,6 @@ const routes = (app) => {
         .get(group.getGroups)
         .post(group.addNewGroup);
 
-    // FILTERED Groups
-
     // RUD Groups
     app.route('/groups/:groupId')
         .get(group.getGroupById)
@@ -48,7 +48,6 @@ const routes = (app) => {
     app.route('/tags')
         .get(tag.getTags)
         .post(tag.addNewTag);
-
 
     // RUD Tags
     app.route('/tags/:tagId')
@@ -64,8 +63,6 @@ const routes = (app) => {
     app.route('/items')
         .get(item.getItems)
         .post(item.addNewItem);
-
-    // FILTERED Items
 
     // RUD Items
     app.route('/items/:itemId')
@@ -85,6 +82,14 @@ const routes = (app) => {
         .get(timer.getTimerById)
         .delete(timer.deleteTimerById);
 
+    // RECIPE ===============================
+    app.route('/recipes')
+        .post(recipe.addNewRecipe);
+
+    // RUD Recipes
+    app.route('/recipes/:recipeId')
+        .get(recipe.getRecipeById)
+        .delete(recipe.deleteRecipeById);
 };
 
 

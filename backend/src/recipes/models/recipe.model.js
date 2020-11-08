@@ -52,12 +52,7 @@ export const RecipeSchema = new Schema({
     timers: [{
         type: Schema.Types.ObjectId,
         ref: 'timers'
-    }],
-    comments: [{
-        type: Schema.Types.ObjectId,
-        ref: 'comments'
-        }
-    ]
+    }]
 });
 
 RecipeSchema.index({ title: 'text', description: 'text', content: 'text' });

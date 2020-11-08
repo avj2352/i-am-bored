@@ -7,13 +7,18 @@ export const TimerSchema = new Schema({
     description: {
         type: String,
         required: 'Provide Timer description',
-        unique: true,
         lowercase: true,
         trim: true,
     },
+    timerType: {
+      type: String,
+      required: 'time type - item / recipe required',
+      lowercase: true,
+      trim: true,
+    },
     time: {
         type: Number,
-        required: 'Provide Timer duration in minutes'
+        required: 'Provide Timer duration in minutes/days'
     }
 });
 

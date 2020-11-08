@@ -41,7 +41,6 @@ export class CommentService {
                 name,
                 comment,
                 likes,
-                recipe,
             });
             newRecord.save((err, data) => {
                 if (err) reject(err);

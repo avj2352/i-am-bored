@@ -11,6 +11,7 @@ export class RecipeService {
         //bind context
         this.validatePayload = this.validatePayload.bind(this);
         this.getAllRecipes = this.getAllRecipes.bind(this);
+        this.getPublicRecipes = this.getPublicRecipes.bind(this);
         this.getPrivateRecipes = this.getPrivateRecipes.bind(this);
         this.getAllRecipesByUserId = this.getAllRecipesByUserId.bind(this);
         this.getRecipebyId = this.getRecipebyId.bind(this);
@@ -41,6 +42,25 @@ export class RecipeService {
     async getAllRecipes () {
         return new Promise((resolve, reject) => {
             RecipeModel.find()
+                .populate('users')
+                .populate('groups')
+                .populate('tags')
+                .populate('items')
+                .populate('images')
+                .exec((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                });
+        });
+    }
+
+    /**
+     * Get all recipe records
+     * @returns {Promise<any>}
+     */
+    async getPublicRecipes () {
+        return new Promise((resolve, reject) => {
+            RecipeModel.find({isPrivate: false})
                 .populate('users')
                 .populate('groups')
                 .populate('tags')
@@ -114,13 +134,13 @@ export class RecipeService {
 
     /**
      * Add new recipe record
-     * @param payload { title, description, content, userId, groupId, tags, items, timers, comments }
+     * @param payload { title, description, content, userId, groupId, tags, items, timers }
      * @param userId
      * @returns {Promise<any>}
      */
     async addNewRecipe (payload) {
         return new Promise((resolve, reject) => {
-            const { title, userId, description, content, groupId, tags, items, timers, comments } = payload;
+            const { title, userId, description, content, groupId, tags, items, timers } = payload;
             let newRecipeRecord = new RecipeModel({
                 title,
                 description,
@@ -131,7 +151,6 @@ export class RecipeService {
                 tags,
                 items,
                 timers,
-                comments
             });
             newRecipeRecord.save((err, data) => {
                 if (err) reject(err);
@@ -142,7 +161,7 @@ export class RecipeService {
 
     /**
      * Update recipe by its record id
-     * @param payload { title, description, content, userId, groupId, tags, items, timers, comments }
+     * @param payload { title, description, content, userId, groupId, tags, items, timers }
      * @param userId
      * @returns {Promise<any>}
      */
@@ -158,7 +177,6 @@ export class RecipeService {
                 items,
                 tags,
                 timers,
-                comments
             }, {new: true}, (err, data) => {
                 if (err) reject(err);
                 else resolve(data); // Get JSON format of contact

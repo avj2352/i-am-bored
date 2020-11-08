@@ -14,6 +14,8 @@ export class TimerController {
         this.authService = new AuthService();
         //bind context
         this.validatePayload = this.validatePayload.bind(this);
+        this.validateTimerType = this.validateTimerType.bind(this);
+        this.validateItemRange = this.validateItemRange.bind(this);
         this.addNewTimer = this.addNewTimer.bind(this);
         this.getTimerById = this.getTimerById.bind(this);
         this.deleteTimerById = this.deleteTimerById.bind(this);
@@ -25,8 +27,33 @@ export class TimerController {
      * @returns boolean
      */
     validatePayload (req) {
+        console.log(`${this.logger} - Validating Payload`.info);
         return !req.body.description || req.body.description === '' ||
-            !req.body.time || req.body.time > 0;
+            !req.body.timerType || req.body.timerType === '' ||
+            !req.body.time || req.body.time < 1;
+    }
+
+    /**
+     * PAJ - validatePayload Group model
+     * @param req
+     * @returns boolean
+     */
+    validateTimerType (req) {
+        console.log(`${this.logger} - Validating Timer Type`.info);
+        if (req.body.timerType !== 'item') {
+            return req.body.timerType !== 'recipe';
+        }
+    }
+
+    /**
+     * PAJ - validatePayload Group model
+     * @param req
+     * @returns boolean
+     */
+    validateItemRange (req) {
+        console.log(`${this.logger} - Validating Timer range`.info);
+        return (req.body.timerType === 'item' && req.body.time < 0) ||
+            (req.body.timerType === 'item' && req.body.time > 30);
     }
 
 
@@ -34,7 +61,7 @@ export class TimerController {
      * PAJ - Create a new record. Requires Cookie Session
      * @param req
      * @param res
-     * @returns {Promise<any>}
+     * @returns Promise<any>
      */
     async addNewTimer (req, res) {
         // check if authenticated
@@ -42,9 +69,12 @@ export class TimerController {
         if (!Boolean(user)) return res.sendStatus(401);
         // check if admin user
         if (this.validatePayload(req)) return res.sendStatus(400);
+        if (this.validateTimerType(req)) return res.status(400).send('Invalid timer type');
+        if (this.validateItemRange(req)) return res.status(400).send('Invalid timer range for items type');
         try {
             const result = await this.timerService.addNewTimer ({
                 description: req.body.description,
+                timerType: req.body.timerType,
                 time: req.body.time
             });
             console.log(`${this.logger} - New Record added`, result);
@@ -65,7 +95,7 @@ export class TimerController {
      * PAJ - Fetch record by id. Requires Cookie Session
      * @param req
      * @param res
-     * @returns {Promise<*>}
+     * @returns Promise<any>
      */
     async getTimerById (req, res) {
         // check if authenticated
@@ -86,9 +116,9 @@ export class TimerController {
      * PAJ - Delete record by Id. Requires Cookie Session
      * @param req
      * @param res
-     * @returns {Promise<*>}
+     * @returns Promise<any>
      */
-    async deleteTimerById(req, res) {
+    async deleteTimerById (req, res) {
         console.log(`${this.logger} - Delete item ID: ${JSON.stringify(req.params.timerId)}`.info);
         // check if authenticated
         const user = this.authService.fetchUserDetails(req);
