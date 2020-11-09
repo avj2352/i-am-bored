@@ -16,6 +16,7 @@ export class TimerController {
         this.validatePayload = this.validatePayload.bind(this);
         this.validateTimerType = this.validateTimerType.bind(this);
         this.validateItemRange = this.validateItemRange.bind(this);
+        this.validateRecipeRange = this.validateRecipeRange.bind(this);
         this.addNewTimer = this.addNewTimer.bind(this);
         this.getTimerById = this.getTimerById.bind(this);
         this.deleteTimerById = this.deleteTimerById.bind(this);
@@ -30,7 +31,7 @@ export class TimerController {
         console.log(`${this.logger} - Validating Payload`.info);
         return !req.body.description || req.body.description === '' ||
             !req.body.timerType || req.body.timerType === '' ||
-            !req.body.time || req.body.time < 1;
+            !req.body.hasOwnProperty('time');
     }
 
     /**
@@ -40,9 +41,7 @@ export class TimerController {
      */
     validateTimerType (req) {
         console.log(`${this.logger} - Validating Timer Type`.info);
-        if (req.body.timerType !== 'item') {
-            return req.body.timerType !== 'recipe';
-        }
+        return !(['item', 'recipe'].includes(req.body.timerType));
     }
 
     /**
@@ -52,8 +51,18 @@ export class TimerController {
      */
     validateItemRange (req) {
         console.log(`${this.logger} - Validating Timer range`.info);
-        return (req.body.timerType === 'item' && req.body.time < 0) ||
+        return (req.body.timerType === 'item' && req.body.time < 1) ||
             (req.body.timerType === 'item' && req.body.time > 30);
+    }
+
+    /**
+     * PAJ - validatePayload Group model
+     * @param req
+     * @returns boolean
+     */
+    validateRecipeRange (req) {
+        console.log(`${this.logger} - Validating Timer range`.info);
+        return (req.body.timerType === 'recipe' && req.body.time < 1);
     }
 
 
@@ -68,9 +77,10 @@ export class TimerController {
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
         // check if admin user
-        if (this.validatePayload(req)) return res.sendStatus(400);
+        if (this.validatePayload(req)) return res.status(400).send('Invalid payload');
         if (this.validateTimerType(req)) return res.status(400).send('Invalid timer type');
-        if (this.validateItemRange(req)) return res.status(400).send('Invalid timer range for items type');
+        if (this.validateItemRange(req)) return res.status(400).send('Invalid timer range for item type');
+        if (this.validateRecipeRange(req)) return res.status(400).send('Invalid timer range for recipe type');
         try {
             const result = await this.timerService.addNewTimer ({
                 description: req.body.description,
