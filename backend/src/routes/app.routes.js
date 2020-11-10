@@ -84,12 +84,17 @@ const routes = (app) => {
 
     // RECIPE ===============================
     app.route('/recipes')
+        .get(recipe.getAllRecipes)
         .post(recipe.addNewRecipe);
 
     // RUD Recipes
     app.route('/recipes/:recipeId')
         .get(recipe.getRecipeById)
+        .put(recipe.updateRecipeById)
         .delete(recipe.deleteRecipeById);
+    // search Recipes
+    app.route('/recipes/search/text')
+        .get(recipe.search);
 };
 
 
