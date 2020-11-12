@@ -84,7 +84,7 @@ const routes = (app) => {
 
     // RECIPE ===============================
     app.route('/recipes')
-        .get(recipe.getAllRecipes)
+        .get(recipe.getRecipes)
         .post(recipe.addNewRecipe);
 
     // RUD Recipes
