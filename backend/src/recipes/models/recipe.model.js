@@ -11,6 +11,7 @@ export const RecipeSchema = new Schema({
     title: {
         type: String,
         required: 'Enter Recipe Title',
+        unique: true,
         lowercase: true,
         trim: true,
     },
@@ -18,15 +19,14 @@ export const RecipeSchema = new Schema({
         type: Boolean,
         default: false
     },
-    description: {
-        type: String,
-        required: 'Enter Recipe Description',
-        trim: true
-    },
     content: {
         type: String,
         required: 'Enter Recipe Content',
         trim: true
+    },
+    html: {
+        type: String,
+        required: 'Enter Recipe Content in HTML',
     },
     createdBy: {
         type: Schema.Types.ObjectId,
@@ -55,6 +55,6 @@ export const RecipeSchema = new Schema({
     }]
 });
 
-RecipeSchema.index({ title: 'text', description: 'text', content: 'text' });
+RecipeSchema.index({ title: 'text', content: 'text', html: 'text' });
 export const RecipeModel = mongoose.model('recipes', RecipeSchema);
 RecipeModel.createIndexes();

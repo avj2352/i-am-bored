@@ -9,7 +9,6 @@ export class RecipeService {
     constructor() {
         this.logger = 'RecipeService';
         //bind context
-        this.validatePayload = this.validatePayload.bind(this);
         this.getAllRecipes = this.getAllRecipes.bind(this);
         this.getPublicRecipes = this.getPublicRecipes.bind(this);
         this.getPrivateRecipes = this.getPrivateRecipes.bind(this);
@@ -23,17 +22,7 @@ export class RecipeService {
         this.convertHTML = this.convertHTML.bind(this);
     }
 
-    /**
-     * validate request body
-     * @param req any
-     * @returns boolean
-     */
-    validatePayload (req) {
-        return !req.body.title || req.body.title === '' ||
-            !req.body.description || req.body.description === '' ||
-            !req.body.content || req.body.content === '' ||
-            !req.body.group || req.body.group === {}
-    }
+
 
     /**
      * Get all recipe records
@@ -43,10 +32,10 @@ export class RecipeService {
         return new Promise((resolve, reject) => {
             RecipeModel.find()
                 .populate('users')
-                .populate('groups')
+                .populate('group')
                 .populate('tags')
                 .populate('items')
-                .populate('images')
+                .populate('timers')
                 .exec((err, data) => {
                     if (err) reject(err);
                     else resolve(data);
@@ -62,10 +51,10 @@ export class RecipeService {
         return new Promise((resolve, reject) => {
             RecipeModel.find({isPrivate: false})
                 .populate('users')
-                .populate('groups')
+                .populate('group')
                 .populate('tags')
                 .populate('items')
-                .populate('images')
+                .populate('timers')
                 .exec((err, data) => {
                     if (err) reject(err);
                     else resolve(data);
@@ -81,10 +70,10 @@ export class RecipeService {
         return new Promise((resolve, reject) => {
             RecipeModel.find({isPrivate: true})
                 .populate('users')
-                .populate('groups')
+                .populate('group')
                 .populate('tags')
                 .populate('items')
-                .populate('images')
+                .populate('timers')
                 .exec((err, data) => {
                     if (err) reject(err);
                     else resolve(data);
@@ -101,10 +90,10 @@ export class RecipeService {
         return new Promise((resolve, reject) => {
             RecipeModel.find({createdBy: userId, isPrivate: true})
                 .populate('users')
-                .populate('groups')
+                .populate('group')
                 .populate('tags')
                 .populate('items')
-                .populate('images')
+                .populate('timers')
                 .exec((err, data) => {
                     if (err) reject(err);
                     else resolve(data);
@@ -121,10 +110,10 @@ export class RecipeService {
         return new Promise((resolve, reject) => {
             RecipeModel.find({_id: id})
                 .populate('users')
-                .populate('groups')
+                .populate('group')
                 .populate('tags')
                 .populate('items')
-                .populate('images')
+                .populate('timers')
                 .exec((err, data) => {
                     if (err) reject(err);
                     else resolve(data);
@@ -134,17 +123,18 @@ export class RecipeService {
 
     /**
      * Add new recipe record
-     * @param payload { title, description, content, userId, groupId, tags, items, timers }
+     * @param payload { title, isPrivate, description, content, html, userId, groupId, tags, items, timers }
      * @param userId
      * @returns {Promise<any>}
      */
     async addNewRecipe (payload) {
         return new Promise((resolve, reject) => {
-            const { title, userId, description, content, groupId, tags, items, timers } = payload;
+            const { title, isPrivate, userId, content, html, groupId, tags, items, timers } = payload;
             let newRecipeRecord = new RecipeModel({
                 title,
-                description,
+                isPrivate,
                 content,
+                html,
                 createdBy: userId,
                 updatedBy: userId,
                 group: groupId,
@@ -161,19 +151,20 @@ export class RecipeService {
 
     /**
      * Update recipe by its record id
-     * @param payload { title, description, content, userId, groupId, tags, items, timers }
+     * @param payload { title, description, content, html, userId, groupId, tags, items, timers }
      * @param userId
      * @returns {Promise<any>}
      */
     async updateRecipeById (id, payload) {
         return new Promise((resolve, reject) => {
-            const { title, description, content, userId, groupId, tags, items, timers, comments } = payload;
+            const { title, isPrivate, content, html, userId, groupId, tags, items, timers, comments } = payload;
             RecipeModel.findOneAndUpdate({_id: id}, {
                 title,
-                description,
+                isPrivate,
                 updatedBy: userId,
                 content,
-                group: groupId,
+                html,
+                group: {groupId},
                 items,
                 tags,
                 timers,
@@ -221,7 +212,7 @@ export class RecipeService {
      */
     async searchPartialText (partial) {
         return new Promise((resolve, reject) => {
-            RecipeModel.find({description: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
+            RecipeModel.find({content: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
                 if (err) reject(err);
                 else resolve(data); // Get JSON format of contact
             });

@@ -29,14 +29,15 @@ export class RecipeController {
      * @returns boolean
      */
     validatePayload (req) {
+        // console.log('Payload is: ', req.body.title,
+        //     req.body.isPrivate, req.body.content, req.body.group, req.body.tags, req.body.items, req.body.timers);
         return !req.body.title || req.body.title === '' ||
             !req.body.hasOwnProperty('isPrivate') ||
-            !req.body.description || req.body.description === '' ||
             !req.body.content || req.body.content === '' ||
-            !req.body.groups || req.body.groups === {} ||
-            !req.body.tags || Array.isArray(req.body.tags) ||
-            !req.body.items || Array.isArray(req.body.items) ||
-            !req.body.timers || Array.isArray(req.body.timers);
+            !req.body.group || req.body.group === '' ||
+            !req.body.tags || !Array.isArray(req.body.tags) ||
+            !req.body.items || !Array.isArray(req.body.items) ||
+            !req.body.timers || !Array.isArray(req.body.timers);
     }
 
     /**
@@ -104,16 +105,29 @@ export class RecipeController {
      * @returns {Promise<any>}
      */
     async addNewRecipe (req, res) {
+        console.log(`Validating payload`.info);
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
+        if (this.validatePayload(req)) return res.status(400).send('Invalid Payload');
         try {
-            const result = await this.recipeService.addNewRecipe(req.body, user.id);
+            const html = this.recipeService.convertHTML(req.body.content);
+            const result = await this.recipeService.addNewRecipe({
+                title: req.body.title,
+                isPrivate: req.body.isPrivate,
+                userId: req.user.id,
+                content: req.body.content,
+                html,
+                groupId: req.body.group,
+                tags: req.body.tags,
+                items: req.body.items,
+                timers: req.body.timers
+            });
             console.log(`${this.logger} - New Record added`, result);
             return res.status(201).send(result._id);
         } catch (err) {
             if (err.code === 11000) {
                 console.log(`${this.logger} Duplicate Record: ${JSON.stringify(err)}`.error);
-                return res.sendStatus(400);
+                return res.status(400).send('Duplicate Payload');
             } else {
                 console.log(`${this.logger} Internal Server error: ${JSON.stringify(err)}`.error);
                 return res.sendStatus(500);
@@ -133,7 +147,18 @@ export class RecipeController {
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
         try {
-            const result = await this.recipeService.updateRecipeById(req.params.recipeId, req.body, user.id);
+            const html = this.recipeService.convertHTML(req.body.content);
+            const result = await this.recipeService.updateRecipeById({
+                title: req.body.title,
+                isPrivate: req.body.isPrivate,
+                userId: req.user.id,
+                content: req.body.content,
+                html,
+                groupId: req.body.group,
+                tags: req.body.tags,
+                items: req.body.items,
+                timers: req.body.timers
+            });
             console.log(`${this.logger} - Record updated: `, result);
             return res.sendStatus(200);
         } catch (err) {
@@ -180,10 +205,10 @@ export class RecipeController {
             let result;
             console.log(`${this.logger} - Search Type is: ${req.query.type}`.info);
             if (req.query.type === 'full') {
-                result = await this.groupService.searchFullText(req.query.text);
+                result = await this.recipeService.searchFullText(req.query.text);
                 return res.status(200).send(result);
             } else if (req.query.type === 'partial') {
-                result = await this.groupService.searchPartialText(req.query.text);
+                result = await this.recipeService.searchPartialText(req.query.text);
                 return res.status(200).send(result);
             } else {
                 return res.sendStatus(400);
