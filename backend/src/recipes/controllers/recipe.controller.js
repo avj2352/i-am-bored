@@ -74,7 +74,7 @@ export class RecipeController {
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
         try {
-            const result = await this.recipeService.getAllRecipesByUserId(user.id);
+            const result = await this.recipeService.getPrivateRecipesByUserId(user.id);
             return res.json(result);
         } catch (err) {
             console.log(`${this.logger} error fetch recipes by user id : ${JSON.stringify(err)}`.error);

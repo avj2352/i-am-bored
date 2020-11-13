@@ -11,7 +11,7 @@ export class RecipeService {
         //bind context
         this.getAllRecipes = this.getAllRecipes.bind(this);
         this.getPublicRecipes = this.getPublicRecipes.bind(this);
-        this.getPrivateRecipes = this.getPrivateRecipes.bind(this);
+        this.getPrivateRecipesByUserId = this.getPrivateRecipesByUserId.bind(this);
         this.getAllRecipesByUserId = this.getAllRecipesByUserId.bind(this);
         this.getRecipebyId = this.getRecipebyId.bind(this);
         this.addNewRecipe = this.addNewRecipe.bind(this);
@@ -31,7 +31,8 @@ export class RecipeService {
     async getAllRecipes () {
         return new Promise((resolve, reject) => {
             RecipeModel.find()
-                .populate('users')
+                .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
                 .populate('group')
                 .populate('tags')
                 .populate('items')
@@ -50,7 +51,8 @@ export class RecipeService {
     async getPublicRecipes () {
         return new Promise((resolve, reject) => {
             RecipeModel.find({isPrivate: false})
-                .populate('users')
+                .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
                 .populate('group')
                 .populate('tags')
                 .populate('items')
@@ -63,13 +65,14 @@ export class RecipeService {
     }
 
     /**
-     * Get all recipe records
+     * Get all recipe records of a particular user
      * @returns {Promise<any>}
      */
-    async getPrivateRecipes () {
+    async getPrivateRecipesByUserId (userId) {
         return new Promise((resolve, reject) => {
-            RecipeModel.find({isPrivate: true})
-                .populate('users')
+            RecipeModel.find({isPrivate: true, createdBy: userId})
+                .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
                 .populate('group')
                 .populate('tags')
                 .populate('items')
@@ -89,7 +92,8 @@ export class RecipeService {
     async getAllRecipesByUserId (userId) {
         return new Promise((resolve, reject) => {
             RecipeModel.find({createdBy: userId, isPrivate: true})
-                .populate('users')
+                .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
                 .populate('group')
                 .populate('tags')
                 .populate('items')
@@ -109,7 +113,8 @@ export class RecipeService {
     async getRecipebyId (id) {
         return new Promise((resolve, reject) => {
             RecipeModel.find({_id: id})
-                .populate('users')
+                .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
                 .populate('group')
                 .populate('tags')
                 .populate('items')
@@ -164,7 +169,7 @@ export class RecipeService {
                 updatedBy: userId,
                 content,
                 html,
-                group: {groupId},
+                group: groupId,
                 items,
                 tags,
                 timers,
