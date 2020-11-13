@@ -93,7 +93,7 @@ const routes = (app) => {
         .put(recipe.updateRecipeById)
         .delete(recipe.deleteRecipeById);
     // RUD Recipes by User
-    app.route('/recipes/user/:userId')
+    app.route('/recipes/search/user')
         .get(recipe.getRecipesByUserId)
     // search Recipes
     app.route('/recipes/search/text')

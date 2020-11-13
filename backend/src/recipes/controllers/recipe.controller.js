@@ -33,6 +33,7 @@ export class RecipeController {
         //     req.body.isPrivate, req.body.content, req.body.group, req.body.tags, req.body.items, req.body.timers);
         return !req.body.title || req.body.title === '' ||
             !req.body.hasOwnProperty('isPrivate') ||
+            !req.body.hasOwnProperty('link') ||
             !req.body.content || req.body.content === '' ||
             !req.body.group || req.body.group === '' ||
             !req.body.tags || !Array.isArray(req.body.tags) ||
@@ -73,8 +74,9 @@ export class RecipeController {
     async getRecipesByUserId (req, res) {
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
+        console.log(`Fetching recipes for the user: ${user.id}`.info);
         try {
-            const result = await this.recipeService.getPrivateRecipesByUserId(user.id);
+            const result = await this.recipeService.getRecipesByUserId(user.id);
             return res.json(result);
         } catch (err) {
             console.log(`${this.logger} error fetch recipes by user id : ${JSON.stringify(err)}`.error);
@@ -89,6 +91,7 @@ export class RecipeController {
      * @returns {Promise<*>}
      */
     async getRecipeById (req, res) {
+        // console.log(`Fetching Recipe record: ${req.params.recipeId}`.info);
         try {
             const result = await this.recipeService.getRecipebyId(req.params.recipeId);
             return res.json(result);
@@ -113,6 +116,7 @@ export class RecipeController {
             const html = this.recipeService.convertHTML(req.body.content);
             const result = await this.recipeService.addNewRecipe({
                 title: req.body.title,
+                link: req.body.link ? req.body.link : '',
                 isPrivate: req.body.isPrivate,
                 userId: req.user.id,
                 content: req.body.content,
@@ -127,7 +131,7 @@ export class RecipeController {
         } catch (err) {
             if (err.code === 11000) {
                 console.log(`${this.logger} Duplicate Record: ${JSON.stringify(err)}`.error);
-                return res.status(400).send('Duplicate Payload');
+                return res.status(400).send('Duplicate Record');
             } else {
                 console.log(`${this.logger} Internal Server error: ${JSON.stringify(err)}`.error);
                 return res.sendStatus(500);
@@ -146,10 +150,12 @@ export class RecipeController {
     async updateRecipeById (req, res) {
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
+        if (this.validatePayload(req)) return res.status(400).send('Invalid Payload');
         try {
             const html = this.recipeService.convertHTML(req.body.content);
-            const result = await this.recipeService.updateRecipeById({
+            const result = await this.recipeService.updateRecipeById( req.params.recipeId, {
                 title: req.body.title,
+                link: req.body.link ? req.body.link : '',
                 isPrivate: req.body.isPrivate,
                 userId: req.user.id,
                 content: req.body.content,

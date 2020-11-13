@@ -15,6 +15,11 @@ export const RecipeSchema = new Schema({
         lowercase: true,
         trim: true,
     },
+    link: {
+        type: String,
+        lowercase: true,
+        trim: true
+    },
     isPrivate: {
         type: Boolean,
         default: false

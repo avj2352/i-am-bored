@@ -11,7 +11,7 @@ export class RecipeService {
         //bind context
         this.getAllRecipes = this.getAllRecipes.bind(this);
         this.getPublicRecipes = this.getPublicRecipes.bind(this);
-        this.getPrivateRecipesByUserId = this.getPrivateRecipesByUserId.bind(this);
+        this.getRecipesByUserId = this.getRecipesByUserId.bind(this);
         this.getAllRecipesByUserId = this.getAllRecipesByUserId.bind(this);
         this.getRecipebyId = this.getRecipebyId.bind(this);
         this.addNewRecipe = this.addNewRecipe.bind(this);
@@ -68,9 +68,9 @@ export class RecipeService {
      * Get all recipe records of a particular user
      * @returns {Promise<any>}
      */
-    async getPrivateRecipesByUserId (userId) {
+    async getRecipesByUserId (userId) {
         return new Promise((resolve, reject) => {
-            RecipeModel.find({isPrivate: true, createdBy: userId})
+            RecipeModel.find({createdBy: userId})
                 .lean().populate('createdBy', 'name email')
                 .lean().populate('updatedBy', 'name email')
                 .populate('group')
@@ -128,15 +128,16 @@ export class RecipeService {
 
     /**
      * Add new recipe record
-     * @param payload { title, isPrivate, description, content, html, userId, groupId, tags, items, timers }
+     * @param payload { title, link, isPrivate, description, content, html, userId, groupId, tags, items, timers }
      * @param userId
      * @returns {Promise<any>}
      */
     async addNewRecipe (payload) {
         return new Promise((resolve, reject) => {
-            const { title, isPrivate, userId, content, html, groupId, tags, items, timers } = payload;
+            const { title, link, isPrivate, userId, content, html, groupId, tags, items, timers } = payload;
             let newRecipeRecord = new RecipeModel({
                 title,
+                link,
                 isPrivate,
                 content,
                 html,
@@ -156,15 +157,16 @@ export class RecipeService {
 
     /**
      * Update recipe by its record id
-     * @param payload { title, description, content, html, userId, groupId, tags, items, timers }
+     * @param payload { title, link, description, content, html, userId, groupId, tags, items, timers }
      * @param userId
      * @returns {Promise<any>}
      */
     async updateRecipeById (id, payload) {
         return new Promise((resolve, reject) => {
-            const { title, isPrivate, content, html, userId, groupId, tags, items, timers, comments } = payload;
+            const { title, link, isPrivate, content, html, userId, groupId, tags, items, timers, comments } = payload;
             RecipeModel.findOneAndUpdate({_id: id}, {
                 title,
+                link,
                 isPrivate,
                 updatedBy: userId,
                 content,
@@ -190,7 +192,7 @@ export class RecipeService {
         return new Promise((resolve, reject) => {
             RecipeModel.deleteOne({_id: id}, (err) => {
                 if (err) reject(err);
-                else resolve(data); // Get JSON format of contact
+                else resolve(); // Get JSON format of contact
             });
         });
     }
@@ -217,7 +219,7 @@ export class RecipeService {
      */
     async searchPartialText (partial) {
         return new Promise((resolve, reject) => {
-            RecipeModel.find({content: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
+            RecipeModel.find({html: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
                 if (err) reject(err);
                 else resolve(data); // Get JSON format of contact
             });
