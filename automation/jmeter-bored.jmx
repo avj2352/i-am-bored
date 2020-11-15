@@ -48,6 +48,42 @@
         <stringProp name="TestPlan.comments">Variables for DEV Environment</stringProp>
       </Arguments>
       <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Heroku" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="cookie-session-admin" elementType="Argument">
+            <stringProp name="Argument.name">cookie-session-admin</stringProp>
+            <stringProp name="Argument.value">express:sess=eyJwYXNzcG9ydCI6eyJ1c2VyIjoiNWY5NzMzYWNmN2Q4NWQ0YWZjMGJlNjcyIn19; express:sess.sig=Kxkrg6jcTyXgH9_ZMZ_HkBlvok0</stringProp>
+            <stringProp name="Argument.desc">cookie session header of an admin user</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cookie-session-user" elementType="Argument">
+            <stringProp name="Argument.name">cookie-session-user</stringProp>
+            <stringProp name="Argument.value">express:sess=eyJwYXNzcG9ydCI6eyJ1c2VyIjoiNWY5YTVkMDI5NjhjMDI2NTE4MzQyZWVhIn19; express:sess.sig=QMts_v5Q8bqTM15jQGJa5lhqnM4 </stringProp>
+            <stringProp name="Argument.desc">cookie session header of a normal user</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="protocol" elementType="Argument">
+            <stringProp name="Argument.name">protocol</stringProp>
+            <stringProp name="Argument.value">https</stringProp>
+            <stringProp name="Argument.desc">HTTP protocol</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="baseURL" elementType="Argument">
+            <stringProp name="Argument.name">baseURL</stringProp>
+            <stringProp name="Argument.value">justbored.herokuapp.com</stringProp>
+            <stringProp name="Argument.desc">baseURL to target</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.desc">server port value</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+        <stringProp name="TestPlan.comments">Variables for Heroku Environment</stringProp>
+      </Arguments>
+      <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Groups Module" enabled="true">
         <stringProp name="TestPlan.comments">Module containing API for CRUD - groups</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -4374,6 +4410,43 @@ log.info(&quot;Recipe record created successfully. Record is: &quot; + id);</str
           </HeaderManager>
           <hashTree/>
         </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Comments Module" enabled="false">
         <stringProp name="TestPlan.comments">Module containing API for CRUD - comments</stringProp>

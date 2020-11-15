@@ -9,4 +9,7 @@ const options = {
     useUnifiedTopology: true
 };
 
-mongoose.connect(getDBUri(), options, ()=>{ console.log(`DB Connected`.info); });
+mongoose.connect(getDBUri(), options);
+
+mongoose.connection.once('open', () => { console.log(`MongoDB Connected`.info); });
+mongoose.connection.on('error', (err) => { console.log(`MongoDB connection error: ${JSON.stringify(err)}`.error); });

@@ -62,4 +62,4 @@ export const RecipeSchema = new Schema({
 
 RecipeSchema.index({ title: 'text', content: 'text', html: 'text' });
 export const RecipeModel = mongoose.model('recipes', RecipeSchema);
-RecipeModel.createIndexes();
+// RecipeModel.createIndexes();
