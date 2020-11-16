@@ -13,12 +13,25 @@ export class GroupController {
         this.groupService = new GroupService();
         this.authService = new AuthService();
         // bind context
+        this.validatePayload = this.validatePayload.bind(this);
         this.getGroups = this.getGroups.bind(this);
         this.addNewGroup = this.addNewGroup.bind(this);
         this.getGroupById = this.getGroupById.bind(this);
         this.updateGroupById = this.updateGroupById.bind(this);
         this.deleteGroupById = this.deleteGroupById.bind(this);
         this.search = this.search.bind(this);
+    }
+
+    /**
+     * PAJ - validatePayload Group model
+     * @param req
+     * @returns boolean
+     */
+    validatePayload (req) {
+        return !req.body.title || req.body.title === '' ||
+            !req.body.slug || req.body.slug === '' ||
+            !req.body.description || req.body.description === '' ||
+            !req.body.hasOwnProperty(`premium`);
     }
 
     /**
@@ -56,6 +69,7 @@ export class GroupController {
         // only admin can access
         if (!this.authService.checkIfAdminUser(user)) return res.sendStatus(401);
         // create record
+        if (this.validatePayload(req)) return res.sendStatus(400);
         try {
             const result = await this.groupService.addNewGroup({
                 title: req.body.title,
@@ -112,10 +126,7 @@ export class GroupController {
         console.log(`${this.logger} - Update group ID is: ${JSON.stringify(req.params.groupId)}`.info);
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
-        if (!req.body.title || req.body.title === '' ||
-            !req.body.slug || req.body.slug === '' ||
-            !req.body.description || req.body.description === '' ||
-            !req.body.hasOwnProperty(`premium`)) {
+        if (this.validatePayload(req)) {
             return res.sendStatus(400);
         }
         try {
@@ -159,7 +170,7 @@ export class GroupController {
      * @param res
      * @returns {Promise<*>}
      */
-    async search(req, res) {
+    async search (req, res) {
         // check if authenticated
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);

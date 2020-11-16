@@ -17,4 +17,6 @@ export const TagSchema = new Schema({
     }
 });
 
+TagSchema.index({ name: 'text', description: 'text' });
 export const TagModel = mongoose.model('tags', TagSchema);
+// TagModel.createIndexes();

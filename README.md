@@ -133,3 +133,36 @@ Include the following code in your `index.html` page
 
 ---
 
+## Build Scripts
+
+Because its a simple Node JS Express project, The following scripts serve most useful when
+cleaning up or running Heroku builds
+
+```bash
+# Delete Script
+echo "Deleting source files...."
+rm -rf just-bored/auth
+rm -rf just-bored/collections
+rm -rf just-bored/comments
+rm -rf just-bored/util
+rm -rf just-bored/groups
+rm -rf just-bored/images
+rm -rf just-bored/inventory
+rm -rf just-bored/items
+rm -rf just-bored/recipes
+rm -rf just-bored/routes
+rm -rf just-bored/tags
+rm -rf just-bored/timers
+rm  just-bored/index.js
+rm  just-bored/index.js.map
+```
+
+```bash
+# Copy Script
+echo "Copying from Dist...."
+cp -a ../node-workspace/i-am-bored/backend/dist/. just-bored/.
+echo "Copied! "
+echo "Deleting source location..."
+rm -rf ../node-workspace/i-am-bored/backend/dist
+```
+
