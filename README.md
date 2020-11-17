@@ -143,6 +143,7 @@ cleaning up or running Heroku builds
 echo "Deleting source files...."
 rm -rf just-bored/auth
 rm -rf just-bored/collections
+rm -rf just-bored/build
 rm -rf just-bored/comments
 rm -rf just-bored/util
 rm -rf just-bored/groups
@@ -159,10 +160,15 @@ rm  just-bored/index.js.map
 
 ```bash
 # Copy Script
-echo "Copying from Dist...."
+echo "API - Copying from Dist...."
 cp -a ../node-workspace/i-am-bored/backend/dist/. just-bored/.
 echo "Copied! "
-echo "Deleting source location..."
+echo "API - Deleting source location..."
 rm -rf ../node-workspace/i-am-bored/backend/dist
+echo "UI - Copying from Frontend..."
+cp -a ../node-workspace/i-am-bored/frontend/build just-bored/build
+echo "Copied! "
+echo "UI - Deleting source location..."
+rm -rf ../node-workspace/i-am-bored/frontend/build
 ```
 
