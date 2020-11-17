@@ -69,7 +69,10 @@ export class AuthController {
     userDetails (req, res) {
         console.log('Request user: ', req.user);
         if (req.user) {
-            res.send(req.user);
+            const {role, status, collectionCount, draftCount, _id, name, email} = req.user;
+            res.send({
+                _id, name, email, role, status, collectionCount, draftCount
+            });
         } else {
             res.sendStatus(401);
         }
