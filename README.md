@@ -56,6 +56,9 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 - [SVG Loaders](https://codepen.io/nikhil8krishnan/pen/rVoXJa)
 - [Tailwind Components - Tooltip](https://tailwindcomponents.com/component/tooltip)
 - [Mongoose - Full Text & Partial Text Search](https://www.youtube.com/watch?v=ZC2aRON3fWw)
+- [JSON Tree Path Query](https://jsonpath.com/)
+- [XML Tree Path Query](http://xpather.com/)
+
 
 ## Heroku Details
 
