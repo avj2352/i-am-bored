@@ -2,7 +2,7 @@
  * Sidebar component - Drawer API
  * PAJ - 22 March 2019
  */
-import React, { useState, useEffect, FunctionComponent, useCallback } from 'react';
+import React, {useState, useEffect, FunctionComponent, useCallback, useRef} from 'react';
 import { useHistory } from 'react-router-dom';  
 // Components
 import { CircularLoader } from '../loaders/circular-loader/CircularLoader';
@@ -31,6 +31,7 @@ interface ISidebarProps {
 const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
   // destructuring
     const { open, handleDrawerClose } = props;
+    const imageRef: any = React.createRef();
     // context    
     const history = useHistory();
     // state    
@@ -47,7 +48,11 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
       };
       history.push(location);
       handleDrawerClose();
-    }
+    };
+
+    const handleLoading = () => {
+        if (imageRef.current) imageRef.current.style.opacity = '1';
+    };
 
 
     return (
@@ -64,9 +69,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
             }>
             <div className={classes.drawerHeader}>
               <div>&nbsp;</div>
-              <Avatar alt="app-logo" src={appLogo} 
-                      className={classes.avatar}>
-              </Avatar>
+              <Avatar ref={imageRef} alt="app-logo" src={appLogo} onLoad={handleLoading} className={classes.avatar}/>
               <IconButton onClick={handleDrawerClose}>
                 {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
               </IconButton>

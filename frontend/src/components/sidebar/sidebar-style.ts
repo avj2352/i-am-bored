@@ -24,6 +24,8 @@ export const useStyles = makeStyles(theme => ({
       justifyContent: 'space-between',
     },
     avatar: {
+      transition: 'opacity 0.8s ease',
+      opacity: '0',
       position: 'absolute',
       width: '50%',
       height: '120px',
