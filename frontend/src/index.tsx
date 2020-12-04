@@ -13,5 +13,5 @@ ReactDOM.render (
                 </AppContextProvider>,
                 document.getElementById('root')
 );
-axios.defaults.baseURL = 'https://justbored.herokuapp.com/'; // Comment for production deployment
+console.log('Axios default base URL is: ', axios.defaults);
 serviceWorker.unregister();

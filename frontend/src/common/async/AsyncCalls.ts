@@ -26,7 +26,7 @@ export const addGroupDetails = async (payload: any) => {
  * Get a list of all Groups
  */
 export const getAllGroups = async () => {
-    return axios.get('/group');
+    return axios.get('/groups');
 };
 
 /**
