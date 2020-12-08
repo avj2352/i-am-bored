@@ -66,6 +66,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy":"https://justbored.herokuapp.com",
   "browserslist": {
     "production": [
       ">0.2%",

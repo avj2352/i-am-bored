@@ -2,7 +2,7 @@
  * Sidebar component - Drawer API
  * PAJ - 22 March 2019
  */
-import React, { useState, useEffect, FunctionComponent, useCallback } from 'react';
+import React, {useState, useEffect, FunctionComponent, useCallback, useRef} from 'react';
 import { useHistory } from 'react-router-dom';  
 // Components
 import { CircularLoader } from '../loaders/circular-loader/CircularLoader';
@@ -17,11 +17,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
+import AllIcon from '@material-ui/icons/AcUnit';
+import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 //Icons
 import { FaDiaspora } from 'react-icons/fa';
 //Styles
 import appLogo from './../../assets/img/logo.png';
 import { useStyles } from './sidebar-style';
+import { getAllGroups } from '../../common/async/AsyncCalls';
+import Skeleton from '@material-ui/lab/Skeleton/Skeleton';
 
 interface ISidebarProps {
   open: boolean;
@@ -31,15 +35,37 @@ interface ISidebarProps {
 const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
   // destructuring
     const { open, handleDrawerClose } = props;
+    const imageRef: any = React.createRef();
     // context    
     const history = useHistory();
-    // state    
-    const [isLoading, setLoading] = useState(false);    
-    const [listContent, setListContent] = useState<JSX.Element>(<React.Fragment/>);
+    // state        
+    const [listContent, setListContent] = useState<JSX.Element>(
+      <React.Fragment>
+        <ListItem>
+                  <Skeleton variant="text" width={200} height={20}/>
+                </ListItem>
+                <ListItem>
+                  <Skeleton variant="text" width={200} height={20}/>
+                </ListItem>
+      </React.Fragment>
+    );
     const [userDetails, setUserDetails] = useState({role:''});
     const classes = useStyles();
 
-
+    // fetch all groups (premium / non-premium)
+    const fetchGroups = useCallback(()=>{
+      getAllGroups()
+        .then((res: any) => {
+          console.log('Result is: ', res.data);
+          const listContent: any = res.data && res.data.map((item: any, index: number)=> {
+            return <ListItem button key={index}>
+                <ListItemIcon><TurnedInNotIcon/></ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItem>
+          });
+          setListContent(listContent);
+        });
+    },[]);
 
     const navigateLink = (paramName: string) => {
       const location = {
@@ -47,8 +73,16 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
       };
       history.push(location);
       handleDrawerClose();
-    }
+    };
 
+    const handleLoading = () => {
+        if (imageRef.current) imageRef.current.style.opacity = '1';
+    };
+
+    //load groups
+    useEffect(()=>{
+      fetchGroups();
+    },[]);
 
     return (
         <div>          
@@ -64,19 +98,19 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
             }>
             <div className={classes.drawerHeader}>
               <div>&nbsp;</div>
-              <Avatar alt="app-logo" src={appLogo} 
-                      className={classes.avatar}>
-              </Avatar>
+              <Avatar ref={imageRef} alt="app-logo" src={appLogo} onLoad={handleLoading} className={classes.avatar}/>
               <IconButton onClick={handleDrawerClose}>
                 {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
               </IconButton>
             </div>
             <Divider />
             <List className={classes.listGroup}>                
-                <ListItem>
-                  <CircularLoader display = {isLoading} />
-                </ListItem>
-              </List>       
+              <ListItem button key='All Recipes'>
+                <ListItemIcon><AllIcon/></ListItemIcon>
+                <ListItemText primary='All Recipes' />
+              </ListItem>
+              {listContent}            
+            </List>       
           </Drawer>
         </div>
     );

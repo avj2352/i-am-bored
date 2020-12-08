@@ -12,7 +12,7 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Localhost" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Localhost" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="cookie-session-admin" elementType="Argument">
             <stringProp name="Argument.name">cookie-session-admin</stringProp>
@@ -48,7 +48,7 @@
         <stringProp name="TestPlan.comments">Variables for DEV Environment</stringProp>
       </Arguments>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Heroku" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Heroku" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="cookie-session-admin" elementType="Argument">
             <stringProp name="Argument.name">cookie-session-admin</stringProp>
