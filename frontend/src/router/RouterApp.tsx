@@ -3,6 +3,7 @@ import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom"
 import DashboardLayout from '../layouts/dashboard/DashboardLayout';
 // custom
 import HomeView from "../views/home/Home.view";
+import AboutView from "../views/about/About.view";
 import LoginView from "../views/login/Login.view";
 
 const RouterApp: FunctionComponent = () => {
@@ -10,7 +11,8 @@ const RouterApp: FunctionComponent = () => {
         <Router>
             <Switch>
                 <Route path="/app" component={DashboardLayout}/>
-                <Route path="/login" component={LoginView} /> 
+                <Route path="/login" component={LoginView} />
+                <Route path="/about" component={AboutView} />
                 <Redirect from="/" to="/app" />
             </Switch>
         </Router>

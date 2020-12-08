@@ -18,7 +18,11 @@ export const useStyles = makeStyles(theme => ({
       boxShadow: theme.shadows[3]
     },
     title: {
-      marginBottom: 30
+      marginBottom: 10      
+    },
+    content: {
+      marginBottom: 10,
+      fontSize: '.9rem'      
     },
     paper: {
       position: 'relative',
