@@ -63,15 +63,9 @@ const MenuDropdown: FunctionComponent = (props) => {
     },[]);
 
     return (
-        <div>
-            <IconButton
-                color="inherit"
-                aria-label="more"
-                aria-controls="long-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-            >
-                <MoreVertIcon />
+        <React.Fragment>
+            <IconButton aria-label="delete" onClick={handleClick}>
+                <MoreVertIcon fontSize="inherit" />
             </IconButton>
             <Menu
                 id="long-menu"
@@ -92,7 +86,7 @@ const MenuDropdown: FunctionComponent = (props) => {
                     </MenuItem>
                 ))}
             </Menu>
-        </div>
+        </React.Fragment>
     );
 };
 

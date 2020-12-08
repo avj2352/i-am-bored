@@ -78,10 +78,8 @@ const Footer: FunctionComponent<IFooterProps> = (props): JSX.Element => {
                     onClick={() => navigateLink('search')}>
                     <SearchIcon />
                 </Fab>
-                <div className={classes.grow} />
-                <IconButton edge="end" color="inherit">
-                    <MenuDropDown/>
-                </IconButton>
+                <div className={classes.grow} />                
+                <MenuDropDown/>                
             </Toolbar>
         </AppBar>
     );
