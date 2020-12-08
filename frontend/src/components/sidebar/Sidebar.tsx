@@ -39,7 +39,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
     // context    
     const history = useHistory();
     // state        
-    const [listContent, setListContent] = useState<JSX.Element>(
+    const [generalListContent, setGeneralListContent] = useState<JSX.Element>(
       <React.Fragment>
         <ListItem>
                   <Skeleton variant="text" width={200} height={20}/>
@@ -51,6 +51,8 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
     );
     const [userDetails, setUserDetails] = useState({role:''});
     const classes = useStyles();
+    // event handlers
+    const handleGroupNavigation = (title: any) => console.log(`Navigate to: ${title}`);
 
     // fetch all groups (premium / non-premium)
     const fetchGroups = useCallback(()=>{
@@ -58,12 +60,12 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
         .then((res: any) => {
           console.log('Result is: ', res.data);
           const listContent: any = res.data && res.data.map((item: any, index: number)=> {
-            return <ListItem button key={index}>
+            return <ListItem button onClick={handleGroupNavigation.bind(null, item.slug)} key={index}>
                 <ListItemIcon><TurnedInNotIcon/></ListItemIcon>
                 <ListItemText primary={item.title} />
               </ListItem>
           });
-          setListContent(listContent);
+          setGeneralListContent(listContent);
         });
     },[]);
 
@@ -109,7 +111,8 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
                 <ListItemIcon><AllIcon/></ListItemIcon>
                 <ListItemText primary='All Recipes' />
               </ListItem>
-              {listContent}            
+              {generalListContent}  
+              <Divider className={classes.listDivider}/>          
             </List>       
           </Drawer>
         </div>

@@ -12,6 +12,10 @@ export const getUserDetails = async () => {
   return axios.get('/auth/userDetails');
 };
 
+export const logoutUser = async () => {
+    return axios.get('/auth/logout');
+};
+
 // GROUPS RELATED =====================================
 
 /**

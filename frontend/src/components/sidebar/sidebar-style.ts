@@ -37,5 +37,8 @@ export const useStyles = makeStyles(theme => ({
     listGroup: {
       position: 'relative',
       top: '5rem'
+    },
+    listDivider: {
+      
     }
 }));
