@@ -3,9 +3,7 @@
  * PAJ - 22 March 2019
  */
 import React, {useState, useEffect, FunctionComponent, useCallback, useRef} from 'react';
-import { useHistory } from 'react-router-dom';  
-// Components
-import { CircularLoader } from '../loaders/circular-loader/CircularLoader';
+import { useHistory } from 'react-router-dom';
 // Material
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,15 +15,23 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
+import Skeleton from '@material-ui/lab/Skeleton/Skeleton';
+// custom
+import {IAppContextState, useGlobalState} from "../../common/context/AppContext";
+import { getAllGroups } from '../../common/async/AsyncCalls';
+//Icons
 import AllIcon from '@material-ui/icons/AcUnit';
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
-//Icons
-import { FaDiaspora } from 'react-icons/fa';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import GroupIcon from '@material-ui/icons/Bookmarks';
+import ItemsIcon from '@material-ui/icons/PostAdd';
+import TagsIcon from '@material-ui/icons/LabelImportant';
+import RecipeIcon from '@material-ui/icons/Fastfood';
 //Styles
 import appLogo from './../../assets/img/logo.png';
 import { useStyles } from './sidebar-style';
-import { getAllGroups } from '../../common/async/AsyncCalls';
-import Skeleton from '@material-ui/lab/Skeleton/Skeleton';
+
+
 
 interface ISidebarProps {
   open: boolean;
@@ -36,24 +42,25 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
   // destructuring
     const { open, handleDrawerClose } = props;
     const imageRef: any = React.createRef();
+    const appContext: IAppContextState = useGlobalState();
     // context    
     const history = useHistory();
-    // state        
-    const [generalListContent, setGeneralListContent] = useState<JSX.Element>(
-      <React.Fragment>
+    // skeleton loading
+    const skeletonLoading: JSX.Element = <React.Fragment>
         <ListItem>
-                  <Skeleton variant="text" width={200} height={20}/>
-                </ListItem>
-                <ListItem>
-                  <Skeleton variant="text" width={200} height={20}/>
-                </ListItem>
-      </React.Fragment>
-    );
-    const [userDetails, setUserDetails] = useState({role:''});
+            <Skeleton variant="text" width={200} height={20}/>
+        </ListItem>
+        <ListItem>
+            <Skeleton variant="text" width={200} height={20}/>
+        </ListItem>
+    </React.Fragment>;
+    // state        
+    const [generalListContent, setGeneralListContent] = useState<JSX.Element>(skeletonLoading);
+    const [signedInListContent, setSignedInListContent] = useState<JSX.Element>(skeletonLoading);
+    const [adminListContent, setAdminListContent] = useState<JSX.Element>(<React.Fragment/>);
     const classes = useStyles();
-    // event handlers
-    const handleGroupNavigation = (title: any) => console.log(`Navigate to: ${title}`);
 
+    // Lifecycle methods
     // fetch all groups (premium / non-premium)
     const fetchGroups = useCallback(()=>{
       getAllGroups()
@@ -69,6 +76,9 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
         });
     },[]);
 
+    // event handlers
+    const handleGroupNavigation = (title: any) => console.log(`Navigate to: ${title}`);
+
     const navigateLink = (paramName: string) => {
       const location = {
         pathname: `/app/${paramName}`,
@@ -81,7 +91,47 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
         if (imageRef.current) imageRef.current.style.opacity = '1';
     };
 
-    //load groups
+    // Dependencies
+    useEffect(()=>{
+        if (appContext.profile) {
+            setSignedInListContent(
+                <React.Fragment>
+                    <ListItem button onClick={handleGroupNavigation.bind(null, 'private')}>
+                        <ListItemIcon><ImportContactsIcon/></ListItemIcon>
+                        <ListItemText primary='My Recipes' />
+                    </ListItem>
+                    <ListItem button onClick={handleGroupNavigation.bind(null, 'tags')}>
+                        <ListItemIcon><TagsIcon/></ListItemIcon>
+                        <ListItemText primary='Add / Edit Tags' />
+                    </ListItem>
+                    <ListItem button onClick={handleGroupNavigation.bind(null, 'items')}>
+                        <ListItemIcon><ItemsIcon/></ListItemIcon>
+                        <ListItemText primary='Add / Edit Items' />
+                    </ListItem>
+                    <ListItem button onClick={handleGroupNavigation.bind(null, 'recipes')}>
+                        <ListItemIcon><RecipeIcon/></ListItemIcon>
+                        <ListItemText primary='Add / Edit Recipes' />
+                    </ListItem>
+                </React.Fragment>
+            );
+        } else {
+            setSignedInListContent(<React.Fragment/>);
+        } if (appContext.profile?.role =='admin') {
+            setAdminListContent (
+                <React.Fragment>
+                    <Divider className={classes.listDivider}/>
+                    <ListItem button onClick={handleGroupNavigation.bind(null, 'groups')}>
+                        <ListItemIcon><GroupIcon/></ListItemIcon>
+                        <ListItemText primary='Add / Edit Groups' />
+                    </ListItem>
+                </React.Fragment>
+            );
+        } else {
+            setAdminListContent(<React.Fragment/>);
+        }
+    },[appContext.profile]);
+
+    // componentDidMount
     useEffect(()=>{
       fetchGroups();
     },[]);
@@ -93,11 +143,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
             variant="temporary"
             anchor="left"
             open={open}
-            classes={
-              {
-                paper: classes.drawerPaper,
-              }
-            }>
+            classes={{paper: classes.drawerPaper}}>
             <div className={classes.drawerHeader}>
               <div>&nbsp;</div>
               <Avatar ref={imageRef} alt="app-logo" src={appLogo} onLoad={handleLoading} className={classes.avatar}/>
@@ -111,8 +157,10 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
                 <ListItemIcon><AllIcon/></ListItemIcon>
                 <ListItemText primary='All Recipes' />
               </ListItem>
-              {generalListContent}  
-              <Divider className={classes.listDivider}/>          
+              {generalListContent}
+              <Divider className={classes.listDivider}/>
+              {signedInListContent}
+              {adminListContent}
             </List>       
           </Drawer>
         </div>
