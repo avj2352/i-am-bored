@@ -10,7 +10,7 @@ const RouterApp: FunctionComponent = () => {
     return (
         <Router>
             <Switch>
-                <Route path="/app" component={DashboardLayout}/>
+                <Route path="/app" render={(props: any) => <DashboardLayout {...props}/>} />
                 <Route path="/login" component={LoginView} />
                 <Route path="/about" component={AboutView} />
                 <Redirect from="/" to="/app" />

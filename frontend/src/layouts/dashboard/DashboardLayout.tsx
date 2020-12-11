@@ -10,6 +10,7 @@ import { useGlobalDispatch, useGlobalState } from './../../common/context/AppCon
 import { useStyles } from './dashboard-style';
 import { getUserDetails } from '../../common/async/AsyncCalls';
 import { CONTEXT_ACTION_TYPE } from '../../common/context/AppContext';
+import DashboardRouterApp from "./router/DashboardRouter";
 
 
 
@@ -49,7 +50,7 @@ const DashboardLayout:FunctionComponent = (props):JSX.Element => {
                 <Header open={open} handleDrawerOpen={handleDrawerOpen} />
                 <Sidebar open={open} handleDrawerClose={handleDrawerClose} />
                 <main className={clsx(classes.content, { [classes.contentShift]: open })}>                    
-                    Main Content Comes here
+                    <DashboardRouterApp/>
                 </main>
                  <Footer open={open} handleDrawerOpen={handleDrawerOpen}/>
             </div>

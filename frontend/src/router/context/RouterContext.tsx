@@ -86,6 +86,6 @@ export const RouterContextProvider: FunctionComponent<any> = ({children}) => {
                 {children}
             </RouterDispatchContext.Provider>
         </RouterStateContext.Provider>
-    )
+    );
 };
 

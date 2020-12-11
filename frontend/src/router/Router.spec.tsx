@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { render } from '@testing-library/react';
-import { fireEvent, wait } from '@testing-library/react';
+// import { render } from '@testing-library/react';
+// import { fireEvent, wait } from '@testing-library/react';
 // custom
 import RouterApp from './RouterApp';
 import { addBrowserRouter } from "../common/util/RouterHelper";
