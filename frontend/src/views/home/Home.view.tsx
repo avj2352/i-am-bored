@@ -1,14 +1,17 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import "./home.view.css";
-import {Typography} from "@material-ui/core";
+import {Grid, Typography} from "@material-ui/core";
 import {IAppContextState, useGlobalState} from "../../common/context/AppContext";
 import {HomeSkeletonLoading} from "./loading/Skeleton";
+// styles
+import { useStyles } from './home.style';
 
 const HomeView: FunctionComponent = (props): JSX.Element => {
     // context
     const appContext: IAppContextState = useGlobalState();
     // states
     const [heading, setHeading] = useState<string>('Book.Of.Recipes.Easily.Done');
+    // styles
+    const classes = useStyles();
     // componentDidMount
     useEffect(()=>{
         if(appContext.profile) setHeading(`Welcome, ${appContext.profile.name}`);
@@ -17,10 +20,12 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
 
     return (
         <React.Fragment>            
-            <div>
-                <Typography  variant="h4" component="h4">{heading}</Typography>
+            <Grid container className={classes.container}>
+                <Grid item xs={12} className={classes.heading}>
+                    <Typography variant="h5">{heading}</Typography>
+                </Grid>
                 <HomeSkeletonLoading/>
-            </div>
+            </Grid>
         </React.Fragment>
     );
 };
