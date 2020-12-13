@@ -4,6 +4,7 @@ import {IAppContextState, useGlobalState} from "../../common/context/AppContext"
 import {HomeSkeletonLoading} from "./loading/Skeleton";
 // styles
 import { useStyles } from './home.style';
+import HomeGeneralView from "./general/HomeGeneral.view";
 
 const HomeView: FunctionComponent = (props): JSX.Element => {
     // context
@@ -24,7 +25,7 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
                 <Grid item xs={12} className={classes.heading}>
                     <Typography variant="h5">{heading}</Typography>
                 </Grid>
-                <HomeSkeletonLoading/>
+                <HomeGeneralView/>
             </Grid>
         </React.Fragment>
     );
