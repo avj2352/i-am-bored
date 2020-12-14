@@ -12,20 +12,28 @@ const HomeView: FunctionComponent = (props): JSX.Element => {
     const appContext: IAppContextState = useGlobalState();
     // states
     const [heading, setHeading] = useState<string>('Book.Of.Recipes.Easily.Done');
-    const [content, setContent] = useState<JSX.Element>(<HomeSkeletonLoading/>);
+    const [content, setContent] = useState<JSX.Element>(<HomeSkeletonLoading/>);    
     // styles
     const classes = useStyles();
     // componentDidMount
     useEffect(()=>{
-        if(appContext.profile) {
-            setHeading(`Welcome, ${appContext.profile.name}`);
-            setContent(<HomeProfileView/>);
-        }
-        else {
-            setHeading(`B.O.R.E.D v${appContext.version}`);
-            setContent(<HomeGeneralView/>);
-        }
-    },[appContext.profile, appContext.version]);
+        // console.log('Rendering!!');
+        setTimeout(()=>{
+            if(appContext.profile) {                
+                if (appContext.profile.role === 'admin') {
+                    setContent(<HomeProfileView isAdmin={true}/>);
+                } else {
+                    setContent(<HomeProfileView isAdmin={false}/>);
+                }
+                setHeading(`Welcome, ${appContext.profile.name}`);
+            }
+            else {
+                // console.log('Profile not set', appContext.profile);
+                setHeading(`B.O.R.E.D v${appContext.version}`);
+                setContent(<HomeGeneralView/>);
+            }
+        }, 1500);
+    },[appContext.profile]);
 
     return (
         <React.Fragment>            

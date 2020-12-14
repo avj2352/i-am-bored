@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState } from 'react';
+import React, {FunctionComponent, useCallback, useEffect, useState } from 'react';
 // material
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -48,14 +48,14 @@ const MenuDropdown: FunctionComponent = (props) => {
 
     const displayUserInfo = (info: any) => console.log('User info is: ', info);
     
-    const handleLogin = (data: any) => {
+    const handleLogin = useCallback((data: any) => {
 
         const location = {
             pathname: '/login'
         };
 
         history.push(location);
-    };
+    },[]);
 
     const routeToAbout = () => {
         const location = {
@@ -75,6 +75,7 @@ const MenuDropdown: FunctionComponent = (props) => {
             event: routeToAbout
         }    
     ];
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -113,7 +114,8 @@ const MenuDropdown: FunctionComponent = (props) => {
             setMenuOptions (notSignedInOptions);
         }
     },[
-        appContext.profile
+        appContext.profile,
+        
     ]);
 
     return (

@@ -1,6 +1,5 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {FunctionComponent} from 'react';
 import {Box, Grid, Typography} from "@material-ui/core";
-import {Skeleton} from "@material-ui/lab";
 // styles
 import appLogo from './../../../assets/img/logo.png';
 import { useStyles } from './home.general.style';
@@ -11,8 +10,7 @@ import SearchIcon from "@material-ui/icons/Search";
 
 const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
     // styles
-    const classes = useStyles();
-    const appContext: IAppContextState = useGlobalState();
+    const classes = useStyles();    
     const imageRef: any = React.createRef();
 
     const handleLoading = () => {

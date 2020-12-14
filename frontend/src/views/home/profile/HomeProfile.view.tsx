@@ -9,15 +9,29 @@ import {IAppContextState, useGlobalState} from "../../../common/context/AppConte
 import {SimpleCardOverview} from "../cards/SimpleCardOverview";
 import SearchIcon from "@material-ui/icons/Search";
 
-const HomeProfileView: FunctionComponent = (props): JSX.Element => {
+interface IHomeProfileViewProps {
+    isAdmin: boolean;
+}
+
+const HomeProfileView: FunctionComponent<IHomeProfileViewProps> = (props): JSX.Element => {
     // styles
     const classes = useStyles();
-    const appContext: IAppContextState = useGlobalState();
     const imageRef: any = React.createRef();
+    const { isAdmin } = props;
+    // states
+    const [groupContent, setGroupContent] = useState<JSX.Element>(<React.Fragment/>);
 
-    const handleLoading = () => {
-        if (imageRef.current) imageRef.current.style.opacity = '1';
-    };
+    // dependencies
+    useEffect(()=>{
+        console.log('Admin Content set: ', isAdmin);
+        if (isAdmin) setGroupContent (
+            <Grid item xs={12} md={6} lg={3}>
+                    <SimpleCardOverview title={'Groups'} link={'groups'} btnLabel={'Add / Edit Groups'}>
+                        Click here to add / edit groups
+                    </SimpleCardOverview>
+                </Grid>
+        );
+    },[isAdmin]);
 
     return (
         <React.Fragment>
@@ -33,10 +47,23 @@ const HomeProfileView: FunctionComponent = (props): JSX.Element => {
                     </SimpleCardOverview>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
+                    <SimpleCardOverview title={'My Recipes'} link={'recipes'} btnLabel={'View My Recipes'}>
+                        Click here to view your recipes
+                    </SimpleCardOverview>
+                </Grid>
+            </Grid>
+            <Grid item xs={12} className={classes.group}>
+            <Grid item xs={12} md={6} lg={3}>
                     <SimpleCardOverview title={'Tags'} link={'tags'} btnLabel={'Add / Edit Tags'}>
                         Click here to add / edit tags
                     </SimpleCardOverview>
                 </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                    <SimpleCardOverview title={'Items'} link={'items'} btnLabel={'Add / Edit Items'}>
+                        Click here to add / edit items
+                    </SimpleCardOverview>
+                </Grid>
+                {groupContent}
             </Grid>
             <Grid item xs={12} className={classes.row}>
                 <Typography variant="subtitle2" className={classes.footerText} color="secondary">
