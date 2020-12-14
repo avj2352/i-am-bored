@@ -28,7 +28,8 @@ const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
             </Grid>
             <Grid item xs={12} md={8} className={classes.boxTop}>
                 <Typography>
-                    Welcome to B.O.R.E.D v{appContext.version}. A Progressive Web Application to create, store & share
+                    Welcome to the <strong>Book.Of.Recipes.Easily.Done</strong>. <br/>
+                    A Progressive Web Application to create, store & share
                     recipes among friends &amp; family.
                 </Typography>
                 <Typography className={classes.boxTop}>
@@ -43,8 +44,8 @@ const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
             </Grid>
             <Grid item xs={12} className={classes.group}>
                 <Grid item xs={12} md={6} lg={3}>
-                    <SimpleCardOverview title={'Login'} link={'login'} btnLabel={'Login'}>
-                        Login with Google Account
+                    <SimpleCardOverview title={'Sign In'} link={'login'} btnLabel={'Sign In'}>
+                        Sign in with your Google Account
                     </SimpleCardOverview>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
@@ -65,6 +66,6 @@ const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
             </Grid>
         </React.Fragment>
     );
-};
+}
 
 export default HomeGeneralView;
