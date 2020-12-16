@@ -13,6 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ToggleDarkIcon from '@material-ui/icons/NightsStay';
 import ToggleLightIcon from '@material-ui/icons/WbSunny';
 import SearchIcon from '@material-ui/icons/Search';
+import DashboardIcon from '@material-ui/icons/AccountBalance';
 // custom
 import MenuDropDown from './../menu-drop-down/MenuDropdown';
 import { useStyles } from './footer-style';
@@ -78,7 +79,15 @@ const Footer: FunctionComponent<IFooterProps> = (props): JSX.Element => {
                     className={clsx(open && classes.hide)}
                 >
                     <MenuIcon />
-                </IconButton>                
+                </IconButton>
+                <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu button"
+                    className={classes.dashboardButton}
+                    onClick={navigateLink.bind(null,'')}>
+                    <DashboardIcon />
+                </IconButton>
                 <Fab 
                     color="primary"
                     aria-label="add" 

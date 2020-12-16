@@ -89,7 +89,7 @@ const MenuDropdown: FunctionComponent = (props) => {
 
     useEffect(() => {
         if (appContext.profile) {
-            console.log('Profile Detail is: ', appContext.profile);
+            // console.log('Profile Detail is: ', appContext.profile);
             // menu options list
             const signedInOptions: IMenuOptionProps[] = [
                 {

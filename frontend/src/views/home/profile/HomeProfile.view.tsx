@@ -14,16 +14,16 @@ interface IHomeProfileViewProps {
 }
 
 const HomeProfileView: FunctionComponent<IHomeProfileViewProps> = (props): JSX.Element => {
-    // styles
-    const classes = useStyles();
-    const imageRef: any = React.createRef();
+    // context
     const { isAdmin } = props;
     // states
     const [groupContent, setGroupContent] = useState<JSX.Element>(<React.Fragment/>);
+    // styles
+    const classes = useStyles();
+    const imageRef: any = React.createRef();
 
     // dependencies
     useEffect(()=>{
-        console.log('Admin Content set: ', isAdmin);
         if (isAdmin) setGroupContent (
             <Grid item xs={12} md={6} lg={3}>
                     <SimpleCardOverview title={'Groups'} link={'groups'} btnLabel={'Add / Edit Groups'}>

@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {DASHBOARD_ROUTES, useDashboardRouteDispatch} from "../../../layouts/dashboard/router/DashboardRouterContext";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,11 +31,39 @@ interface  ISimpleCardOverview {
 };
 
 export const SimpleCardOverview: FunctionComponent<ISimpleCardOverview> = (props):JSX.Element => {
+    // context
+    const dashboardRouteDispatch: any = useDashboardRouteDispatch();
     const classes = useStyles();
     const { title, children, link, btnLabel } = props;
+
+    // event handlers
+    const handleNavigation = (link: string) => {
+        switch (link) {
+            case 'groups':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.GROUPS
+                });
+                break;
+            case 'tags':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.TAGS
+                });
+                break;
+            case 'items':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.ITEMS
+                });
+                break;
+            default:
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.WELCOME
+                });
+        }
+    };
+
     return (
         <Card className={classes.root}>
-            <CardActionArea>
+            <CardActionArea onClick={handleNavigation.bind(null, link)}>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                         {title}
@@ -45,7 +74,7 @@ export const SimpleCardOverview: FunctionComponent<ISimpleCardOverview> = (props
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="secondary">
+                <Button size="small" color="secondary" onClick={handleNavigation.bind(null, link)}>
                     {btnLabel ? btnLabel: 'More Details...'}
                 </Button>
             </CardActions>

@@ -37,7 +37,7 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
         case DASHBOARD_ROUTES.WELCOME:
             // console.log(`Dispatch Route: ${DASHBOARD_ROUTES.WELCOME}`);
             location = {
-                pathname: `/app/${DASHBOARD_ROUTES.WELCOME}`
+                pathname: `/app`
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.WELCOME};
@@ -45,7 +45,7 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
         case DASHBOARD_ROUTES.LIST:
             // console.log(`Dispatch Route: ${DASHBOARD_ROUTES.LIST}`);
             location = {
-                pathname: `/${DASHBOARD_ROUTES.LIST}`
+                pathname: `/app/${DASHBOARD_ROUTES.LIST}`
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.LIST};
@@ -53,7 +53,7 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
         case DASHBOARD_ROUTES.RECIPES:
             // console.log(`Dispatch Route: ${DASHBOARD_ROUTES.RECIPES}`);
             location = {
-                pathname: `/${DASHBOARD_ROUTES.RECIPES}`
+                pathname: `/app/${DASHBOARD_ROUTES.RECIPES}`
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.RECIPES};
@@ -61,7 +61,7 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
         case DASHBOARD_ROUTES.GROUPS:
             // console.log(`Dispatch Route: ${DASHBOARD_ROUTES.GROUPS}`);
             location = {
-                pathname: `/${DASHBOARD_ROUTES.GROUPS}`
+                pathname: `/app/${DASHBOARD_ROUTES.GROUPS}`
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.GROUPS};
@@ -69,7 +69,7 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
         case DASHBOARD_ROUTES.TAGS:
             // console.log(`Dispatch Route: ${DASHBOARD_ROUTES.TAGS}`);
             location = {
-                pathname: `/${DASHBOARD_ROUTES.TAGS}`
+                pathname: `/app/${DASHBOARD_ROUTES.TAGS}`
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.TAGS};
@@ -77,7 +77,7 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
         case DASHBOARD_ROUTES.ITEMS:
             // console.log(`Dispatch Route: ${DASHBOARD_ROUTES.ITEMS}`);
             location = {
-                pathname: `/${DASHBOARD_ROUTES.ITEMS}`
+                pathname: `/app/${DASHBOARD_ROUTES.ITEMS}`
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.ITEMS};

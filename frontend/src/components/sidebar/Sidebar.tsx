@@ -65,9 +65,9 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
     const fetchGroups = useCallback(()=>{
       getAllGroups()
         .then((res: any) => {
-          console.log('Result is: ', res.data);
+          // console.log('Result is: ', res.data);
           const listContent: any = res.data && res.data.map((item: any, index: number)=> {
-            return <ListItem button onClick={handleGroupNavigation.bind(null, item.slug)} key={index}>
+            return <ListItem button onClick={navigateLink.bind(null, item.slug)} key={index}>
                 <ListItemIcon><TurnedInNotIcon/></ListItemIcon>
                 <ListItemText primary={item.title} />
               </ListItem>
@@ -96,19 +96,19 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
         if (appContext.profile) {
             setSignedInListContent(
                 <React.Fragment>
-                    <ListItem button onClick={handleGroupNavigation.bind(null, 'private')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'private')}>
                         <ListItemIcon><ImportContactsIcon/></ListItemIcon>
                         <ListItemText primary='My Recipes' />
                     </ListItem>
-                    <ListItem button onClick={handleGroupNavigation.bind(null, 'tags')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'tags')}>
                         <ListItemIcon><TagsIcon/></ListItemIcon>
                         <ListItemText primary='Add / Edit Tags' />
                     </ListItem>
-                    <ListItem button onClick={handleGroupNavigation.bind(null, 'items')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'items')}>
                         <ListItemIcon><ItemsIcon/></ListItemIcon>
                         <ListItemText primary='Add / Edit Items' />
                     </ListItem>
-                    <ListItem button onClick={handleGroupNavigation.bind(null, 'recipes')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'recipes')}>
                         <ListItemIcon><RecipeIcon/></ListItemIcon>
                         <ListItemText primary='Add / Edit Recipes' />
                     </ListItem>
@@ -120,7 +120,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
             setAdminListContent (
                 <React.Fragment>
                     <Divider className={classes.listDivider}/>
-                    <ListItem button onClick={handleGroupNavigation.bind(null, 'groups')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'groups')}>
                         <ListItemIcon><GroupIcon/></ListItemIcon>
                         <ListItemText primary='Add / Edit Groups' />
                     </ListItem>
