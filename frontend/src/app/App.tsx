@@ -15,7 +15,7 @@ const App: FunctionComponent = () => {
             theme = {useThemeOptions()}>
             <SnackbarProvider maxSnack={3} anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'center',
             }}>
                 <div className="App">
                     <RouterApp />
