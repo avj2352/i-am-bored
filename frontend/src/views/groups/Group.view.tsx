@@ -23,13 +23,18 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
             enqueueSnackbar(`Error creating Group record...`, {variant: 'error', action: actionButton });
         }
     };
+
+    const handleGroupSearch = (query: string) => {
+        console.log('Query to search: ', query);
+    };
+
     return (
         <div className = {classes.root}>
             <CssBaseline />
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
-                    <GroupSearch onSearchGroup={handleGroupCreate}/>
+                    <GroupSearch onSearchGroup={handleGroupSearch}/>
                 </Grid>
             </div>
         </div>
