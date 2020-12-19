@@ -27,6 +27,7 @@ import GroupIcon from '@material-ui/icons/Bookmarks';
 import ItemsIcon from '@material-ui/icons/PostAdd';
 import TagsIcon from '@material-ui/icons/LabelImportant';
 import RecipeIcon from '@material-ui/icons/Fastfood';
+import DashboardIcon from '@material-ui/icons/AccountBalance';
 //Styles
 import appLogo from './../../assets/img/logo.png';
 import { useStyles } from './sidebar-style';
@@ -96,6 +97,10 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
         if (appContext.profile) {
             setSignedInListContent(
                 <React.Fragment>
+                    <ListItem button onClick={navigateLink.bind(null, '')}>
+                        <ListItemIcon><DashboardIcon/></ListItemIcon>
+                        <ListItemText primary='My Dashboard' />
+                    </ListItem>
                     <ListItem button onClick={navigateLink.bind(null, 'private')}>
                         <ListItemIcon><ImportContactsIcon/></ListItemIcon>
                         <ListItemText primary='My Recipes' />
