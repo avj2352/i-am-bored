@@ -117,6 +117,9 @@ const LoginView : FunctionComponent = () => {
                         <SimpleLinkButton link="/about">
                             About B.O.R.E.D
                         </SimpleLinkButton>
+                        <SimpleLinkButton link="/">
+                            Home
+                        </SimpleLinkButton>
                     </footer>
                 </Paper>
             </Grid>

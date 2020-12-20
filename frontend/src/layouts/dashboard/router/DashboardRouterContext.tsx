@@ -13,6 +13,8 @@ export type IDashboardRouterContextState = {
 
 export enum DASHBOARD_ROUTES {
     WELCOME = '',
+    ABOUT = 'about',
+    LOGIN = 'login',
     LIST = 'list',
     RECIPES = 'recipes',
     GROUPS = 'groups',
@@ -41,6 +43,20 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.WELCOME};
+
+        case DASHBOARD_ROUTES.ABOUT:
+            location = {
+                pathname: `/about`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.ABOUT};
+
+        case DASHBOARD_ROUTES.LOGIN:
+            location = {
+                pathname: `/login`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.LOGIN};
 
         case DASHBOARD_ROUTES.LIST:
             // console.log(`Dispatch Route: ${DASHBOARD_ROUTES.LIST}`);

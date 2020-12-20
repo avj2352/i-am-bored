@@ -27,18 +27,18 @@ const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
             <Grid item xs={12} md={8} className={classes.boxTop}>
                 <Typography>
                     Welcome to the <strong>Book.Of.Recipes.Easily.Done</strong>. <br/>
-                    A Progressive Web Application to create, store & share
+                    A web application to create, store & share
                     recipes among friends &amp; family.
                 </Typography>
                 <Typography className={classes.boxTop}>
-                    This application is completely free to use &amp; can be saved on your mobile device to work as
-                    a native application. Also, after signing up, you will be able to - Create your own recipes, which
+                    You can open this web app on your browser &amp; it can also be saved on your mobile device to work as
+                    a native application. Also, after signing up, you will be able to - create (write) your own recipes, which
                     you can save for your own reference or share with the world.
                 </Typography>
-                <Typography className={classes.boxTop}>
-                    If you think this recipe app was useful, consider buying me treat (or just drop a hello) on the
-                    following Patreon Page <a rel="noreferrer noopener" href="https://www.patreon.com/pramodPanta" target="_blank">Click here</a>
+                <Typography className={classes.boxTop} color="secondary">
+                    This application is completely free to use &amp; is ad-free!
                 </Typography>
+
             </Grid>
             <Grid item xs={12} className={classes.group}>
                 <Grid item xs={12} md={6} lg={3}>
@@ -52,7 +52,7 @@ const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
                     </SimpleCardOverview>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <SimpleCardOverview title={'About'} link={'all'} btnLabel={'About the app'}>
+                    <SimpleCardOverview title={'About'} link={'about'} btnLabel={'About the app'}>
                         News, Features...
                     </SimpleCardOverview>
                 </Grid>

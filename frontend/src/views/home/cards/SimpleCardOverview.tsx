@@ -54,6 +54,16 @@ export const SimpleCardOverview: FunctionComponent<ISimpleCardOverview> = (props
                     type: DASHBOARD_ROUTES.ITEMS
                 });
                 break;
+            case 'login':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.LOGIN
+                });
+                break;
+            case 'about':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.ABOUT
+                });
+                break;
             default:
                 dashboardRouteDispatch ({
                     type: DASHBOARD_ROUTES.WELCOME

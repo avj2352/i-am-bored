@@ -74,7 +74,6 @@ const GroupCreate: FunctionComponent<IGroupCreateProps> = (props) => {
     };
 
     const handleChange = (event: any) => {
-        console.log('Event is: ', event.target);
         if (event.target.name === 'title') {
             setGroupTitle(event.target.value);
         } else if (event.target.name === 'slug') {
@@ -147,7 +146,7 @@ const GroupCreate: FunctionComponent<IGroupCreateProps> = (props) => {
                                 'aria-label': 'primary checkbox',
                             }} />
                         <Typography className={classes.checkBoxText} variant="button" component="em">
-                            Check if the Group is only for Premium Users
+                            Check if the Group is only for Signed in Users
                         </Typography>
                     </div>
                 </CardContent>

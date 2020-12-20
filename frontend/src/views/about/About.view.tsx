@@ -76,7 +76,7 @@ const AboutView : FunctionComponent = () => {
                             {`I AM B.O.R.E.D v${appContext.version}`}
                         </Typography>      
                         <Typography color="textSecondary" align="center" className={classes.content}>
-                            This is a simple Progressive Web Application <br/>
+                            This is a simple web Application <br/>
                             in which you can create, store & share <br/>
                             your favourite recipes with people.
                         </Typography>                      
@@ -84,11 +84,21 @@ const AboutView : FunctionComponent = () => {
                             {`v${appContext.version}`} now supports Social Login, <br/>
                             Dark & Light Themes, <br/>
                             Ability to create, store and tag recipe items
-                        </Typography>                        
+                        </Typography>
+                        <Typography color="textSecondary" align="center" className={classes.content}>
+                            If you think this recipe app was useful, <br/>
+                            consider buying me treat <br/>
+                            (or just drop a vote of support) <br/>
+                            on the following Patreon Page <br/>
+                            <a rel="noreferrer noopener" href="https://www.patreon.com/pramodPanta" target="_blank">Click here</a>
+                        </Typography>
                     </div>
                     <footer className={classes.footer}>
                         <SimpleLinkButton link="/login">
                             Login to application
+                        </SimpleLinkButton>
+                        <SimpleLinkButton link="/">
+                            Home
                         </SimpleLinkButton>
                     </footer>
                 </Paper>

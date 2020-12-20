@@ -49,6 +49,8 @@ export const useStyles = makeStyles(theme => ({
     },
     footer: {
       justifySelf: 'flex-end',
+      display: 'flex',
+      justifyContent: 'space-between',
       padding: 20,
       maxWidth: 275,
       marginBottom: 15

@@ -49,13 +49,15 @@ export const useStyles = makeStyles(theme => ({
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      margin: '40px 16px',
+      margin: '30px 16px',
     },
     footer: {
       justifySelf: 'flex-end',
       padding: 20,
       maxWidth: 275,
-      marginBottom: 15
+      marginBottom: 10,
+      display: 'flex',
+      justifyContent: 'space-between'
     },
     [theme.breakpoints.between(270,414)]: {
       imageIcon: {

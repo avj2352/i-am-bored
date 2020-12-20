@@ -10,6 +10,7 @@ footerText: {
     '&>a': {
         color: theme.palette.secondary.main,
         textDecoration: 'none',
+        margin: 10,
         '&:hover': {
             textDecoration: 'underline'
         }
