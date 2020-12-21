@@ -9,6 +9,7 @@ import GroupSearch from "./search/GroupSearch";
 import GroupListSkeleton from "./loading/GroupListSkeleton";
 import {getAllGroups} from "../../common/async/AsyncCalls";
 import GroupCard, {IGroup} from "./card/GroupCard";
+import EmptySearchCard from "../../components/card/404/EmptySearchCard";
 
 const GroupView: FunctionComponent = (props): JSX.Element => {
     const classes = useStyles();
@@ -84,6 +85,7 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
                     <GroupSearch onSearchGroup={handleGroupSearch}/>
                     {groupListContent}
+                    {/*<EmptySearchCard />*/}
                 </Grid>
             </div>
         </div>
