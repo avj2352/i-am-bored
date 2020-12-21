@@ -12,14 +12,8 @@ import Fab from '@material-ui/core/Fab';
 import {makeStyles} from "@material-ui/core/styles";
 // custom
 import DisabledBadge from "../../../components/badges/disabled/DisabledBadge";
-
-export interface IGroup {
-    id: string;
-    title: string;
-    description: string
-    slug: string;
-    premium: boolean;
-}
+import {IGroup} from "../common/group-interfaces";
+import {useSnackbar} from "notistack";
 
 interface IGroupCardProps extends IGroup {
     onEdit: (data: IGroup) => void;
@@ -74,13 +68,26 @@ export const useStyles = makeStyles(theme => ({
 const GroupCard: FunctionComponent<IGroupCardProps> = (props):JSX.Element => {
     const { title, id, description, onDelete, onEdit, premium, slug } = props;
     const classes = useStyles();
+    const { enqueueSnackbar, closeSnackbar} = useSnackbar();
+
+    // add multiple actions to one snackbar
+    const action = (key: number) => (
+        <React.Fragment>
+            <Button onClick={() =>{
+                closeSnackbar(key);
+                onDelete(id);
+            }}>{'Yes'}</Button>
+            <Button onClick={() => { closeSnackbar(key); }}>{'No'}</Button>
+        </React.Fragment>
+    );
+
     // event handlers
     const handleEdit = () => {
         onEdit({id, title, description, premium, slug});
     };
 
     const handleDelete = () => {
-        onDelete(id);
+        enqueueSnackbar(`Are you sure you want to delete this group?`, {variant: 'warning', action});
     };
 
     return (

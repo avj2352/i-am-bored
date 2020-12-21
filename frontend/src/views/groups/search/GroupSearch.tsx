@@ -69,7 +69,7 @@ const GroupSearch: FunctionComponent<IGroupSearchProps> = (props) => {
     // event handlers
 
     const handleChange = (event: any) => {
-        console.log('Event is: ', event.target);
+        // console.log('Event is: ', event.target);
         if (event.target.name === 'title') {
             setGroupTitle(event.target.value);
         }

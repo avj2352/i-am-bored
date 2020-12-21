@@ -8,8 +8,10 @@ import GroupCreate from "./create/GroupCreate";
 import GroupSearch from "./search/GroupSearch";
 import GroupListSkeleton from "./loading/GroupListSkeleton";
 import {getAllGroups} from "../../common/async/AsyncCalls";
-import GroupCard, {IGroup} from "./card/GroupCard";
+import GroupCard from "./card/GroupCard";
 import EmptySearchCard from "../../components/card/404/EmptySearchCard";
+import {IGroup} from "./common/group-interfaces";
+import GroupUpdateModal from "./update/GroupUpdateModal";
 
 const GroupView: FunctionComponent = (props): JSX.Element => {
     const classes = useStyles();
@@ -24,12 +26,20 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
     };
     // states
     const [groupListContent, setGroupListContent] = useState<JSX.Element>(defaultGroupContent());
+    const [isModal, setModal] = useState<boolean>(false);
+    const [groupModalData, setGroupModalData] = useState<IGroup>({
+        id: '',
+        title: '',
+        description: '',
+        premium: false,
+        slug: ''
+    });
     // lifecycle methods
     const fetchAllGroups = useCallback(()=>{
         setGroupListContent(defaultGroupContent());
         getAllGroups()
             .then((res: any) => {
-                console.log('Response is: ', res.data);
+                // console.log('Response is: ', res.data);
                 if (res.data.length > 0) {
                     const list: JSX.Element[] = res.data?.map((item: any, index:number) => <GroupCard
                         key={index}
@@ -51,16 +61,18 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
     },[]);
 
     // notificationBox action - OK
-    const actionButton = (key:number) => (
+    const okActionButton = (key:number) => (
         <CloseActionButton keyObj={key} />
     );
+
+
     // event handlers
     const handleGroupCreate = (action: string) => {
         console.log('Action was a: ', action);
         if(action === 'success') {
-            enqueueSnackbar(`Group record created !`, {variant: 'info', action: actionButton });
+            enqueueSnackbar(`Group record created !`, {variant: 'info', action: okActionButton });
         } else if (action === 'failure') {
-            enqueueSnackbar(`Error creating Group record...`, {variant: 'error', action: actionButton });
+            enqueueSnackbar(`Error creating Group record...`, {variant: 'error', action: okActionButton });
         }
     };
 
@@ -69,11 +81,18 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
     };
 
     const handleGroupEdit = (data: IGroup) => {
-        console.log('Group card to edit: ', data);
+        // console.log('Group card to edit: ', data);
+        setGroupModalData(data);
+        setModal(true);
     };
 
     const handleGroupDelete = (id: string) => {
         console.log('Group card to delete: ', id);
+    };
+
+    const handleGroupModalClose = (status: boolean, value: string) => {
+        // console.log('Group modal is open: ', status);
+        setModal(status);
     };
 
     // component did mount
@@ -89,6 +108,10 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
                     <GroupSearch onSearchGroup={handleGroupSearch}/>
                     {groupListContent}
+                    <GroupUpdateModal
+                        isOpen={isModal}
+                        data={groupModalData}
+                        onModalClose={handleGroupModalClose}/>
                 </Grid>
             </div>
         </div>
