@@ -30,19 +30,23 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
         getAllGroups()
             .then((res: any) => {
                 console.log('Response is: ', res.data);
-                const list: JSX.Element[] = res.data?.map((item: any, index:number) => <GroupCard
-                    key={index}
-                    onEdit={handleGroupEdit}
-                    onDelete={handleGroupDelete}
-                    id={item._id}
-                    title={item.title}
-                    description={item.description}
-                    slug={item.slug}
-                    premium={item.premium}/>
-                );
-                setGroupListContent(<React.Fragment>
-                    {list}
-                </React.Fragment>);
+                if (res.data.length > 0) {
+                    const list: JSX.Element[] = res.data?.map((item: any, index:number) => <GroupCard
+                        key={index}
+                        onEdit={handleGroupEdit}
+                        onDelete={handleGroupDelete}
+                        id={item._id}
+                        title={item.title}
+                        description={item.description}
+                        slug={item.slug}
+                        premium={item.premium}/>
+                    );
+                    setGroupListContent(<React.Fragment>
+                        {list}
+                    </React.Fragment>);
+                } else {
+                    setGroupListContent(<EmptySearchCard type="empty"/>);
+                }
             }).catch((err: any) => console.log('Error fetching data: ', err));
     },[]);
 
@@ -85,7 +89,6 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
                     <GroupSearch onSearchGroup={handleGroupSearch}/>
                     {groupListContent}
-                    {/*<EmptySearchCard />*/}
                 </Grid>
             </div>
         </div>

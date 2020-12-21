@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, {FunctionComponent, useEffect, useState} from "react";
 // material
 import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -12,11 +12,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Grid from "@material-ui/core/Grid";
 import {CardMedia} from "@material-ui/core";
 // custom
-import noResultsImg from './../../../assets/img/no-results.png';
+import noResultsImg from './../../../assets/img/broke.png';
 
 
 interface IEmptySearchCardProps {
     query?: string;
+    type: 'search' | 'empty'
 }
 
 //styles
@@ -28,8 +29,8 @@ export const useStyles = makeStyles(theme => ({
         minWidth: 175,
     },
     media: {
-        width: '80%',
-        minWidth: 300,
+        width: '50%',
+        minWidth: 250,
         height: 0,
         paddingTop: '56.25%', // 16:9
     },
@@ -52,8 +53,7 @@ export const useStyles = makeStyles(theme => ({
     },
     pos: {
         textAlign: 'left',
-        marginBottom: 12,
-        fontSize: 15
+        marginBottom: 12
     },
     smallText: {
         textAlign: 'left',
@@ -74,20 +74,38 @@ export const useStyles = makeStyles(theme => ({
 
 const EmptySearchCard: FunctionComponent<IEmptySearchCardProps>= (props): JSX.Element => {
     const classes = useStyles();
-    const { query } = props;
+    const { query, type } = props;
+    // event handlers
+    const getContent = (type: 'search' | 'empty', query?: string):JSX.Element => {
+        if (type === 'empty') {
+            return <Typography className={classes.pos} component="p">
+                Sorry but there is currently nothing to see here. How about you add some content ?
+            </Typography>
+        } else {
+            return <Typography className={classes.pos} component="p">
+                Sorry but your search { query ? ` "${query}" `: "" } yielded nothing. Try again!
+            </Typography>
+        }
+    }
+    // states
+    const [content, setContent] = useState<JSX.Element>(getContent('empty'));
+
+    // componentDidUpdate
+    useEffect(()=>{
+        setContent(getContent(type, query));
+    },[type, query]);
+
     return (
         <Grid item xs={12} md={4}>
             <Card className={classes.card}>
                 <CardMedia
                     className={classes.media}
                     image={noResultsImg}
-                    title="Paella dish"
+                    title="Nothing found"
                 />
                 <CardContent className={classes.cardContent}>
                     <Typography variant="h5" component="h2">Oops! Nothing found...</Typography>
-                    <Typography className={classes.pos} component="p">
-                        Sorry but your search { query ? ` "${query}" `: "" } yielded nothing. Try again!
-                    </Typography>
+                    {content}
                 </CardContent>
             </Card>
         </Grid>
