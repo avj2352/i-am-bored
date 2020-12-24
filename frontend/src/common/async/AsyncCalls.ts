@@ -92,7 +92,7 @@ export const addTagDetails = async (payload: any) => {
  * Get a list of all records
  */
 export const getAllTags = async () => {
-    return axios.get('/tag');
+    return axios.get('/tags');
 };
 
 /**
@@ -100,7 +100,7 @@ export const getAllTags = async () => {
  * @param id
  */
 export const getTagDetailsById = async (id: string) => {
-    return axios.get(`/tag/${id}`);
+    return axios.get(`/tags/${id}`);
 };
 
 /**
@@ -109,7 +109,7 @@ export const getTagDetailsById = async (id: string) => {
  * @param payload
  */
 export const updateTagById = async (id: string, payload: any) => {
-    return axios.put(`/tag/${id}`, payload);
+    return axios.put(`/tags/${id}`, payload);
 };
 
 /**
@@ -117,5 +117,5 @@ export const updateTagById = async (id: string, payload: any) => {
  * @param id
  */
 export const deleteTagById = async(id: string) => {
-    return axios.delete(`/tag/${id}`);
+    return axios.delete(`/tags/${id}`);
 };

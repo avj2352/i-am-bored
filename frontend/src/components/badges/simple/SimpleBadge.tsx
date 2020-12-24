@@ -9,20 +9,17 @@ const useStylesBootstrap = makeStyles((theme: Theme) => ({
     },
     tooltip: {
         backgroundColor: theme.palette.common.black,
-    },
-    chip: {
-        margin: theme.spacing(1),
     }
 }));
 
 interface ISimpleBadgeProps {
-    title: string;
+    name: string;
     description: string;
 }
 
 const SimpleBadge: FunctionComponent<ISimpleBadgeProps> = (props): JSX.Element => {
     const classes = useStylesBootstrap();
-    const { title, description } = props;
+    const { name, description } = props;
     // states
     const [isOpen, toggleOpen] = useState(false);
     // event
@@ -39,11 +36,10 @@ const SimpleBadge: FunctionComponent<ISimpleBadgeProps> = (props): JSX.Element =
             placement="top"
             classes={classes}>
             <Chip
-                avatar={<Avatar>{title.substring(0,1).toUpperCase()}</Avatar>}
-                label={title}
+                avatar={<Avatar>{name.substring(0,1).toUpperCase()}</Avatar>}
+                label={name}
                 clickable
                 onClick={toggleTooltip}
-                className={classes.chip}
                 color="secondary"/>
         </Tooltip>
     </React.Fragment>
