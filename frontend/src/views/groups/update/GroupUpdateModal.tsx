@@ -14,11 +14,12 @@ import {
     Typography
 } from "@material-ui/core";
 import {LinearLoader} from "../../../components/loaders/linear-loader/LinearLoader";
+import {updateGroupById} from "../../../common/async/AsyncCalls";
 
 interface IGroupModalProps {
     isOpen: boolean;
     data: IGroup;
-    onModalClose: (status: boolean, value: string) => void;
+    onModalClose: (status: boolean, value: 'success' | 'failure' | 'cancel') => void;
 }
 
 export const useStyles = makeStyles(theme => ({
@@ -44,8 +45,6 @@ export const useStyles = makeStyles(theme => ({
 const GroupUpdateModal: FunctionComponent<IGroupModalProps> = (props): JSX.Element => {
     const classes = useStyles();
     const { isOpen, data } = props;
-    // ref
-    const modalRef = useRef(null);
     // states
     const [groupTitle, setGroupTitle] = useState('');
     const [groupSlug, setGroupSlug] = useState('');
@@ -66,24 +65,24 @@ const GroupUpdateModal: FunctionComponent<IGroupModalProps> = (props): JSX.Eleme
 
     const handleSubmit = () => {
         setLoading(true);
-        console.log('Change details are: ', groupTitle, groupDescription, groupSlug, isChecked);
-        // if(groupTitle && groupDescription && groupSlug) {
-        //     updateGroupById(token, {
-        //         id:props.id,
-        //         name: groupTitle,
-        //         slug: groupSlug,
-        //         description: groupDescription,
-        //         premium: isChecked
-        //     })
-        //         .then( res => {
-        //             setLoading(false);
-        //             props.onModalClose(false, 'success');
-        //         }, err => {
-        //             setLoading(false);
-        //             console.log('Error updating tag record: ', err);
-        //             props.onModalClose(false, 'failure');
-        //         });
-        // }
+        // console.log('Change details are: ', groupTitle, groupDescription, groupSlug, isChecked);
+        if(groupTitle && groupDescription && groupSlug) {
+            setLoading(true);
+            updateGroupById(data.id, {
+                title: groupTitle.trim(),
+                slug: groupSlug.trim(),
+                description: groupDescription,
+                premium: isChecked
+            })
+                .then( res => {
+                    setLoading(false);
+                    props.onModalClose(false, 'success');
+                }, err => {
+                    setLoading(false);
+                    console.log('Error updating tag record: ', err);
+                    props.onModalClose(false, 'failure');
+                });
+        }
         setLoading(false);
     };
 
@@ -109,7 +108,6 @@ const GroupUpdateModal: FunctionComponent<IGroupModalProps> = (props): JSX.Eleme
 
     return (
         <Dialog
-            ref={modalRef}
             open={isOpen}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"

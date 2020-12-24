@@ -1,4 +1,4 @@
-import React, {useState, useContext, FunctionComponent, useEffect} from 'react';
+import React, {useState, useContext, FunctionComponent, useEffect, useCallback} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {LinearLoader} from "../../../components/loaders/linear-loader/LinearLoader";
+import {addGroupDetails} from "../../../common/async/AsyncCalls";
 // custom
 
 const useStyles = makeStyles({
@@ -59,7 +60,7 @@ interface IGroupCreateProps {
 
 const GroupCreate: FunctionComponent<IGroupCreateProps> = (props) => {
     const classes = useStyles();
-
+    const { onCreateGroup } = props;
     // state
     const [groupTitle, setGroupTitle] = useState('');
     const [groupSlug, setGroupSlug] = useState('');
@@ -67,6 +68,14 @@ const GroupCreate: FunctionComponent<IGroupCreateProps> = (props) => {
     const [isChecked, setCheckBox] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState<string | null>('');
+
+    // lifecycle events
+    const resetAllFields = useCallback(() => {
+        setGroupTitle('');
+        setGroupSlug('');
+        setGroupDescription('');
+        setCheckBox(false);
+    },[]);
 
     // event handlers
     const handleCheckboxChange = (name: string) => (event: any) => {
@@ -86,7 +95,20 @@ const GroupCreate: FunctionComponent<IGroupCreateProps> = (props) => {
     const handleSubmit = () => {
         setLoading(true);
         if(groupTitle && groupDescription && groupSlug) {
-            console.log('Input data is: ', groupTitle, groupSlug, groupDescription, isChecked);
+            setLoading(true);
+            // console.log('Input data is: ', groupTitle, groupSlug, groupDescription, isChecked);
+            addGroupDetails({
+                title: groupTitle.trim(),
+                slug: groupSlug.trim(),
+                description: groupDescription,
+                premium: isChecked
+            })
+                .then((res: any) => {
+                    resetAllFields();
+                    return onCreateGroup('success');
+                })
+                .catch((err: any) => onCreateGroup('failure'))
+                .finally(()=> setLoading(false));
         }
     };
 

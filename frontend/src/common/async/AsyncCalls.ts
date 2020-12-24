@@ -23,7 +23,7 @@ export const logoutUser = async () => {
  * @param payload
  */
 export const addGroupDetails = async (payload: any) => {
-  return axios.post('/group', payload);
+  return axios.post('/groups', payload);
 };
 
 /**
@@ -37,7 +37,7 @@ export const getAllGroups = async () => {
  * Get a list of all Filtered (w/o premium) Groups
  */
 export const getAllFilteredGroups = async () => {
-    return axios.get('/group?q=filtered');
+    return axios.get('/groups?q=filtered');
 };
 
 /**
@@ -45,7 +45,7 @@ export const getAllFilteredGroups = async () => {
  * @param id
  */
 export const getGroupDetailsById = async (id: string) => {
-    return axios.get(`/group/${id}`);
+    return axios.get(`/groups/${id}`);
 };
 
 /**
@@ -54,7 +54,7 @@ export const getGroupDetailsById = async (id: string) => {
  * @param payload
  */
 export const updateGroupById = async (id: string, payload: any) => {
-    return axios.put(`/group/${id}`, payload);
+    return axios.put(`/groups/${id}`, payload);
 };
 
 /**
@@ -62,8 +62,20 @@ export const updateGroupById = async (id: string, payload: any) => {
  * @param id
  */
 export const deleteGroupById = async(id: string) => {
-    return axios.delete(`/group/${id}`);
+    return axios.delete(`/groups/${id}`);
 };
+
+/**
+ * Search a Group by Text - partial | full
+ * @param searchType "partial" | "full"
+ * @param searchQuery string
+ */
+export const searchGroupByText = async(searchQuery: string, searchType: 'partial' | 'full') => {
+    return axios.get(`/groups/search/text?type=${searchType}&text=${searchQuery}`);
+};
+
+
+
 
 // TAGS RELATED =====================================
 
@@ -72,7 +84,7 @@ export const deleteGroupById = async(id: string) => {
  * @param payload
  */
 export const addTagDetails = async (payload: any) => {
-    return axios.post('/tag', payload);
+    return axios.post('/tags', payload);
 };
 
 /**

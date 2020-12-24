@@ -1,14 +1,11 @@
-import React, {useState, useContext, FunctionComponent, useEffect} from 'react';
+import React, {useState, useContext, FunctionComponent, useEffect, createRef} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import Checkbox from '@material-ui/core/Checkbox';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import {LinearLoader} from "../../../components/loaders/linear-loader/LinearLoader";
+import TextFormatIcon from '@material-ui/icons/TextFormat';
 import SearchIcon from "@material-ui/icons/Search";
 import Fab from "@material-ui/core/Fab";
 // custom
@@ -57,34 +54,38 @@ const useStyles = makeStyles({
 });
 
 interface IGroupSearchProps {
-    onSearchGroup: (action: string) => void;
+    onSearchGroup: (type: 'partial' | 'full', action: string) => void;
 }
 
 const GroupSearch: FunctionComponent<IGroupSearchProps> = (props) => {
     const classes = useStyles();
-
+    const { onSearchGroup } = props;
     // state
-    const [groupTitle, setGroupTitle] = useState('');
+    const [groupQuery, setGroupQuery] = useState('');
     const [isDisabled, toggleDisabled] = useState(true);
+    const [isPartial, togglePartial] = useState(false);
+    const buttonRef = createRef<any>();
     // event handlers
 
     const handleChange = (event: any) => {
-        // console.log('Event is: ', event.target);
-        if (event.target.name === 'title') {
-            setGroupTitle(event.target.value);
+        if (event.target.name === 'query') {
+            setGroupQuery(event.target.value);
         }
+        buttonRef.current.focus();
     };
 
-    const handleSubmit = () => {
-        if(groupTitle) {
-            console.log('Input data is: ', groupTitle);
-        }
-    };
+    const toggleSearchType = () => {
+        togglePartial((prev) => !prev);
+    }
+
+    const handleSubmit = () => isPartial ?
+        onSearchGroup('partial', groupQuery): onSearchGroup('full', groupQuery);
+
 
     useEffect(()=>{
-        if (groupTitle !== '') toggleDisabled(false);
+        if (groupQuery !== '') toggleDisabled(false);
         else toggleDisabled(true);
-    },[groupTitle]);
+    },[groupQuery]);
 
     // render
     return (
@@ -95,15 +96,25 @@ const GroupSearch: FunctionComponent<IGroupSearchProps> = (props) => {
                         margin="normal"
                         fullWidth
                         required
-                        id="title"
+                        id="query"
                         label="Search Group"
-                        name="title"
-                        defaultValue = {groupTitle}
+                        name="query"
+                        defaultValue = {groupQuery}
                         autoFocus
                         onBlur={handleChange}/>
                 </CardContent>
                 <CardActions className={classes.action}>
                     <Fab
+                        size="small"
+                        title={`${isPartial ? `Disable`: `Enable`} partial search`}
+                        ref={buttonRef}
+                        onClick={toggleSearchType}
+                        color={isPartial ? 'secondary': 'primary'}
+                        aria-label="Enable partial search">
+                        <TextFormatIcon />
+                    </Fab>
+                    <Fab
+                        ref={buttonRef}
                         onClick={handleSubmit}
                         disabled={isDisabled}
                         color="secondary"
