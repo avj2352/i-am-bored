@@ -3,15 +3,17 @@ import React, {FunctionComponent, useCallback, useEffect, useState} from 'react'
 import { useStyles } from './group.view.style';
 import { CssBaseline, Grid } from "@material-ui/core";
 import { useSnackbar } from "notistack";
+// custom
 import CloseActionButton from "../../components/notifications/CloseActionButton";
 import GroupCreate from "./create/GroupCreate";
-import GroupSearch from "./search/GroupSearch";
 import GroupListSkeleton from "./loading/GroupListSkeleton";
-import {deleteGroupById, getAllGroups, searchGroupByText} from "../../common/async/AsyncCalls";
+import {deleteGroupById, getAllGroups, searchByText } from "../../common/async/AsyncCalls";
 import GroupCard from "./card/GroupCard";
 import EmptySearchCard from "../../components/card/404/EmptySearchCard";
 import {IGroup} from "./common/group-interfaces";
 import GroupUpdateModal from "./update/GroupUpdateModal";
+import SearchCard from "../../components/search/SearchCard";
+import {ISearch} from "../../components/search/search-interface";
 
 const GroupView: FunctionComponent = (props): JSX.Element => {
     const classes = useStyles();
@@ -77,9 +79,9 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
         }
     };
 
-    const handleGroupSearch = (type: 'partial' | 'full', query: string) => {
+    const handleGroupSearch = (data: ISearch) => {
         setGroupListContent(defaultGroupContent());
-        searchGroupByText(query, type)
+        searchByText(data)
             .then((res: any) => {
                 console.log('Search Result is: ', res.data);
                 if (res.data.length > 0) {
@@ -140,7 +142,7 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
-                    <GroupSearch onSearchGroup={handleGroupSearch}/>
+                    <SearchCard table="groups" onSearch={handleGroupSearch}/>
                     {groupListContent}
                     <GroupUpdateModal
                         isOpen={isModal}

@@ -1,4 +1,17 @@
 import axios from 'axios';
+import {ISearch} from "../../components/search/search-interface";
+
+// COMMON API =====================================
+/**
+ * Search tables by Text - partial | full
+ * @param data ISearch
+ */
+
+export const searchByText = async(data: ISearch) => {
+    const { table, type, query } = data;
+    return axios.get(`/${table}/search/text?type=${type}&text=${query}`);
+};
+
 
 // AUTHENTICATION =====================================
 /**
@@ -64,18 +77,6 @@ export const updateGroupById = async (id: string, payload: any) => {
 export const deleteGroupById = async(id: string) => {
     return axios.delete(`/groups/${id}`);
 };
-
-/**
- * Search a Group by Text - partial | full
- * @param searchType "partial" | "full"
- * @param searchQuery string
- */
-export const searchGroupByText = async(searchQuery: string, searchType: 'partial' | 'full') => {
-    return axios.get(`/groups/search/text?type=${searchType}&text=${searchQuery}`);
-};
-
-
-
 
 // TAGS RELATED =====================================
 

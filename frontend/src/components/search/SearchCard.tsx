@@ -1,4 +1,5 @@
 import React, {useState, useContext, FunctionComponent, useEffect, createRef} from 'react';
+// material
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -8,8 +9,14 @@ import CardContent from '@material-ui/core/CardContent';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import SearchIcon from "@material-ui/icons/Search";
 import Fab from "@material-ui/core/Fab";
-// custom
+import {ISearch} from "./search-interface";
 
+// interface
+interface ISearchCardProps extends ISearch {
+    onSearch: (data: ISearch) => void;
+}
+
+// styles
 const useStyles = makeStyles({
     card: {
         display: 'flex',
@@ -53,13 +60,9 @@ const useStyles = makeStyles({
     }
 });
 
-interface IGroupSearchProps {
-    onSearchGroup: (type: 'partial' | 'full', action: string) => void;
-}
-
-const GroupSearch: FunctionComponent<IGroupSearchProps> = (props) => {
+const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
     const classes = useStyles();
-    const { onSearchGroup } = props;
+    const { table, onSearch } = props;
     // state
     const [groupQuery, setGroupQuery] = useState('');
     const [isDisabled, toggleDisabled] = useState(true);
@@ -79,7 +82,9 @@ const GroupSearch: FunctionComponent<IGroupSearchProps> = (props) => {
     }
 
     const handleSubmit = () => isPartial ?
-        onSearchGroup('partial', groupQuery): onSearchGroup('full', groupQuery);
+        onSearch ({table, type: 'partial', query: groupQuery}): onSearch ({table, type: 'full',
+            query: groupQuery
+        });
 
 
     useEffect(()=>{
@@ -127,4 +132,4 @@ const GroupSearch: FunctionComponent<IGroupSearchProps> = (props) => {
     );
 };
 
-export default GroupSearch;
+export default SearchCard;
