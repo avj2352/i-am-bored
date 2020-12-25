@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {LinearLoader} from "../../../components/loaders/linear-loader/LinearLoader";
+import {addTagDetails} from "../../../common/async/AsyncCalls";
 // custom
 
 const useStyles = makeStyles({
@@ -59,16 +60,22 @@ interface ITagCreateProps {
 
 const TagCreate: FunctionComponent<ITagCreateProps> = (props) => {
     const classes = useStyles();
-
+    const { onCreateTag } = props;
     // state
     const [tagTitle, setTagTitle] = useState('');
     const [tagDescription, setTagDescription] = useState('');
     const [isLoading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState<string | null>('');
 
+    // lifecycle methods
+    const resetAllFields = () => {
+        setTagTitle('');
+        setTagDescription('');
+    };
+
     // event handlers
     const handleChange = (event: any) => {
-        console.log('Event is: ', event.target);
+        // console.log('Event is: ', event.target);
         if (event.target.name === 'title') {
             setTagTitle(event.target.value);
         } else {
@@ -79,7 +86,16 @@ const TagCreate: FunctionComponent<ITagCreateProps> = (props) => {
     const handleSubmit = () => {
         setLoading(true);
         if(tagTitle && tagDescription) {
-            console.log('Input data is: ', tagTitle, tagDescription);
+            addTagDetails({
+                name: tagTitle,
+                description: tagDescription
+            })
+                .then((res: any) => {
+                    resetAllFields();
+                    return onCreateTag('success');
+                })
+                .catch((err: any) => onCreateTag('failure'))
+                .finally(()=> setLoading(false));
         }
     };
 

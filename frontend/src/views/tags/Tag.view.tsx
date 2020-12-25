@@ -38,9 +38,10 @@ const TagView: FunctionComponent = (props): JSX.Element => {
     );
     // lifecycle methods
     const fetchAllTags = useCallback(() => {
+        setTagListContent(defaultTagContentList());
         getAllTags()
             .then((res: any) => {
-                console.log('Search Result is: ', res.data);
+                // console.log('Search Result is: ', res.data);
                 if (res.data.length > 0) {
                     const list: JSX.Element[] = res.data?.map((item: any, index: number) => <TagCard
                         key={index}
@@ -61,9 +62,10 @@ const TagView: FunctionComponent = (props): JSX.Element => {
 
     // event handlers
     const handleTagCreate = (action: string) => {
-        console.log('Action was a: ', action);
+        // console.log('Action was a: ', action);
         if (action === 'success') {
             enqueueSnackbar(`Tag record created !`, {variant: 'info', action: okActionButton});
+            fetchAllTags();
         } else if (action === 'failure') {
             enqueueSnackbar(`Error creating Tag record...`, {variant: 'error', action: okActionButton});
         }
@@ -88,7 +90,7 @@ const TagView: FunctionComponent = (props): JSX.Element => {
         setTagListContent(defaultTagContentList());
         searchByText(data)
             .then((res: any) => {
-                console.log('Search Result is: ', res.data);
+                // console.log('Search Result is: ', res.data);
                 if (res.data.length > 0) {
                     const list: JSX.Element[] = res.data?.map((item: any, index: number) => <TagCard
                         key={index}
