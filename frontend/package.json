@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^24.0.0",
+    "@ckeditor/ckeditor5-editor-classic": "^24.0.0",
+    "@ckeditor/ckeditor5-essentials": "^24.0.0",
+    "@ckeditor/ckeditor5-markdown-gfm": "^24.0.0",
     "@ckeditor/ckeditor5-react": "^3.0.0",
     "@date-io/date-fns": "latest",
     "@date-io/moment": "1.1.0",

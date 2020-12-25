@@ -9,6 +9,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {LinearLoader} from "../../../components/loaders/linear-loader/LinearLoader";
+// ck editor
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import './ck-editor.css';
 // custom
 
 const useStyles = makeStyles({
@@ -16,6 +20,11 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         minWidth: 175,
+    },
+    editorContainer: {
+        width: '100%',
+        minWidth: 200,
+        border: '1px solid red'
     },
     cardContent: {
         display: 'flex',
@@ -62,32 +71,23 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
 
     // state
     const [itemTitle, setItemTitle] = useState('');
-    const [itemSlug, setItemSlug] = useState('');
     const [itemDescription, setItemDescription] = useState('');
-    const [isChecked, setCheckBox] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState<string | null>('');
 
-    // event handlers
-    const handleCheckboxChange = (name: string) => (event: any) => {
-        setCheckBox(event.target.checked);
+    const handleEditorDataChange = (data: any) => {
+        setItemDescription(data);
     };
 
     const handleChange = (event: any) => {
         console.log('Event is: ', event.target);
-        if (event.target.name === 'title') {
-            setItemTitle(event.target.value);
-        } else if (event.target.name === 'slug') {
-            setItemSlug(event.target.value.toLowerCase());
-        } else {
-            setItemDescription(event.target.value);
-        }
+        setItemTitle(event.target.value);
     };
 
     const handleSubmit = () => {
         setLoading(true);
-        if(itemTitle && itemDescription && itemSlug) {
-            console.log('Input data is: ', itemTitle, itemSlug, itemDescription, isChecked);
+        if(itemTitle && itemDescription ) {
+            console.log('Input data is: ', itemTitle, itemDescription );
         }
     };
 
@@ -96,9 +96,9 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
     </Typography>;
 
     useEffect(()=>{
-        if (itemTitle !== '' && itemSlug !== '' && itemDescription !=='' ) setErrMsg(null);
+        if (itemTitle !== '' && itemDescription !=='' ) setErrMsg(null);
         else setErrMsg(`Please fill in missing fields`);
-    },[itemTitle, itemSlug, itemDescription]);
+    },[itemTitle, itemDescription]);
 
     // render
     return (
@@ -120,36 +120,27 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
                         defaultValue = {itemTitle}
                         autoFocus
                         onBlur={handleChange}/>
-                    <TextField
-                        margin="normal"
-                        required
-                        id="slug"
-                        label="slug (lowercase)"
-                        name="slug"
-                        defaultValue = {itemSlug}
-                        autoFocus
-                        onBlur={handleChange}/>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="description"
-                        name="description"
-                        label="Provide Description"
-                        type="description"
-                        defaultValue = {itemDescription}
-                        onBlur={handleChange}/>
-                    <div className={classes.checkBoxContent}>
-                        <Checkbox
-                            checked={isChecked}
-                            onChange={handleCheckboxChange('checkedA')}
-                            inputProps={{
-                                'aria-label': 'primary checkbox',
-                            }} />
-                        <Typography className={classes.checkBoxText} variant="button" component="em">
-                            Check if the Item is only for Premium Users
-                        </Typography>
-                    </div>
+                    <CKEditor
+                        className={classes.editorContainer}
+                        editor={ ClassicEditor }
+                        data="<p>Enter Item Description here!</p>"
+                        onReady={ (editor: any) => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log( 'Editor is ready to use!', editor );
+                        } }
+                        onChange={ ( event: any, editor: any ) => {
+                            // console.log('Event and Edit - onChange: ', event, editor);
+                            const data = editor.getData();
+                            console.log('Data entered is: ', data);
+                            handleEditorDataChange.bind(null, data);
+                        } }
+                        onBlur={ ( event: any, editor: any ) => {
+                            console.log( 'Blur.', editor );
+                        } }
+                        onFocus={ ( event: any, editor: any ) => {
+                            console.log( 'Focus.', editor );
+                        } }
+                    />
                 </CardContent>
                 <CardActions className={classes.action}>
                     <Button onClick={handleSubmit} disabled={!!errMsg} variant="contained" size="medium" color="primary">Create Item</Button>
