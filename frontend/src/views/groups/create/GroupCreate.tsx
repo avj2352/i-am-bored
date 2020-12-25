@@ -138,18 +138,18 @@ const GroupCreate: FunctionComponent<IGroupCreateProps> = (props) => {
                         id="title"
                         label="Group Title"
                         name="title"
-                        defaultValue = {groupTitle}
+                        value = {groupTitle}
                         autoFocus
-                        onBlur={handleChange}/>
+                        onChange={handleChange}/>
                     <TextField
                         margin="normal"
                         required
                         id="slug"
                         label="slug (lowercase)"
                         name="slug"
-                        defaultValue = {groupSlug}
+                        value = {groupSlug}
                         autoFocus
-                        onBlur={handleChange}/>
+                        onChange={handleChange}/>
                     <TextField
                         margin="normal"
                         required
@@ -158,8 +158,8 @@ const GroupCreate: FunctionComponent<IGroupCreateProps> = (props) => {
                         name="description"
                         label="Provide Description"
                         type="description"
-                        defaultValue = {groupDescription}
-                        onBlur={handleChange}/>
+                        value = {groupDescription}
+                        onChange={handleChange}/>
                     <div className={classes.checkBoxContent}>
                         <Checkbox
                             checked={isChecked}

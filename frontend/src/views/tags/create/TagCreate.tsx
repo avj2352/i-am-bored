@@ -1,8 +1,7 @@
-import React, {useState, useContext, FunctionComponent, useEffect} from 'react';
+import React, {useState, FunctionComponent, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import Checkbox from '@material-ui/core/Checkbox';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import CardContent from '@material-ui/core/CardContent';
@@ -125,9 +124,9 @@ const TagCreate: FunctionComponent<ITagCreateProps> = (props) => {
                         id="title"
                         label="Tag Title"
                         name="title"
-                        defaultValue = {tagTitle}
+                        value = {tagTitle}
                         autoFocus
-                        onBlur={handleChange}/>
+                        onChange={handleChange}/>
                     <TextField
                         margin="normal"
                         required
@@ -136,8 +135,8 @@ const TagCreate: FunctionComponent<ITagCreateProps> = (props) => {
                         name="description"
                         label="Provide Description"
                         type="description"
-                        defaultValue = {tagDescription}
-                        onBlur={handleChange}/>
+                        value = {tagDescription}
+                        onChange={handleChange}/>
                 </CardContent>
                 <CardActions className={classes.action}>
                     <Button onClick={handleSubmit} disabled={!!errMsg} variant="contained" size="medium" color="primary">Create Tag</Button>

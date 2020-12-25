@@ -5,15 +5,14 @@ import {CssBaseline, Grid} from "@material-ui/core";
 import {useSnackbar} from "notistack";
 import CloseActionButton from "../../components/notifications/CloseActionButton";
 import TagCreate from "./create/TagCreate";
-import TagSearch from "./search/TagSearch";
 import TagListSkeleton from "./loading/TagListSkeleton";
 import {ITag} from "./common/tag-interfaces";
 import {ISearch} from "../../components/search/search-interface";
 import {deleteTagById, getAllTags, searchByText} from "../../common/async/AsyncCalls";
-import GroupCard from "../groups/card/GroupCard";
 import EmptySearchCard from "../../components/card/404/EmptySearchCard";
 import TagCard from "./card/TagCard";
 import SearchCard from "../../components/search/SearchCard";
+import TagUpdateModal from "./update/TagUpdateModal";
 
 const TagView: FunctionComponent = (props): JSX.Element => {
     const classes = useStyles();
@@ -86,6 +85,17 @@ const TagView: FunctionComponent = (props): JSX.Element => {
                 {variant: 'error', action: okActionButton}))
     };
 
+    const handleTagModalClose = (status: boolean, value: 'success' | 'failure' | 'cancel') => {
+        console.log('Modal status is: ', status);
+        if (value === 'success') {
+            enqueueSnackbar(`Tag record updated !`, {variant: 'info', action: okActionButton });
+        } else if (value === 'failure') {
+            enqueueSnackbar(`Error updating Tag record...`, {variant: 'error', action: okActionButton });
+        }
+        setModal(status);
+        return fetchAllTags();
+    };
+
     const handleTagSearch = (data: ISearch) => {
         setTagListContent(defaultTagContentList());
         searchByText(data)
@@ -119,6 +129,7 @@ const TagView: FunctionComponent = (props): JSX.Element => {
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <TagCreate onCreateTag={handleTagCreate}/>
+                    <TagUpdateModal isOpen={isModal} data={tagModalData} onModalClose={handleTagModalClose}/>
                     <SearchCard table="tags" onSearch={handleTagSearch}/>
                     {tagListContent}
                 </Grid>
