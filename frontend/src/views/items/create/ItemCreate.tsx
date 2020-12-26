@@ -1,18 +1,17 @@
-import React, {useState, useContext, FunctionComponent, useEffect} from 'react';
+import React, {useState, useContext, FunctionComponent, useEffect, useCallback} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import Checkbox from '@material-ui/core/Checkbox';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {LinearLoader} from "../../../components/loaders/linear-loader/LinearLoader";
-// rich editor
-import CKEditor from 'ckeditor4-react';
-import './ck-editor.css';
-// custom
+import ClassicEditor from '../../../components/editor/ClassicEditor';
+import { ItemInterface } from '../common/item-interface';
+import { addNewItem } from '../../../common/async/AsyncCalls';
+
 
 const useStyles = makeStyles({
     card: {
@@ -65,39 +64,58 @@ interface IItemCreateProps {
     onCreateItem: (action: string) => void;
 }
 
-const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
+const ItemCreate: FunctionComponent<IItemCreateProps> = (props): JSX.Element => {
     const classes = useStyles();
-
+    const { onCreateItem } = props;
     // state
-    const [itemTitle, setItemTitle] = useState('');
-    const [itemDescription, setItemDescription] = useState('');
+    const [itemData, setItemData] = useState<ItemInterface>({
+        name: '',
+        description: '',
+        html: ''
+    });
     const [isLoading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState<string | null>('');
 
-    const handleChange = (event: any) => {
-        setItemTitle(event.target.value);
+    // Lifecycle methods
+    const resetAllFields = useCallback(()=>{
+        setItemData({
+            name: '',
+            description: '',
+            html: ''
+        })
+    },[]);
+
+    const handleTitleChange = (event: any) => {
+        setItemData((prev: ItemInterface) => {return {...prev, name: event.target.value}});
     };
 
     const handleSubmit = () => {
         setLoading(true);
-        if(itemTitle && itemDescription ) {
-            console.log('Input data is: ', itemTitle, itemDescription );
+        const { name, description, html } = itemData;
+        if(name && description && html ) {
+            addNewItem({name, description, html})
+                .then((res: any) => {
+                    resetAllFields();
+                    return onCreateItem('success');
+                })
+                .catch((err: any) => onCreateItem('failure'))
+                .finally(()=> setLoading(false));
         }
     };
 
-    const handleEditorChange = ( evt: any ) =>{
-        console.log('Editor changed: ', evt.editor.getData());
-        setItemDescription(evt.editor.getData());
-    };
+    const handleEditorChange = (text: string, html: string) => {
+        setItemData((prev: ItemInterface) => {return {...prev, description: text, html }});
+    }
+    
 
     const errorMsgText = () => <Typography className={classes.validationText} component="p">
         {errMsg}
     </Typography>;
 
     useEffect(()=>{
-        if (itemTitle !== '' && itemDescription !=='' ) setErrMsg(null);
+        if (itemData.name !== '' && itemData.description !=='' ) setErrMsg(null);
         else setErrMsg(`Please fill in missing fields`);
-    },[itemTitle, itemDescription]);
+    },[itemData]);
 
     // render
     return (
@@ -116,14 +134,10 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
                         id="title"
                         label="Item Title"
                         name="title"
-                        defaultValue = {itemTitle}
+                        value = {itemData.name}
                         autoFocus
-                        onBlur={handleChange}/>
-                     <CKEditor
-                        className="editor"
-                        type="classic"
-                        onChange={handleEditorChange}
-                        data="<p>Hello from CKEditor 4!</p>"/>
+                        onChange={handleTitleChange}/>
+                        <ClassicEditor placeholder={'Enter Item Description!'} onEditorChange={handleEditorChange}/>
                 </CardContent>
                 <CardActions className={classes.action}>
                     <Button onClick={handleSubmit} disabled={!!errMsg} variant="contained" size="medium" color="primary">Create Item</Button>

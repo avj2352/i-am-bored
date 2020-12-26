@@ -119,3 +119,14 @@ export const updateTagById = async (id: string, payload: any) => {
 export const deleteTagById = async(id: string) => {
     return axios.delete(`/tags/${id}`);
 };
+
+
+// ITEMS RELATED =========================================
+
+/**
+ * Add a New Item
+ * @param payload
+ */
+export const addNewItem = async (payload: any) => {
+    return axios.post('/items', payload);
+  };
