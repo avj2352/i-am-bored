@@ -9,9 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {LinearLoader} from "../../../components/loaders/linear-loader/LinearLoader";
-// ck editor
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// rich editor
+import CKEditor from 'ckeditor4-react';
 import './ck-editor.css';
 // custom
 
@@ -80,7 +79,6 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
     };
 
     const handleChange = (event: any) => {
-        console.log('Event is: ', event.target);
         setItemTitle(event.target.value);
     };
 
@@ -89,6 +87,11 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
         if(itemTitle && itemDescription ) {
             console.log('Input data is: ', itemTitle, itemDescription );
         }
+    };
+
+    const handleEditorChange = ( evt: any ) =>{
+        console.log('Editor changed: ', evt.editor.getData());
+        setItemDescription(evt.editor.getData());
     };
 
     const errorMsgText = () => <Typography className={classes.validationText} component="p">
@@ -120,27 +123,11 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
                         defaultValue = {itemTitle}
                         autoFocus
                         onBlur={handleChange}/>
-                    <CKEditor
-                        className={classes.editorContainer}
-                        editor={ ClassicEditor }
-                        data="<p>Enter Item Description here!</p>"
-                        onReady={ (editor: any) => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log( 'Editor is ready to use!', editor );
-                        } }
-                        onChange={ ( event: any, editor: any ) => {
-                            // console.log('Event and Edit - onChange: ', event, editor);
-                            const data = editor.getData();
-                            console.log('Data entered is: ', data);
-                            handleEditorDataChange.bind(null, data);
-                        } }
-                        onBlur={ ( event: any, editor: any ) => {
-                            console.log( 'Blur.', editor );
-                        } }
-                        onFocus={ ( event: any, editor: any ) => {
-                            console.log( 'Focus.', editor );
-                        } }
-                    />
+                     <CKEditor
+                        className="editor"
+                        type="classic"
+                        onChange={handleEditorChange}
+                        data="<p>Hello from CKEditor 4!</p>"/>
                 </CardContent>
                 <CardActions className={classes.action}>
                     <Button onClick={handleSubmit} disabled={!!errMsg} variant="contained" size="medium" color="primary">Create Item</Button>

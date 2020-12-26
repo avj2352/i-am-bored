@@ -1,9 +1,9 @@
-.ck-content {
-    width: 100%;
-}
-
-.ck.ck-editor {
-    color: black;
+div.cke_reset {
+    font-family: 'Montserrat', sans-serif !important;
     width: 100%;
     min-width: 300px;
+}
+
+div.cke_reset .cke_voice_label {
+    font-family: 'Montserrat', sans-serif !important;
 }

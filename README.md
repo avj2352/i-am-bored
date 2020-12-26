@@ -45,6 +45,74 @@ Comparing a Similar project I pulled off in the past. The Total time taken to co
 
 ---
 
+## Integratable Editors I tried during this app
+
+### Rich Markdown Editor
+
+Provides a very simple Interface. Perfect for writing editors that are built from scratch.
+
+- Requires a peer dependency of Styled Components
+- [Rich Markdown Editor - npm](https://www.npmjs.com/package/rich-markdown-editor)
+
+### Package.json
+```json
+{
+  "rich-markdown-editor": "^11.0.11",
+  "styled-components": "^5.2.1"
+}
+```
+
+### Usage
+
+```js
+import Editor from "rich-markdown-editor";
+...
+...
+...
+<Editor
+    placeholder="Enter Item Description"
+    defaultValue="Hello world!"/>
+```
+
+---
+
+### CKEditor 5 (Build)
+
+Also great for integrating with HTML, Minimal Coding required. Comes with a Build version which
+is easy to integrate into React
+
+```json
+{
+  "@ckeditor/ckeditor5-build-classic": "^24.0.0",
+  "@ckeditor/ckeditor5-editor-classic": "^24.0.0",
+  "@ckeditor/ckeditor5-essentials": "^24.0.0",
+  "@ckeditor/ckeditor5-markdown-gfm": "^24.0.0",
+  "@ckeditor/ckeditor5-react": "^3.0.0",
+}
+```
+
+Also you need to declare these in `src/types.d.ts`
+
+```js
+declare module '@ckeditor/ckeditor5-react';
+declare module '@ckeditor/ckeditor5-build-classic';
+```
+
+---
+
+### CKEditor 4
+
+More feature oriented than the simplistic CK Editor 5. also comes with an image plugin
+
+- [CK Editor 4 - React](https://ckeditor.com/docs/ckeditor4/latest/examples/react.html#/)
+- [CK Editor 4 - Installation](https://ckeditor.com/docs/ckeditor4/latest/guide/dev_react.html)
+
+```json
+"ckeditor4-react": "^1.3.0",
+```
+
+
+
 ## Important Links
 
 - [Collection of UI Designs - XD, Wireframes](https://uidesigndaily.com/posts/sketch-file-upload-form-day-919)
