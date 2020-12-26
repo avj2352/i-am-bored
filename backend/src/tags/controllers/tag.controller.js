@@ -62,8 +62,6 @@ export class TagController {
         // check if authenticated
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
-        // check if admin user
-        if (!this.authService.checkIfAdminUser(user)) return res.sendStatus(401);
         // validate payload
         if (this.validatePayload(req)) {
             return res.sendStatus(400);
