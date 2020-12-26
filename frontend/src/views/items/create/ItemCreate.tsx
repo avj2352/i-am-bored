@@ -74,10 +74,6 @@ const ItemCreate: FunctionComponent<IItemCreateProps> = (props) => {
     const [isLoading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState<string | null>('');
 
-    const handleEditorDataChange = (data: any) => {
-        setItemDescription(data);
-    };
-
     const handleChange = (event: any) => {
         setItemTitle(event.target.value);
     };
