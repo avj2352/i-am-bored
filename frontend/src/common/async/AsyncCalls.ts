@@ -129,4 +129,20 @@ export const deleteTagById = async(id: string) => {
  */
 export const addNewItem = async (payload: any) => {
     return axios.post('/items', payload);
-  };
+};
+
+/**
+ * Get a list of all records
+ */
+export const getAllItems = async () => {
+    return axios.get('/items');
+};
+
+/**
+ * Update record by its id
+ * @param id
+ * @param payload
+ */
+export const updateItemById = async (id: string, payload: any) => {
+    return axios.put(`/items/${id}`, payload);
+};

@@ -113,7 +113,7 @@ export class ItemController {
         if (!Boolean(user)) return res.sendStatus(401);
         if (this.validatePayload(req)) return res.sendStatus(400);
         try {
-            const result = await this.itemService.updateItemById(req.params.tagId, {
+            const result = await this.itemService.updateItemById(req.params.itemId, {
                 name: req.body.name,
                 description: req.body.description,
                 html: req.body.html

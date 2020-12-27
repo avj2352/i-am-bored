@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import CKEditor from 'ckeditor4-react';
 // custom
 import './ck-editor.css';
-import { removeHtmlTags, removeNewLines } from '../../common/util/HelperFunctions';
+import { removeHtmlTags, removeNewLines, removeSpecialCharacters, replaceAmpersand } from '../../common/util/HelperFunctions';
 
 interface IClassicEditorProps {
     placeholder: string;
@@ -17,6 +17,8 @@ const ClassicEditor: FunctionComponent<IClassicEditorProps> = (props): JSX.Eleme
         const html: string =  evt.editor.getData();
         let text: string = removeHtmlTags(html);
         text = removeNewLines(text);
+        text = removeSpecialCharacters(text);
+        text = replaceAmpersand(text);
         onEditorChange(text, html);
     };
 
