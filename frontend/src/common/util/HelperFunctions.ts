@@ -17,7 +17,17 @@ export const removeNewLines = (text: string): string => text.replace(/(\r\n|\n|\
  * @param string text
  * @returns string
  */
-export const removeSpecialCharacters = (text: string): string => text.replace(/&(quot;|gt;|lt;)?/g, "");
+export const removeSpecialCharacters = (text: string): string => text.replace(/&(quot;|nbsp;|gt;|lt;)?/g, "");
+
+/**
+ * Helper function to provide a substring, default is 70 characters
+ * @param text 
+ */
+export const getSubText = (text: string, count?:number): string => {
+    let len = count? count : 70;
+    const result = text.substr(0,len);
+    return `${result}...`;
+};
 
 /**
  * Helper function to remove special characters

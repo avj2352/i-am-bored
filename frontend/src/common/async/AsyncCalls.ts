@@ -146,3 +146,11 @@ export const getAllItems = async () => {
 export const updateItemById = async (id: string, payload: any) => {
     return axios.put(`/items/${id}`, payload);
 };
+
+/**
+ * Delete a record by Id
+ * @param id
+ */
+export const deleteItemById = async(id: string) => {
+    return axios.delete(`/items/${id}`);
+};

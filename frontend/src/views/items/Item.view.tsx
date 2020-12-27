@@ -7,7 +7,7 @@ import CloseActionButton from "../../components/notifications/CloseActionButton"
 import ItemCreate from "./create/ItemCreate";
 import ItemSearch from "./search/ItemSearch";
 import ItemListSkeleton from "./loading/ItemListSkeleton";
-import { getAllItems, searchByText } from '../../common/async/AsyncCalls';
+import { deleteItemById, getAllItems, searchByText } from '../../common/async/AsyncCalls';
 import { ItemInterface } from './common/item-interface';
 import ItemCard from './card/ItemCard';
 import SearchCard from '../../components/search/SearchCard';
@@ -45,16 +45,22 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
     };
 
     const handleItemDelete = (id: string) => {
-        console.log('Item to delete: ', id);
+        deleteItemById(id)
+            .then((res: any) => {
+                enqueueSnackbar(`Group record deleted !`, {variant: 'info', action: okActionButton });
+                return fetchAllItems();
+            })
+            .catch((err: any) => enqueueSnackbar(`Error deleting Group record...`,
+                {variant: 'error', action: okActionButton }))
     };
 
     // lifecycle methods
-    const fetchallItems = useCallback(()=>{
+    const fetchAllItems = useCallback(()=>{
         setItemListContent(getDefaultListContent());
         getAllItems()
             .then((res: any) => {
                 if (res.data.length > 0) {
-                    console.log('Item list is: ', res.data);
+                    // console.log('Item list is: ', res.data);
                     const list: JSX.Element[] = res.data?.map((item: any, index:number) => <ItemCard
                             key={index}
                             onEdit={handleItemEdit}
@@ -75,10 +81,10 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
 
     // event handlers
     const handleItemCreate = (action: string) => {
-        console.log('Action was a: ', action);
+        // console.log('Action was a: ', action);
         if(action === 'success') {
             enqueueSnackbar(`Item record created !`, {variant: 'info', action: okActionButton });
-            return fetchallItems();
+            return fetchAllItems();
         } else if (action === 'failure') {
             enqueueSnackbar(`Error creating Item record...`, {variant: 'error', action: okActionButton });
         }
@@ -88,7 +94,7 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
         setItemListContent(getDefaultListContent())
         searchByText(data)
             .then((res: any) => {
-                console.log('Search Result is: ', res.data);
+                // console.log('Search Result is: ', res.data);
                 if (res.data.length > 0) {
                     const list: JSX.Element[] = res.data?.map((item: any, index:number) => <ItemCard
                         key={index}
@@ -109,21 +115,19 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
     };
 
     const handleItemModalClose = (status: boolean, value: 'success' | 'failure' | 'cancel') => {
-        console.log('Modal status is: ', status);
+        // console.log('Modal status is: ', status);
         if (value === 'success') {
             enqueueSnackbar(`Tag record updated !`, {variant: 'info', action: okActionButton });
         } else if (value === 'failure') {
             enqueueSnackbar(`Error updating Tag record...`, {variant: 'error', action: okActionButton });
         }
         setModal(status);
-        return fetchallItems();
+        return fetchAllItems();
     };
-
-    
 
     // component did mount
     useEffect(()=>{
-        fetchallItems();
+        fetchAllItems();
     },[]);
 
     return (

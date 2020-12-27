@@ -13,6 +13,8 @@ import {makeStyles} from "@material-ui/core/styles";
 // custom
 import { ItemInterface } from "../common/item-interface";
 import {useSnackbar} from "notistack";
+import { getSubText } from "../../../common/util/HelperFunctions";
+import ItemBadgeModal from "../../../components/badges/item-badge/ItemBadgeModal";
 
 interface ItemInterfaceCardProps extends ItemInterface {
     onEdit: (data: ItemInterface ) => void;
@@ -96,8 +98,9 @@ const ItemCard: FunctionComponent<ItemInterfaceCardProps> = (props):JSX.Element 
                 <CardContent className={classes.cardContent}>
                     <Typography variant="h5" component="h2">{props.name}</Typography>
                     <Typography className={classes.pos} component="p">
-                        {props.description}
+                        {getSubText(props.description)}
                     </Typography>
+                    <ItemBadgeModal name={name} description={description} html={html}/>
                 </CardContent>
                 <CardActions className={classes.action}>
                     <Fab
