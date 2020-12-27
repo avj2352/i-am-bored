@@ -117,7 +117,7 @@ const ItemUpdateModal: FunctionComponent<ItemInterfaceModalProps> = (props): JSX
                     defaultValue = {data.name}
                     autoFocus
                     onBlur={handleNameChange}/>
-                <ClassicEditor placeholder={data.description} onEditorChange={handleEditorChange}/>
+                <ClassicEditor placeholder={data.html} onEditorChange={handleEditorChange}/>
             </DialogContent>
             <DialogActions>
                 <Button
