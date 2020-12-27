@@ -1,5 +1,5 @@
 import {createMuiTheme, ThemeOptions} from '@material-ui/core/styles';
-import {useGlobalState} from "../context/AppContext";
+import { useGlobalState } from '../context/AppContext';
 
 export const useThemeOptions = () : ThemeOptions => {
     const appContext = useGlobalState();

@@ -17,7 +17,8 @@ export const ItemSchema = new Schema({
     },
     description: {
         type: String,
-        required: 'Provide Item Description'
+        required: 'Provide Item Description',
+        trim: true
     },
     html: {
         type: String,

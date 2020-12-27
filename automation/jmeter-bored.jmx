@@ -84,7 +84,7 @@
         <stringProp name="TestPlan.comments">Variables for Heroku Environment</stringProp>
       </Arguments>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Auth Module" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Auth Module" enabled="false">
         <stringProp name="TestPlan.comments">Module to check user authentication</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -178,7 +178,7 @@
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Groups Module" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Groups Module" enabled="false">
         <stringProp name="TestPlan.comments">Module containing API for CRUD - groups</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -187,9 +187,9 @@
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">1</stringProp>
+        <stringProp name="ThreadGroup.delay">1</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
@@ -663,7 +663,7 @@ vars.put(&quot;groupId&quot;, id);</stringProp>
           <stringProp name="TestPlan.comments">PUT request to update group record details by its ID</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Returns 200" enabled="true">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Returns 200" enabled="false">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
             </collectionProp>
@@ -674,7 +674,7 @@ vars.put(&quot;groupId&quot;, id);</stringProp>
             <intProp name="Assertion.test_type">8</intProp>
           </ResponseAssertion>
           <hashTree/>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="false">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Cookie</stringProp>
@@ -686,6 +686,14 @@ vars.put(&quot;groupId&quot;, id);</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
+          <hashTree/>
+          <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor" enabled="false">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">String id = vars.get(&quot;groupId&quot;);
+props.put(&quot;groupId&quot;,id);</stringProp>
+          </BeanShellPreProcessor>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="PUT Groups - Update group ID - Unauthorized" enabled="true">
@@ -1146,7 +1154,7 @@ vars.put(&quot;groupId&quot;, id);</stringProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">2</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -1216,47 +1224,6 @@ vars.put(&quot;groupId&quot;, id);</stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Tags - Authenticated but not Admin" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">${baseURL}</stringProp>
-          <stringProp name="HTTPSampler.port">${port}</stringProp>
-          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/tags</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="TestPlan.comments">POST request to add a new record will throw Unauthorized if user is authenticated but is not admin</stringProp>
-        </HTTPSamplerProxy>
-        <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
-            <collectionProp name="HeaderManager.headers">
-              <elementProp name="" elementType="Header">
-                <stringProp name="Header.name">Cookie</stringProp>
-                <stringProp name="Header.value">${cookie-session-user}</stringProp>
-              </elementProp>
-            </collectionProp>
-          </HeaderManager>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Returns 401" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="51509">401</stringProp>
-            </collectionProp>
-            <stringProp name="TestPlan.comments">Response Assertion - Should return 401 error response</stringProp>
-            <stringProp name="Assertion.custom_message">Response Code is not matching / User is having admin access!</stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-            <boolProp name="Assertion.assume_success">true</boolProp>
-            <intProp name="Assertion.test_type">8</intProp>
-          </ResponseAssertion>
-          <hashTree/>
-        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Tags - Missing Payload" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -1316,8 +1283,8 @@ vars.put(&quot;groupId&quot;, id);</stringProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	&quot;name&quot;: &quot;2020&quot;,&#xd;
-	&quot;description&quot;: &quot;Recipes/articles of the year 2020&quot;&#xd;
+	&quot;name&quot;: &quot;2022&quot;,&#xd;
+	&quot;description&quot;: &quot;Recipes/articles of the year 2022&quot;&#xd;
 }&#xd;
 </stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -2070,7 +2037,7 @@ vars.put(&quot;tagId&quot;, id);</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Items Module" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Items Module" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -2147,47 +2114,6 @@ vars.put(&quot;tagId&quot;, id);</stringProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Items - Authenticated but not Admin" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">${baseURL}</stringProp>
-          <stringProp name="HTTPSampler.port">${port}</stringProp>
-          <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/items</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="TestPlan.comments">POST request to add a new record will throw Unauthorized if user is authenticated but is not admin</stringProp>
-        </HTTPSamplerProxy>
-        <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
-            <collectionProp name="HeaderManager.headers">
-              <elementProp name="" elementType="Header">
-                <stringProp name="Header.name">Cookie</stringProp>
-                <stringProp name="Header.value">${cookie-session-user}</stringProp>
-              </elementProp>
-            </collectionProp>
-          </HeaderManager>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Returns 401" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="51509">401</stringProp>
-            </collectionProp>
-            <stringProp name="TestPlan.comments">Response Assertion - Should return 401 error response</stringProp>
-            <stringProp name="Assertion.custom_message">Response Code is not matching / User is having admin access!</stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-            <boolProp name="Assertion.assume_success">true</boolProp>
-            <intProp name="Assertion.test_type">8</intProp>
-          </ResponseAssertion>
-          <hashTree/>
-        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST Items - Add new Record (Success)" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -2196,7 +2122,8 @@ vars.put(&quot;tagId&quot;, id);</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
 	&quot;name&quot;: &quot;kotumbari&quot;,&#xd;
-	&quot;description&quot;: &quot;## Title for Coriander&quot;&#xd;
+	&quot;description&quot;: &quot;Title for Coriander&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&lt;/p&gt;&quot;&#xd;
 }&#xd;
 </stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -2274,7 +2201,8 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
 	&quot;name&quot;: &quot;kotumbari&quot;,&#xd;
-	&quot;description&quot;: &quot;## Title for Coriander&quot;&#xd;
+	&quot;description&quot;: &quot;Title for Coriander&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&lt;/p&gt;&quot;&#xd;
 }&#xd;
 </stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -2509,9 +2437,11 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	&quot;name&quot;: &quot;Test Data 01&quot;,&#xd;
-	&quot;description&quot;: &quot;JMeter - Updated Test Data&quot;&#xd;
-}</stringProp>
+	&quot;name&quot;: &quot;kotumbari&quot;,&#xd;
+	&quot;description&quot;: &quot;Title for Coriander&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&lt;/p&gt;&quot;&#xd;
+}&#xd;
+</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -2564,9 +2494,11 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	&quot;name&quot;: &quot;Test Data 01&quot;,&#xd;
-	&quot;description&quot;: &quot;JMeter - Updated Test Data&quot;&#xd;
-}</stringProp>
+	&quot;name&quot;: &quot;kotumbari&quot;,&#xd;
+	&quot;description&quot;: &quot;Title for Coriander&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&lt;/p&gt;&quot;&#xd;
+}&#xd;
+</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -2669,6 +2601,7 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
                 <stringProp name="Argument.value">{&#xd;
 	&quot;name&quot;: &quot;Test Data 01&quot;,&#xd;
 	&quot;description&quot;: &quot;JMeter - Updated Test Data&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Simple text&lt;/p&gt;&quot;;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
@@ -3004,7 +2937,7 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Timers Module" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Timers Module" enabled="false">
         <stringProp name="TestPlan.comments">Module containing API for CRUD - timers</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -3748,7 +3681,7 @@ vars.put(&quot;timerId&quot;, id);</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Recipe Module" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Recipe Module" enabled="false">
         <stringProp name="TestPlan.comments">Module containing API for CRUD - recipes</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -3931,6 +3864,7 @@ vars.put(&quot;timerId&quot;, id);</stringProp>
 	&quot;link&quot;: &quot;https://youtube.com&quot;,&#xd;
 	&quot;isPrivate&quot;: true,&#xd;
 	&quot;content&quot;: &quot;Test Content by user&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&quot;,&#xd;
 	&quot;group&quot;: &quot;5f99dc92e313aa62ae7d1739&quot;,&#xd;
 	&quot;tags&quot;: [&quot;5f9fde66ef06709645251115&quot;],&#xd;
 	&quot;items&quot;: [&quot;5fa29d2deaef51bf4f8f9d9f&quot;],&#xd;
@@ -4016,6 +3950,7 @@ log.info(&quot;Recipe record created successfully. Record is: &quot; + id);</str
 	&quot;link&quot;: &quot;https://youtube.com&quot;,&#xd;
 	&quot;isPrivate&quot;: true,&#xd;
 	&quot;content&quot;: &quot;Test Content by user&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&quot;,&#xd;
 	&quot;group&quot;: &quot;5f99dc92e313aa62ae7d1739&quot;,&#xd;
 	&quot;tags&quot;: [&quot;5f9fde66ef06709645251115&quot;],&#xd;
 	&quot;items&quot;: [&quot;5fa29d2deaef51bf4f8f9d9f&quot;],&#xd;
@@ -4289,6 +4224,7 @@ log.info(&quot;Recipe record created successfully. Record is: &quot; + id);</str
 	&quot;link&quot;: &quot;https://youtube.com&quot;,&#xd;
 	&quot;isPrivate&quot;: true,&#xd;
 	&quot;content&quot;: &quot;Test Content by user 02&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&quot;,&#xd;
 	&quot;group&quot;: &quot;5f99dc92e313aa62ae7d1739&quot;,&#xd;
 	&quot;tags&quot;: [&quot;5f9fde66ef06709645251115&quot;],&#xd;
 	&quot;items&quot;: [&quot;5fa29d2deaef51bf4f8f9d9f&quot;],&#xd;
@@ -5210,7 +5146,8 @@ log.info(&quot;Timer record created, record id: &quot; + id);</stringProp>
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
 	&quot;name&quot;: &quot;mint leaves&quot;,&#xd;
-	&quot;description&quot;: &quot;## Mint Leaves [Link](http://google.com)&quot;&#xd;
+	&quot;description&quot;: &quot;Mint Leaves [Link](http://google.com)&quot;,&#xd;
+	&quot;html&quot;:&quot;&lt;p&gt;Hello World&lt;/p&gt;&quot;&#xd;
 }&#xd;
 </stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -5291,6 +5228,7 @@ vars.put(&quot;itemId&quot;, id);</stringProp>
 	&quot;link&quot;: &quot;https://youtube.com&quot;,&#xd;
 	&quot;isPrivate&quot;: false,&#xd;
 	&quot;content&quot;: &quot;Simple Stir Fry recipe for beef - danish&quot;,&#xd;
+	&quot;html&quot;: &quot;&lt;p&gt;Hello World&quot;,&#xd;
 	&quot;group&quot;: &quot;5f99dc92e313aa62ae7d1739&quot;,&#xd;
 	&quot;tags&quot;: [&quot;5f9fde66ef06709645251115&quot;],&#xd;
 	&quot;items&quot;: [&quot;5fa29d2deaef51bf4f8f9d9f&quot;],&#xd;

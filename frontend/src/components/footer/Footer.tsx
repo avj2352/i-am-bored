@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState, useContext, FunctionComponent} from 'react';
+import React, {useEffect, useState, FunctionComponent} from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
@@ -10,15 +10,14 @@ import IconButton from '@material-ui/core/IconButton';
 import clxs from 'clsx';
 import Fab from '@material-ui/core/Fab';
 import MenuIcon from '@material-ui/icons/Menu';
-import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 import ToggleDarkIcon from '@material-ui/icons/NightsStay';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import ToggleLightIcon from '@material-ui/icons/WbSunny';
 import SearchIcon from '@material-ui/icons/Search';
+import DashboardIcon from '@material-ui/icons/AccountBalance';
 // custom
 import MenuDropDown from './../menu-drop-down/MenuDropdown';
 import { useStyles } from './footer-style';
-import {CONTEXT_ACTION_TYPE, useGlobalDispatch, useGlobalState} from '../../common/context/AppContext';
+import {CONTEXT_ACTION_TYPE, IAppContextState, useGlobalDispatch, useGlobalState} from '../../common/context/AppContext';
 import clsx from "clsx";
 
 
@@ -28,25 +27,31 @@ interface IFooterProps {
 }
 
 const Footer: FunctionComponent<IFooterProps> = (props): JSX.Element => {
-    const appContext: any = useGlobalDispatch();
+    const appDispatch: any = useGlobalDispatch();
+    const appContext: IAppContextState = useGlobalState();
+
     const history = useHistory();
     const classes = useStyles();
     const { open, handleDrawerOpen } = props;
 
     const { enqueueSnackbar, closeSnackbar }  = useSnackbar();
     const [ userDetails, setUserDetails] = useState({firstName: '', lastName: '', role: ''});
-    const [ isUserLoggedIn, setUserLoggedIn] = useState(false);
+    const [ theme, setTheme] = useState(appContext.theme);
 
     // event handlers - toggleTheme
     const toggleMode = (evt: any) => {
-        appContext({
-            type: CONTEXT_ACTION_TYPE.THEME_TOGGLE,
-            payload: open
-        });
-    }    
-
-
-
+        if (theme === 'dark') {
+            appDispatch ({
+                type: CONTEXT_ACTION_TYPE.THEME_TOGGLE,
+                payload: false
+            });
+        } else {
+            appDispatch ({
+                type: CONTEXT_ACTION_TYPE.THEME_TOGGLE,
+                payload: true
+            });
+        }        
+    }
 
     //close sidebar on sidebar buttons click
     //https://reacttraining.com/react-router/web/api/history
@@ -56,6 +61,10 @@ const Footer: FunctionComponent<IFooterProps> = (props): JSX.Element => {
         };
         history.push(location);        
     }
+
+    useEffect(()=>{        
+        setTheme(appContext.theme);
+    },[appContext.theme]);
 
     return (
         <AppBar position="fixed" color="primary" className={clsx(classes.appBar, {
@@ -71,6 +80,14 @@ const Footer: FunctionComponent<IFooterProps> = (props): JSX.Element => {
                 >
                     <MenuIcon />
                 </IconButton>
+                <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu button"
+                    className={classes.dashboardButton}
+                    onClick={navigateLink.bind(null,'')}>
+                    <DashboardIcon />
+                </IconButton>
                 <Fab 
                     color="primary"
                     aria-label="add" 
@@ -78,10 +95,11 @@ const Footer: FunctionComponent<IFooterProps> = (props): JSX.Element => {
                     onClick={() => navigateLink('search')}>
                     <SearchIcon />
                 </Fab>
-                <div className={classes.grow} />
-                <IconButton edge="end" color="inherit">
-                    <MenuDropDown/>
-                </IconButton>
+                <div className={classes.grow} />                
+                {appContext.profile && <IconButton onClick={toggleMode}>
+                    {appContext.theme === 'dark' ? <ToggleLightIcon /> : <ToggleDarkIcon/> }
+                </IconButton>}
+                <MenuDropDown/>                               
             </Toolbar>
         </AppBar>
     );

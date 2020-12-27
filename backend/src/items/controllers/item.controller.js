@@ -29,7 +29,8 @@ export class ItemController {
      */
     validatePayload (req) {
         return !req.body.name || req.body.name === '' ||
-            !req.body.description || req.body.description === '';
+            !req.body.description || req.body.description === '' ||
+            !req.body.html || req.body.html === '';
     }
 
     /**
@@ -61,15 +62,12 @@ export class ItemController {
         // check if authenticated
         const user = this.authService.fetchUserDetails(req);
         if (!Boolean(user)) return res.sendStatus(401);
-        // check if admin user
-        if (!this.authService.checkIfAdminUser(user)) return res.sendStatus(401);
         if (this.validatePayload(req)) return res.sendStatus(400);
         try {
-            const html = this.itemService.convertHTML(req.body.description);
             const result = await this.itemService.addNewItem ({
                 name: req.body.name,
                 description: req.body.description,
-                html
+                html: req.body.html
             });
             console.log(`${this.logger} - New Record added`, result);
             return res.status(201).send(result._id);
@@ -115,11 +113,10 @@ export class ItemController {
         if (!Boolean(user)) return res.sendStatus(401);
         if (this.validatePayload(req)) return res.sendStatus(400);
         try {
-            const html = this.itemService.convertHTML(req.body.description);
-            const result = await this.itemService.updateItemById(req.params.tagId, {
+            const result = await this.itemService.updateItemById(req.params.itemId, {
                 name: req.body.name,
                 description: req.body.description,
-                html
+                html: req.body.html
             });
             console.log(`${this.logger} - Record updated: `, result);
             return res.sendStatus(200);

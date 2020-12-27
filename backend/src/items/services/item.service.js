@@ -13,7 +13,6 @@ export class ItemService {
         this.deleteItemById = this.deleteItemById.bind(this);
         this.searchFullText = this.searchFullText.bind(this);
         this.searchPartialText = this.searchPartialText.bind(this);
-        this.convertHTML = this.convertHTML.bind(this);
     }
 
     /**
@@ -118,14 +117,5 @@ export class ItemService {
                 else resolve(data); // Get JSON format of contact
             });
         });
-    }
-
-    /**
-     * convert markdown to html
-     * @param text {string} markdown text
-     * @returns html {string}
-     */
-    convertHTML (text) {
-        return converter.makeHtml(text);
     }
 }

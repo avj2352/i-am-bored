@@ -28,7 +28,7 @@ export const useStyles = makeStyles(theme => ({
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      minWidth: 300,
+      minWidth: 270,
       margin: 20,
       overflow: 'hidden',
     },
@@ -49,8 +49,11 @@ export const useStyles = makeStyles(theme => ({
     },
     footer: {
       justifySelf: 'flex-end',
+      display: 'flex',
+      justifyContent: 'space-between',
       padding: 20,
-      maxWidth: 275
+      maxWidth: 275,
+      marginBottom: 15
     },
     [theme.breakpoints.between(270,414)]: {
       imageIcon: {

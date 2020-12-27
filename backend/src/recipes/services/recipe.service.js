@@ -3,7 +3,6 @@
  * */
 require('./../../util/colors');
 import { RecipeModel } from './../models/recipe.model';
-import converter from "../../util/showdown-converter";
 
 export class RecipeService {
     constructor() {
@@ -19,7 +18,6 @@ export class RecipeService {
         this.deleteRecipeById = this.deleteRecipeById.bind(this);
         this.searchFullText = this.searchFullText.bind(this);
         this.searchPartialText = this.searchPartialText.bind(this);
-        this.convertHTML = this.convertHTML.bind(this);
     }
 
 
@@ -226,12 +224,4 @@ export class RecipeService {
         });
     }
 
-    /**
-     * convert markdown to html
-     * @param text {string} markdown text
-     * @returns html {string}
-     */
-    convertHTML (text) {
-        return converter.makeHtml(text);
-    }
 }

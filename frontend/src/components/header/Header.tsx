@@ -1,21 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
 //Material
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 // custom
 import { useGlobalState } from '../../common/context/AppContext';
-import MenuDropDown from '../menu-drop-down/MenuDropdown';
 //CSS in JS
 import { useStyles } from './header-style';
-import { FunctionComponent } from 'react';
 
 interface IHeaderProps {
   open: boolean;

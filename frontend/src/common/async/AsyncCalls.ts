@@ -1,4 +1,17 @@
 import axios from 'axios';
+import {ISearch} from "../../components/search/search-interface";
+
+// COMMON API =====================================
+/**
+ * Search tables by Text - partial | full
+ * @param data ISearch
+ */
+
+export const searchByText = async(data: ISearch) => {
+    const { table, type, query } = data;
+    return axios.get(`/${table}/search/text?type=${type}&text=${query}`);
+};
+
 
 // AUTHENTICATION =====================================
 /**
@@ -12,6 +25,10 @@ export const getUserDetails = async () => {
   return axios.get('/auth/userDetails');
 };
 
+export const logoutUser = async () => {
+    return axios.get('/auth/logout');
+};
+
 // GROUPS RELATED =====================================
 
 /**
@@ -19,21 +36,21 @@ export const getUserDetails = async () => {
  * @param payload
  */
 export const addGroupDetails = async (payload: any) => {
-  return axios.post('/group', payload);
+  return axios.post('/groups', payload);
 };
 
 /**
  * Get a list of all Groups
  */
 export const getAllGroups = async () => {
-    return axios.get('/group');
+    return axios.get('/groups');
 };
 
 /**
  * Get a list of all Filtered (w/o premium) Groups
  */
 export const getAllFilteredGroups = async () => {
-    return axios.get('/group?q=filtered');
+    return axios.get('/groups?q=filtered');
 };
 
 /**
@@ -41,7 +58,7 @@ export const getAllFilteredGroups = async () => {
  * @param id
  */
 export const getGroupDetailsById = async (id: string) => {
-    return axios.get(`/group/${id}`);
+    return axios.get(`/groups/${id}`);
 };
 
 /**
@@ -50,7 +67,7 @@ export const getGroupDetailsById = async (id: string) => {
  * @param payload
  */
 export const updateGroupById = async (id: string, payload: any) => {
-    return axios.put(`/group/${id}`, payload);
+    return axios.put(`/groups/${id}`, payload);
 };
 
 /**
@@ -58,7 +75,7 @@ export const updateGroupById = async (id: string, payload: any) => {
  * @param id
  */
 export const deleteGroupById = async(id: string) => {
-    return axios.delete(`/group/${id}`);
+    return axios.delete(`/groups/${id}`);
 };
 
 // TAGS RELATED =====================================
@@ -68,14 +85,14 @@ export const deleteGroupById = async(id: string) => {
  * @param payload
  */
 export const addTagDetails = async (payload: any) => {
-    return axios.post('/tag', payload);
+    return axios.post('/tags', payload);
 };
 
 /**
  * Get a list of all records
  */
 export const getAllTags = async () => {
-    return axios.get('/tag');
+    return axios.get('/tags');
 };
 
 /**
@@ -83,7 +100,7 @@ export const getAllTags = async () => {
  * @param id
  */
 export const getTagDetailsById = async (id: string) => {
-    return axios.get(`/tag/${id}`);
+    return axios.get(`/tags/${id}`);
 };
 
 /**
@@ -92,7 +109,7 @@ export const getTagDetailsById = async (id: string) => {
  * @param payload
  */
 export const updateTagById = async (id: string, payload: any) => {
-    return axios.put(`/tag/${id}`, payload);
+    return axios.put(`/tags/${id}`, payload);
 };
 
 /**
@@ -100,5 +117,40 @@ export const updateTagById = async (id: string, payload: any) => {
  * @param id
  */
 export const deleteTagById = async(id: string) => {
-    return axios.delete(`/tag/${id}`);
+    return axios.delete(`/tags/${id}`);
+};
+
+
+// ITEMS RELATED =========================================
+
+/**
+ * Add a New Item
+ * @param payload
+ */
+export const addNewItem = async (payload: any) => {
+    return axios.post('/items', payload);
+};
+
+/**
+ * Get a list of all records
+ */
+export const getAllItems = async () => {
+    return axios.get('/items');
+};
+
+/**
+ * Update record by its id
+ * @param id
+ * @param payload
+ */
+export const updateItemById = async (id: string, payload: any) => {
+    return axios.put(`/items/${id}`, payload);
+};
+
+/**
+ * Delete a record by Id
+ * @param id
+ */
+export const deleteItemById = async(id: string) => {
+    return axios.delete(`/items/${id}`);
 };

@@ -1,5 +1,9 @@
 backend/node_modules
+backend/yarn.lock
+backend/.DS_Store
 frontend/node_modules
+frontend/yarn.lock
+frontend/.DS_Store
 .idea
 .DS_Store
 /**/.DS_Store

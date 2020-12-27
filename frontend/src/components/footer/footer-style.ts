@@ -41,6 +41,9 @@ export const useStyles = makeStyles(theme => ({
     grow: {
       flexGrow: 1,
     },
+    dashboardButton: {
+        margin: '0 5px'
+    },
     fabButton: {
       position: 'absolute',
       zIndex: 1,

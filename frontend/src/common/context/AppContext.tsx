@@ -15,8 +15,8 @@ export enum CONTEXT_ACTION_TYPE {
 
 export const initialState: IAppContextState = {
     profile: undefined,
-    theme: 'dark',
-    version: '0.2.3',
+    theme: 'light',
+    version: '0.3.1',
     title: 'B.O.R.E.D'
 };
 
@@ -28,7 +28,7 @@ const appContextReducer = (state: IAppContextState, action: {type: CONTEXT_ACTIO
     switch (type) {
         case CONTEXT_ACTION_TYPE.SET_PROFILE_DATA:
             return { ...state, profile: payload };
-        case CONTEXT_ACTION_TYPE.THEME_TOGGLE:
+        case CONTEXT_ACTION_TYPE.THEME_TOGGLE:            
             if (payload) return {...state, theme: 'dark'};
             else return {...state, theme: 'light'};
         case CONTEXT_ACTION_TYPE.SET_VERSION:

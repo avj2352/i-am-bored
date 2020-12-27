@@ -35,6 +35,7 @@ export class RecipeController {
             !req.body.hasOwnProperty('isPrivate') ||
             !req.body.hasOwnProperty('link') ||
             !req.body.content || req.body.content === '' ||
+            !req.body.html || req.body.html === '' ||
             !req.body.group || req.body.group === '' ||
             !req.body.tags || !Array.isArray(req.body.tags) ||
             !req.body.items || !Array.isArray(req.body.items) ||
@@ -113,14 +114,13 @@ export class RecipeController {
         if (!Boolean(user)) return res.sendStatus(401);
         if (this.validatePayload(req)) return res.status(400).send('Invalid Payload');
         try {
-            const html = this.recipeService.convertHTML(req.body.content);
             const result = await this.recipeService.addNewRecipe({
                 title: req.body.title,
                 link: req.body.link ? req.body.link : '',
                 isPrivate: req.body.isPrivate,
                 userId: req.user.id,
                 content: req.body.content,
-                html,
+                html: req.body.html,
                 groupId: req.body.group,
                 tags: req.body.tags,
                 items: req.body.items,
@@ -152,14 +152,13 @@ export class RecipeController {
         if (!Boolean(user)) return res.sendStatus(401);
         if (this.validatePayload(req)) return res.status(400).send('Invalid Payload');
         try {
-            const html = this.recipeService.convertHTML(req.body.content);
             const result = await this.recipeService.updateRecipeById( req.params.recipeId, {
                 title: req.body.title,
                 link: req.body.link ? req.body.link : '',
                 isPrivate: req.body.isPrivate,
                 userId: req.user.id,
                 content: req.body.content,
-                html,
+                html: req.body.html,
                 groupId: req.body.group,
                 tags: req.body.tags,
                 items: req.body.items,
