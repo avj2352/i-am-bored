@@ -102,7 +102,7 @@ const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
                         fullWidth
                         required
                         id="query"
-                        label="Search Group"
+                        label={`Search ${table}`}
                         name="query"
                         defaultValue = {groupQuery}
                         autoFocus

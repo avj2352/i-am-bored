@@ -5,22 +5,15 @@ import { FaGoogle } from 'react-icons/fa';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 // custom
 import {useStyles} from './login.style';
-import RegisterButton from '../../components/buttons/register-button/RegisterButton';
 import logo from './../../assets/img/logo.png';
-import { authenticateUser } from './../../common/async/AsyncCalls';
-import { addLocalStorageItem } from './../../common/helper/LocalStorageProvider';
 import { LinearLoader } from './../../components/loaders/linear-loader/LinearLoader';
 // context
 import { RouterDispatchContext, NAMED_ROUTES } from '../../router/context/RouterContext';
 import {AppStateContext, CONTEXT_ACTION_TYPE, useGlobalDispatch} from './../../common/context/AppContext';
-import { getUserDetails } from './../../common/async/AsyncCalls';
-import { getLocalStorageItem } from './../../common/helper/LocalStorageProvider';
 // notification
-import { SimpleNotification, NOTIFICATION_TYPE } from '../../common/snackbar/SnackbarHelper';
 import SimpleLinkButton from '../../components/buttons/links/SimpleLinkButton';
 
 
@@ -33,30 +26,11 @@ const LoginView : FunctionComponent = () => {
     const appContext = useContext(AppStateContext);
     const routeDispatch: any = useContext(RouterDispatchContext);
     const appDispatch: any = useGlobalDispatch();
-    //states    
-    const [noteMsg, setNoteMsg] = useState('');
+    //states
     const [isLoading, setLoading] = useState(false);
     //refs    
     let submitRef = useRef<HTMLButtonElement>(document.createElement("button"));
     let loginBoxDom = useRef<HTMLDivElement>(document.createElement("div"));
-
-    // life-cycle
-    const fetchLoggedInUserDetails = useCallback(() => {
-        const token: string = getLocalStorageItem('token');
-        // console.log('Token is: ', token);
-        // getUserDetails(token)
-        // .then((res: any) => {
-        //     setLoading(false);
-        //     // console.log('User details are: ', res.data);
-        //     routeDispatch ({
-        //         type: NAMED_ROUTES.APP
-        //     });
-        // }, err => {
-        //     setLoading(false);
-        //     console.log('Error fetching user details: ', err);
-        // });
-    },[routeDispatch]);
-
 
     const animateIn = useCallback(()=>{
         const t1 = new TimelineLite();
@@ -85,16 +59,12 @@ const LoginView : FunctionComponent = () => {
     //componentDidMount
     useEffect(()=>{
         animateIn();
-        setTimeout(()=>{
-            fetchLoggedInUserDetails();
-        },1000);
         submitRef.current.focus();
     },[]);
 
     return (
         <React.Fragment>
             <Grid container spacing={1} className={classes.root} alignItems="center">
-                <SimpleNotification type={NOTIFICATION_TYPE.ERROR} message={noteMsg} />
                 <Paper className={classes.paper} ref={loginBoxDom}>
                     <div className={classes.contentWrapper}>
                         <img src={logo} className={classes.imageIcon} alt="logo"/>
@@ -117,9 +87,9 @@ const LoginView : FunctionComponent = () => {
                         <SimpleLinkButton link="/about">
                             About B.O.R.E.D
                         </SimpleLinkButton>
-                        <SimpleLinkButton link="/">
-                            Home
-                        </SimpleLinkButton>
+                        <Typography className={classes.footerText} variant="body2" color="textSecondary" align="center">
+                            <a href="/">Home</a>
+                        </Typography>
                     </footer>
                 </Paper>
             </Grid>

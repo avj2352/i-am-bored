@@ -55,6 +55,16 @@ export const useStyles = makeStyles(theme => ({
       maxWidth: 275,
       marginBottom: 15
     },
+    footerText: {
+      fontSize: '0.8rem',
+      '&>a': {
+          color: theme.palette.secondary.main,
+          textDecoration: 'none',
+          '&:hover': {
+              textDecoration: 'underline'
+          }
+      }
+    },
     [theme.breakpoints.between(270,414)]: {
       imageIcon: {
         borderRadius: 10,
