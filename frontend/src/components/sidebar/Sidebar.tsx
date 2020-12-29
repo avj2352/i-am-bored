@@ -68,7 +68,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
         .then((res: any) => {
           // console.log('Result is: ', res.data);
           const listContent: any = res.data && res.data.map((item: any, index: number)=> {
-            return <ListItem button onClick={navigateLink.bind(null, item.slug)} key={index}>
+            return <ListItem button onClick={navigateLink.bind(null, `recipes/list/${item.slug}`)} key={index}>
                 <ListItemIcon><TurnedInNotIcon/></ListItemIcon>
                 <ListItemText primary={item.title} />
               </ListItem>
@@ -76,9 +76,6 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
           setGeneralListContent(listContent);
         });
     },[]);
-
-    // event handlers
-    const handleGroupNavigation = (title: any) => console.log(`Navigate to: ${title}`);
 
     const navigateLink = (paramName: string) => {
       const location = {
@@ -101,7 +98,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
                         <ListItemIcon><DashboardIcon/></ListItemIcon>
                         <ListItemText primary='My Dashboard' />
                     </ListItem>
-                    <ListItem button onClick={navigateLink.bind(null, 'private')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'recipes/list/my')}>
                         <ListItemIcon><ImportContactsIcon/></ListItemIcon>
                         <ListItemText primary='My Recipes' />
                     </ListItem>
@@ -113,7 +110,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
                         <ListItemIcon><ItemsIcon/></ListItemIcon>
                         <ListItemText primary='Add / Edit Items' />
                     </ListItem>
-                    <ListItem button onClick={navigateLink.bind(null, 'recipes')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'recipes/add')}>
                         <ListItemIcon><RecipeIcon/></ListItemIcon>
                         <ListItemText primary='Add / Edit Recipes' />
                     </ListItem>
@@ -158,7 +155,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
             </div>
             <Divider />
             <List className={classes.listGroup}>                
-              <ListItem button key='All Recipes'>
+              <ListItem key='All Recipes' button onClick={navigateLink.bind(null, `recipes/list/all`)}>
                 <ListItemIcon><AllIcon/></ListItemIcon>
                 <ListItemText primary='All Recipes' />
               </ListItem>
