@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { createStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,6 +11,7 @@ import { Button, Card, CardActions, CardContent, Grid, makeStyles, TextField, Ty
 // custom
 import { IRecipe } from '../../common/recipe-interfaces';
 import ClassicEditor from '../../../../components/editor/ClassicEditor';
+import { Autocomplete } from '@material-ui/lab';
 
 interface IRecipeForm {
     data: IRecipe;
@@ -30,6 +31,10 @@ const useStyles = makeStyles(theme => ({
         flexShrink: 0,
         color: theme.palette.secondary.main
     },
+    autocomplete: {
+        marginTop: 25,
+        marginBottom: 25
+    },
     secondaryHeading: {
         fontSize: theme.typography.pxToRem(10),
         color: theme.palette.text.secondary,
@@ -46,6 +51,8 @@ const useStyles = makeStyles(theme => ({
     },
     card: {
         minWidth: 175,
+        marginTop: 5,
+        marginBottom: 25
     },
     checkBoxContent: {
         display: 'flex',
@@ -84,6 +91,9 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
     const [editorData, setEditorData] = useState<{text: string, html: string}>({text: '', html: ''});
     const [recipeLink, setRecipeLink] = useState('');
     const [selectedGroup, setSelectedGroup] = useState<string>('');
+    // const [selectedTags, setSelectedTags] = React.useState<any[]>([tagDropdownList[0], tagDropdownList[1]]);
+    const [selectedTags, setSelectedTags] = React.useState<any[]>([]);
+    const [selectedItems, setSelectedItems] = useState<any[]>([]);
     const [privateValue, setPrivateValue] = useState<string>('');
     const [errMsg, setErrMsg] = useState<string | null>('');
     const classes = useStyles();
@@ -113,9 +123,21 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
         setEditorData({text, html});
     };
 
+    const handleTagSelect = (event: any, newInputValue: any) => {
+        setSelectedTags(newInputValue);
+    };
+
+    const handleItemSelect = (event: any, newInputValue: any) => {
+        setSelectedItems(newInputValue);
+    };
+
     const errorMsgText = () => <Typography className={classes.validationText} component="p">
         {errMsg}
     </Typography>;
+
+    useEffect(()=>{
+        console.log('Selected tag is: ', selectedTags);
+    },[selectedTags]);
 
     const groupDropDownContent = () => groupDropdownList && groupDropdownList.map((item: any, index: number) => {
         return <MenuItem key={index} value={item.slug}>{item.title}</MenuItem>});
@@ -151,20 +173,49 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
                             id="panel1bh-header"
                             >
                             <Typography className={classes.heading}>Additional Info</Typography>
-                            <Typography className={classes.secondaryHeading}>These fields are optional. 
+                            <Typography className={classes.secondaryHeading}>These fields are optional.
                                 But filling them up, helps in better search results</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Grid item xs={12} md={12}>
-                                <TextField margin="normal" 
-                                    fullWidth id="link" label="Recipe Link" name="link"
-                                    value={recipeLink} onChange={handleChange} />
+                                <Grid className={classes.autocomplete} item xs={12} md={12}>
+                                    <Autocomplete 
+                                        value={selectedTags}
+                                        multiple 
+                                        id="tags-outlined"
+                                        onChange={handleTagSelect}
+                                        options={tagDropdownList}
+                                        getOptionLabel={(option)=> option.name}
+                                        filterSelectedOptions
+                                        renderInput={(params) => (
+                                        <TextField {...params} variant="outlined" label="Select Tags"
+                                            placeholder="Tags" />
+                                        )}/>
+                                </Grid>
+                                <Grid className={classes.autocomplete} item xs={12} md={12}>
+                                    <Autocomplete 
+                                        value={selectedItems}
+                                        multiple 
+                                        id="items-outlined"
+                                        onChange={handleItemSelect}
+                                        options={itemDropdownList}
+                                        getOptionLabel={(option)=> option.name}
+                                        filterSelectedOptions
+                                        renderInput={(params) => (
+                                        <TextField {...params} variant="outlined" label="Select Items"
+                                            placeholder="Items" />
+                                        )}/>
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                    <TextField margin="normal" fullWidth id="link" label="Recipe Link" name="link"
+                                        value={recipeLink} onChange={handleChange} />
+                                </Grid>
                                 </Grid>
                             </AccordionDetails>
                         </Accordion>
                     </Grid>
-                    <Grid item xs={12} md={12}> 
-                        <ClassicEditor placeholder={`Enter your recipe here`} onEditorChange={handleEditorChange}/>
+                    <Grid item xs={12} md={12}>
+                        <ClassicEditor placeholder={`Enter your recipe here`} onEditorChange={handleEditorChange} />
                     </Grid>
                 </Grid>
             </CardContent>
@@ -173,7 +224,7 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
                     color="primary">Submit</Button>
             </CardActions>
         </Card>
-        </React.Fragment>
+    </React.Fragment>
 };
 
 export default RecipeForm;
