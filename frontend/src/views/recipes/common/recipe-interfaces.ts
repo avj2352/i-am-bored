@@ -4,7 +4,7 @@ export interface IRecipe {
 	isPrivate: boolean;
 	content: string;
 	html: string;
-	group: any;
+	group: any | null;
 	tags?: any[];
 	items?: any[];
 	timers?: any[];
