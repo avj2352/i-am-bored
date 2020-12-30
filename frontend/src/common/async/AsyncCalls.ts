@@ -154,3 +154,44 @@ export const updateItemById = async (id: string, payload: any) => {
 export const deleteItemById = async(id: string) => {
     return axios.delete(`/items/${id}`);
 };
+
+// RECIPE RELATED =========================================
+
+
+/**
+ * Get a list of all records
+ */
+export const getAllRecipes = async () => {
+    return axios.get('/recipes');
+};
+
+/**
+ * Get record details by its Id
+ */
+export const getRecipeById = async (id: string) => {
+    return axios.get(`/recipes/${id}`);
+};
+
+/**
+ * Add a New Item
+ * @param payload
+ */
+export const addNewRecipe = async (payload: any) => {
+    return axios.post('/recipes', payload);
+};
+
+/**
+ * Update record by its id
+ * @param id
+ * @param payload
+ */
+export const updateRecipeById = async (id: string, payload: any) => {
+    return axios.put(`/recipes/${id}`, payload);
+};
+
+/**
+ * delete record details by its Id
+ */
+export const deleteRecipeById = async (id: string) => {
+    return axios.delete(`/recipes/${id}`);
+};

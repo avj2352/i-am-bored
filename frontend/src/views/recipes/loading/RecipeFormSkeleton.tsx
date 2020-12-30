@@ -12,6 +12,10 @@ const useStyles = makeStyles(theme => ({
     },
     cardContent: {
     },
+    row: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
     bullet: {
         display: 'inline-block',
         margin: '0 2px',
@@ -28,6 +32,9 @@ const useStyles = makeStyles(theme => ({
         marginBottom: 12,
         fontSize: 18
     },
+    box: {
+        width: '100%'
+    },
     action: {
         display: 'flex',
         justifyContent: 'flex-end'
@@ -43,34 +50,36 @@ const RecipeFormSkeleton: FunctionComponent = (props): JSX.Element => {
         <Grid>
             <Card className={classes.card}>
                 <CardContent className={classes.cardContent}>
-                    <Skeleton>
-                        <Typography variant="h5" component="h2">Loading Text Title, please...</Typography>
-                    </Skeleton>
-                    <Skeleton>
-                        <Typography className={classes.pos} component="p">
-                            Loading Text subtitle..
-                        </Typography>
-                    </Skeleton>
-                    <Skeleton>
-                        <Typography className={classes.pos} component="p">
-                            Loading Text subtitle..
-                        </Typography>
-                    </Skeleton>
-                    <Skeleton>
-                        <Typography className={classes.pos} component="p">
-                            Loading Text subtitle..
-                        </Typography>
-                    </Skeleton>
-                    <Skeleton>
-                        <Typography className={classes.pos} component="p">
-                            Loading Text subtitle..
-                        </Typography>
-                    </Skeleton>
-                    <Skeleton>
-                        <Typography className={classes.pos} component="p">
-                            Loading Text subtitle..
-                        </Typography>
-                    </Skeleton>
+                    <Grid item xs={12} md={12}>
+                        <Skeleton>
+                            <Typography className={classes.fullWidth} 
+                                variant="h5" component="h2">Loading Text Title. 
+                                This is a long text,
+                                This might take some time...</Typography>
+                        </Skeleton>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <Skeleton>
+                            <Typography className={classes.fullWidth} 
+                                variant="h5" component="h2">Loading Text Title.</Typography>
+                        </Skeleton>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <Skeleton>
+                            <Typography className={classes.fullWidth} 
+                                variant="h5" component="h2">Loading Text Title. 
+                                This might take some time...</Typography>
+                        </Skeleton>
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <Skeleton>
+                            <Typography className={classes.fullWidth} 
+                                variant="h5" component="h2">Loading Text Title. 
+                                This is a long text,
+                                This might take some time...</Typography>
+                        </Skeleton>
+                    </Grid>
+                    <Skeleton variant="rect" className={classes.box} height={200}/>
                 </CardContent>
                 <CardActions className={classes.action}>
                     <Skeleton variant="rect" width={140} height={40} />

@@ -1,17 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { createStyles, Theme } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
+// material
 import MenuItem from '@material-ui/core/MenuItem';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Select from '@material-ui/core/Select';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button, Card, CardActions, CardContent, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 // custom
 import { IRecipe } from '../../common/recipe-interfaces';
 import ClassicEditor from '../../../../components/editor/ClassicEditor';
 import { Autocomplete } from '@material-ui/lab';
+import { useStyles } from './recipe-form.style';
 
 interface IRecipeForm {
     data: IRecipe;
@@ -21,82 +20,28 @@ interface IRecipeForm {
     onSubmit: (data: IRecipe) => void;
 }
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-    },
-    heading: {
-        fontSize: theme.typography.pxToRem(11),
-        flexBasis: '33.33%',
-        flexShrink: 0,
-        color: theme.palette.secondary.main
-    },
-    autocomplete: {
-        marginTop: 25,
-        marginBottom: 25
-    },
-    secondaryHeading: {
-        fontSize: theme.typography.pxToRem(10),
-        color: theme.palette.text.secondary,
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    debug: {
-        border: '1px solid red'
-    },
-    card: {
-        minWidth: 175,
-        marginTop: 5,
-        marginBottom: 25
-    },
-    checkBoxContent: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start'
-    },
-    checkBoxText: {
-        position: 'relative',
-        top: '10px'
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        textAlign: 'left',
-        marginBottom: 12,
-    },
-    action: {
-        display: 'flex',
-        justifyContent: 'flex-end'
-    },
-    validationText: {
-        color: 'red'
-    }
-}));
-
 const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
     const { data, onSubmit, groupDropdownList, tagDropdownList, itemDropdownList } = props;
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const [recipeTitle, setRecipeTitle] = useState<string>(data.title);
     const [editorData, setEditorData] = useState<{text: string, html: string}>({text: '', html: ''});
     const [recipeLink, setRecipeLink] = useState('');
-    const [selectedGroup, setSelectedGroup] = useState<string>('');
+    const [selectedGroup, setSelectedGroup] = useState<any | null>(null);
     // const [selectedTags, setSelectedTags] = React.useState<any[]>([tagDropdownList[0], tagDropdownList[1]]);
     const [selectedTags, setSelectedTags] = React.useState<any[]>([]);
     const [selectedItems, setSelectedItems] = useState<any[]>([]);
-    const [privateValue, setPrivateValue] = useState<string>('');
+    const [privateValue, setPrivateValue] = useState<any | null>(null);
     const [errMsg, setErrMsg] = useState<string | null>('');
     const classes = useStyles();
+
+    // lifecycle methods
+    const checkValidYoutubeUrl = (text: string): boolean => {
+        return (/^(https?:\/\/)?((www\.)?youtube\.com|youtu\.?be)(\/)?.+$/.test(text)) ? true : false;
+    };
+
+    const privacyOptionsList = ():any[] => {
+        return [{name: 'is Private', value: true}, {name: 'is Public', value: false}];
+    };
 
     // event handlers
     const handleChange = (event: any) => {
@@ -108,6 +53,11 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
             setPrivateValue(event.target.value);
         } else if (event.target.name === 'link') {
             setRecipeLink(event.target.value);
+            if (event.target.value !== '' && !checkValidYoutubeUrl(event.target.value)) {
+                setErrMsg('Invalid Youtube Link')
+            } else {
+                setErrMsg('');
+            }
         }
     };
 
@@ -116,11 +66,29 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
       };
 
     const handleSubmit = () => {
-        console.log('Submitted data is: ', recipeTitle);
+            onSubmit({
+                title: recipeTitle,
+                link: recipeLink,
+                isPrivate: privateValue.value,
+                content: editorData.text,
+                html: editorData.html,
+                group: selectedGroup,
+                tags: selectedTags,
+                items: selectedItems,
+                timers: []
+            });
     };
 
     const handleEditorChange = (text: string, html: string) => {
         setEditorData({text, html});
+    };
+
+    const handleGroupSelect = (event: any, newInputValue: any) => {
+        setSelectedGroup(newInputValue);
+    };
+
+    const handlePrivacySelect = (event: any, newInputValue: any) => {
+        setPrivateValue(newInputValue);
     };
 
     const handleTagSelect = (event: any, newInputValue: any) => {
@@ -136,11 +104,12 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
     </Typography>;
 
     useEffect(()=>{
-        console.log('Selected tag is: ', selectedTags);
-    },[selectedTags]);
-
-    const groupDropDownContent = () => groupDropdownList && groupDropdownList.map((item: any, index: number) => {
-        return <MenuItem key={index} value={item.slug}>{item.title}</MenuItem>});
+        if (recipeTitle !== '' && editorData.html !=='' && selectedGroup && privateValue) {
+            setErrMsg('');
+        } else {
+            setErrMsg('Fill all the mandatory fields!');
+        }
+    },[recipeTitle, editorData, selectedGroup, privateValue]);
 
     return <React.Fragment>
         <Card className={classes.card}>
@@ -148,23 +117,34 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
                 <Grid container spacing={1}>
                     <Grid item xs={12} md={12}>
                         {errorMsgText()}
-                        <TextField margin="normal" required fullWidth id="title" label="Recipe Title" name="title"
+                        <TextField margin="normal" variant="outlined" required fullWidth id="title" label="Recipe Title" name="title"
                             value={recipeTitle} autoFocus onChange={handleChange} />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <InputLabel id="groupLabel">Select Group *</InputLabel>
-                        <Select name="group" labelId="groupLabel" id="group" fullWidth placeholder="Select Group"
-                            value={selectedGroup} onChange={handleChange}>
-                            {groupDropDownContent()}
-                        </Select>
+                        <Autocomplete 
+                            value={selectedGroup} 
+                            id="groups-outlined"
+                            onChange={handleGroupSelect}
+                            options={groupDropdownList}
+                            getOptionLabel={(option)=> option.title}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                            <TextField {...params} variant="outlined" label="Select Group*"
+                                placeholder="Group" />
+                            )}/>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <InputLabel id="privateLabel">Recipe Type *</InputLabel>
-                        <Select name="private" labelId="privateLabel" id="private" fullWidth placeholder="Recipe type"
-                            value={privateValue} onChange={handleChange}>
-                            <MenuItem value={10}>is Private</MenuItem>
-                            <MenuItem value={20}>is Public</MenuItem>
-                        </Select>
+                        <Autocomplete 
+                            value={privateValue} 
+                            id="groups-outlined"
+                            onChange={handlePrivacySelect}
+                            options={privacyOptionsList()}
+                            getOptionLabel={(option)=> option.name}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                            <TextField {...params} variant="outlined" label="Recipe type*"
+                                placeholder="Type" />
+                            )}/>
                     </Grid>
                     <Grid item xs={12} md={12}>
                         <Accordion expanded={expanded==='panel1' } onChange={handleAccordianChange('panel1')}>
@@ -207,7 +187,7 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
                                         )}/>
                                 </Grid>
                                 <Grid item xs={12} md={12}>
-                                    <TextField margin="normal" fullWidth id="link" label="Recipe Link" name="link"
+                                    <TextField variant="outlined" margin="normal" fullWidth id="link" label="Youtube Link" name="link"
                                         value={recipeLink} onChange={handleChange} />
                                 </Grid>
                                 </Grid>
@@ -215,7 +195,7 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
                         </Accordion>
                     </Grid>
                     <Grid item xs={12} md={12}>
-                        <ClassicEditor placeholder={`Enter your recipe here`} onEditorChange={handleEditorChange} />
+                        <ClassicEditor placeholder={`Enter your recipe here**`} onEditorChange={handleEditorChange} />
                     </Grid>
                 </Grid>
             </CardContent>

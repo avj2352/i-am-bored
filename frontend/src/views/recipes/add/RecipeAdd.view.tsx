@@ -1,11 +1,14 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { getAllGroups, getAllItems, getAllTags } from '../../../common/async/AsyncCalls';
+import { useSnackbar } from "notistack";
+// material
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { addNewRecipe, getAllGroups, getAllItems, getAllTags } from '../../../common/async/AsyncCalls';
 import { LinearLoader } from '../../../components/loaders/linear-loader/LinearLoader';
 import { IRecipe } from '../common/recipe-interfaces';
 import RecipeForm from '../components/form/RecipeForm';
 import RecipeFormSkeleton from '../loading/RecipeFormSkeleton';
-
+import CloseActionButton from '../../../components/notifications/CloseActionButton';
+// styles
 const useStyles = makeStyles(theme => ({
     container: {
         width: '95%',
@@ -16,13 +19,15 @@ const useStyles = makeStyles(theme => ({
 
 const RecipeAddView: FunctionComponent = (props): JSX.Element => {
     const classes = useStyles();
+    const { enqueueSnackbar} = useSnackbar();
     // states
     const [title, setTitle] = useState('Loading Form...');
     const [isLoading, setLoading] = useState<boolean>(false);
-    // const [groupDropdownList, setGroupDropdownList] = useState<any[]>([]);
-    // const [tagDropdownList, setTagDropdownList] = useState<any[]>([]);
-    // const [itemDropdownList, setItemDropdownList] = useState<any[]>([]);
     const [formContent, setFormContent] = useState<JSX.Element>(<RecipeFormSkeleton/>);
+    // notificationBox action - OK
+    const okActionButton = (key:number) => (
+        <CloseActionButton keyObj={key} />
+    );
     
     const getDefaultData = ():IRecipe => {
         return {
@@ -62,6 +67,32 @@ const RecipeAddView: FunctionComponent = (props): JSX.Element => {
     const handleFormSubmit = (data: IRecipe) => {
         setLoading(true);
         console.log('New Recipe form data is: ', data);
+        const group = data.group._id;
+        const tags = data.tags?.map((item: any) => item._id);
+        const items = data.items?.map((item: any) => item._id);
+        addNewRecipe({
+            title: data.title,
+	        link: data.link,
+	        isPrivate: data.isPrivate,
+	        content: data.content,
+	        html: data.html,
+	        group: group,
+	        tags: tags,
+	        items: items,
+	        timers: []
+        })
+        .then((res: any) => {
+            enqueueSnackbar(`New Recipe Added!`, {variant: 'info', action: okActionButton });
+        })
+        .catch((err: any) => {
+            console.log(`Error creating new recipe..`, err);
+            enqueueSnackbar(`Error creating Recipe / Duplicate Recipe Title!`, 
+                {variant: 'error', action: okActionButton });
+        })
+        .finally(() => {
+            setLoading(false);
+            setTitle(`Create New Recipe`);
+        });
     };
 
     useEffect(()=>{
@@ -70,11 +101,11 @@ const RecipeAddView: FunctionComponent = (props): JSX.Element => {
 
     return <React.Fragment>
         <Grid className={classes.container} container spacing={1}>
-        <Typography  variant="h5" component="h2">{title}</Typography>
-        <LinearLoader display={isLoading}/>
-        {formContent}
+            <Typography variant="h5" component="h2">{title}</Typography>
+            <LinearLoader display={isLoading}/>
+                {formContent}
         </Grid>
-    </React.Fragment>;
+        </React.Fragment>;
 };
 
 export default RecipeAddView;
