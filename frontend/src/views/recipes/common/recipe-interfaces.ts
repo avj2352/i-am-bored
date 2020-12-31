@@ -1,4 +1,5 @@
 export interface IRecipe {
+	id?: string;
     title: string;
     link: string;
 	isPrivate: boolean;

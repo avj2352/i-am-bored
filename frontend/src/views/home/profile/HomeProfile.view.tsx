@@ -47,7 +47,7 @@ const HomeProfileView: FunctionComponent<IHomeProfileViewProps> = (props): JSX.E
                     </SimpleCardOverview>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <SimpleCardOverview title={'My Recipes'} link={'listRecipes'} params={'my'} btnLabel={'View My Recipes'}>
+                    <SimpleCardOverview title={'My Recipes'} link={'myRecipes'} params={'my'} btnLabel={'View My Recipes'}>
                         Click here to view your recipes
                     </SimpleCardOverview>
                 </Grid>

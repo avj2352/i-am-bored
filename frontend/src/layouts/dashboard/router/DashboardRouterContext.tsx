@@ -20,6 +20,7 @@ export enum DASHBOARD_ROUTES {
     NEW_RECIPES = 'newRecipes',
     UPDATE_RECIPES = 'updateRecipes',
     LIST_RECIPES = 'listRecipes',
+    MY_RECIPES = 'myRecipes',
     SEARCH_RECIPES = 'searchRecipes',
     GROUPS = 'groups',
     TAGS = 'tags',
@@ -123,6 +124,14 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.LIST_RECIPES};
+
+        case DASHBOARD_ROUTES.MY_RECIPES:
+            console.log('Routing to List Recipes: ', action.payload);
+            location = {
+                pathname: `/app/recipes/profile`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.MY_RECIPES};
 
         case DASHBOARD_ROUTES.SEARCH_RECIPES:
             location = {

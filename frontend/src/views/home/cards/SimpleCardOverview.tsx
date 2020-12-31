@@ -77,6 +77,12 @@ export const SimpleCardOverview: FunctionComponent<ISimpleCardOverview> = (props
                     payload: params
                 });
                 break;
+            case 'myRecipes':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.MY_RECIPES,
+                    payload: params
+                });
+                break;
             default:
                 dashboardRouteDispatch ({
                     type: DASHBOARD_ROUTES.WELCOME

@@ -166,6 +166,13 @@ export const getAllRecipes = async () => {
 };
 
 /**
+ * Get a list of all records
+ */
+export const getAllRecipesByUserId = async () => {
+    return axios.get('/recipes/search/user');
+};
+
+/**
  * Get record details by its Id
  */
 export const getRecipeById = async (id: string) => {
