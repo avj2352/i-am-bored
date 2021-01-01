@@ -115,7 +115,7 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
         setRecipeListContent(defaultCardContent());
         searchByText(data)
             .then((res: any) => {
-                console.log('Search Result is: ', filterByUserProfile(res.data));
+                // console.log('Search Result is: ', filterByUserProfile(res.data));
                 const result = filterByUserProfile(res.data);
                 if (result.length > 0) {
                     const list: JSX.Element[] = result.map((recipe: any, index:number) => <MyRecipeCard
