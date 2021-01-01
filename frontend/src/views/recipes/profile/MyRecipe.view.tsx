@@ -39,6 +39,17 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
     const [recipeListContent, setRecipeListContent] = useState<JSX.Element>(defaultCardContent());
 
     // lifecycle methods
+    const filterByUserProfile = useCallback((list: any)=>{
+        const userProfile = appContext.profile;
+        console.log('User Profile is: ', userProfile);
+        if (userProfile.role === 'admin') return list;
+        else if (list.length > 0) {
+            return list.filter((item: any) => item.createdBy._id === userProfile._id);
+        } else {
+            return [];
+        }
+    },[]);
+
     const fetchRecipes = useCallback(()=>{
         let asyncFetchCall:()=>Promise<any> = getAllRecipesByUserId;
         const userProfile = appContext.profile;
@@ -104,24 +115,28 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
         setRecipeListContent(defaultCardContent());
         searchByText(data)
             .then((res: any) => {
-                // console.log('Search Result is: ', res.data);
-                // if (res.data.length > 0) {
-                //     const list: JSX.Element[] = res.data?.map((item: any, index:number) => <GroupCard
-                //         key={index}
-                //         onEdit={handleGroupEdit}
-                //         onDelete={handleGroupDelete}
-                //         id={item._id}
-                //         title={item.title}
-                //         description={item.description}
-                //         slug={item.slug}
-                //         premium={item.premium}/>
-                //     );
-                //     setGroupListContent(<React.Fragment>
-                //         {list}
-                //     </React.Fragment>);
-                // } else {
-                //     setGroupListContent(<EmptySearchCard type="empty"/>);
-                // }
+                console.log('Search Result is: ', filterByUserProfile(res.data));
+                const result = filterByUserProfile(res.data);
+                if (result.length > 0) {
+                    const list: JSX.Element[] = result.map((recipe: any, index:number) => <MyRecipeCard
+                    key={index}
+                    id = {recipe._id}
+                    title = {recipe.title}
+                    link = {recipe.link}
+                    isPrivate = {recipe.isPrivate}
+                    content = {recipe.content}
+                    html = {recipe.html}
+                    group = {recipe.group}
+                    tags = {recipe.tags}
+                    items = {recipe.items}
+                    timers = {recipe.timers}
+                    onEdit = {handleRecipeItemEdit}
+                    onDelete = {handleRecipeItemDelete}
+                    />);
+                setRecipeListContent(<React.Fragment>{list}</React.Fragment>);
+            } else {
+                setRecipeListContent(<EmptySearchCard type="empty"/>);
+            }
             });
     };
 

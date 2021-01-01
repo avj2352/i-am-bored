@@ -12,7 +12,7 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Localhost" enabled="false">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Localhost" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="cookie-session-admin" elementType="Argument">
             <stringProp name="Argument.name">cookie-session-admin</stringProp>
@@ -48,7 +48,7 @@
         <stringProp name="TestPlan.comments">Variables for DEV Environment</stringProp>
       </Arguments>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Heroku" enabled="true">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Heroku" enabled="false">
         <collectionProp name="Arguments.arguments">
           <elementProp name="cookie-session-admin" elementType="Argument">
             <stringProp name="Argument.name">cookie-session-admin</stringProp>
@@ -3681,7 +3681,7 @@ vars.put(&quot;timerId&quot;, id);</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Recipe Module" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Recipe Module" enabled="true">
         <stringProp name="TestPlan.comments">Module containing API for CRUD - recipes</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -3691,7 +3691,7 @@ vars.put(&quot;timerId&quot;, id);</stringProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.duration">5</stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
@@ -4332,7 +4332,7 @@ log.info(&quot;Recipe record created successfully. Record is: &quot; + id);</str
               </elementProp>
               <elementProp name="text" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">stir</stringProp>
+                <stringProp name="Argument.value">indian</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">text</stringProp>
@@ -4392,7 +4392,7 @@ log.info(&quot;Recipe record created successfully. Record is: &quot; + id);</str
               </elementProp>
               <elementProp name="text" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">tir</stringProp>
+                <stringProp name="Argument.value">hal</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">text</stringProp>
@@ -4493,7 +4493,7 @@ log.info(&quot;Recipe record created successfully. Record is: &quot; + id);</str
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="API Calls" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="API Calls" enabled="false">
         <stringProp name="TestPlan.comments">Group containing API calls for CRUD operations across any module</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">

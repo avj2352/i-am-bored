@@ -203,10 +203,17 @@ export class RecipeService {
     async searchFullText (text) {
         console.log('Calling Full text query: ', text);
         return new Promise((resolve, reject) => {
-            RecipeModel.find({$text: {$search: text}}, (err, data) => {
-                if (err) reject(err);
-                else resolve(data); // Get JSON format of contact
-            });
+            RecipeModel.find({$text: {$search: text}})
+            .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
+                .populate('group')
+                .populate('tags')
+                .populate('items')
+                .populate('timers')
+                .exec((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                })
         });
     }
 
@@ -217,10 +224,17 @@ export class RecipeService {
      */
     async searchPartialText (partial) {
         return new Promise((resolve, reject) => {
-            RecipeModel.find({html: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
-                if (err) reject(err);
-                else resolve(data); // Get JSON format of contact
-            });
+            RecipeModel.find({html: {$regex: new RegExp(partial)}}, {_id:0, __v:0})
+            .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
+                .populate('group')
+                .populate('tags')
+                .populate('items')
+                .populate('timers')
+                .exec((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                })
         });
     }
 

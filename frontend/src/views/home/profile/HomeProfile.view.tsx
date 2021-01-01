@@ -65,11 +65,6 @@ const HomeProfileView: FunctionComponent<IHomeProfileViewProps> = (props): JSX.E
                 </Grid>
                 {groupContent}
             </Grid>
-            <Grid item xs={12} className={classes.row}>
-                <Typography variant="subtitle2" className={classes.footerText} color="secondary">
-                    Click on the <SearchIcon /> below to search recipes by title, content, items, groups or tags
-                </Typography>
-            </Grid>
         </React.Fragment>
     );
 }
