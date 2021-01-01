@@ -21,20 +21,39 @@ interface IRecipeForm {
 }
 
 const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
+    // props
     const { data, onSubmit, groupDropdownList, tagDropdownList, itemDropdownList } = props;
+    const tagsData = data.tags ? data.tags : [];
+    const itemsData = data.items ? data.items : [];
+    const htmlData = data.html !=='' ? data.html : '<p>Enter your recipe description here**</p>';
+    // states
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const [recipeTitle, setRecipeTitle] = useState<string>(data.title);
-    const [editorData, setEditorData] = useState<{text: string, html: string}>({text: '', html: ''});
-    const [recipeLink, setRecipeLink] = useState('');
-    const [selectedGroup, setSelectedGroup] = useState<any | null>(null);
+    const [editorData, setEditorData] = useState<{text: string, html: string}>({text: data.content, html: htmlData});
+    const [recipeLink, setRecipeLink] = useState(data.link);
+    const [selectedGroup, setSelectedGroup] = useState<any | null>(data.group? data.group : null);
     // const [selectedTags, setSelectedTags] = React.useState<any[]>([tagDropdownList[0], tagDropdownList[1]]);
-    const [selectedTags, setSelectedTags] = React.useState<any[]>([]);
-    const [selectedItems, setSelectedItems] = useState<any[]>([]);
+    const [selectedTags, setSelectedTags] = React.useState<any[]>(populateList(tagsData, tagDropdownList));
+    const [selectedItems, setSelectedItems] = useState<any[]>(populateList(itemsData, itemDropdownList));
     const [privateValue, setPrivateValue] = useState<any | null>(null);
     const [errMsg, setErrMsg] = useState<string | null>('');
+    //classes
     const classes = useStyles();
 
     // lifecycle methods
+    function populateList (propList: any[], optionsList: any[]) {
+        if (propList.length == 0) {
+            return [];
+        } else {
+            const filteredList = optionsList.filter((el: any) => {
+                return propList.some((item: any) => {
+                  return item._id === el._id;
+                });
+            });
+            return filteredList;
+        }
+    }
+
     const checkValidYoutubeUrl = (text: string): boolean => {
         return (/^(https?:\/\/)?((www\.)?youtube\.com|youtu\.?be)(\/)?.+$/.test(text)) ? true : false;
     };
@@ -54,7 +73,7 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
         } else if (event.target.name === 'link') {
             setRecipeLink(event.target.value);
             if (event.target.value !== '' && !checkValidYoutubeUrl(event.target.value)) {
-                setErrMsg('Invalid Youtube Link')
+                setErrMsg('Invalid Youtube Link');
             } else {
                 setErrMsg('');
             }
@@ -84,6 +103,7 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
     };
 
     const handleGroupSelect = (event: any, newInputValue: any) => {
+        console.log('New Input value is: ', newInputValue);
         setSelectedGroup(newInputValue);
     };
 
@@ -195,7 +215,7 @@ const RecipeForm: FunctionComponent<IRecipeForm> = (props):JSX.Element => {
                         </Accordion>
                     </Grid>
                     <Grid item xs={12} md={12}>
-                        <ClassicEditor placeholder={`Enter your recipe here**`} onEditorChange={handleEditorChange} />
+                        <ClassicEditor placeholder={htmlData} onEditorChange={handleEditorChange} />
                     </Grid>
                 </Grid>
             </CardContent>

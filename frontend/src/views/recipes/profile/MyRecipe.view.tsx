@@ -1,20 +1,25 @@
-import { CssBaseline, Grid, Typography } from '@material-ui/core';
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import { getAllRecipes, getAllRecipesByUserId, searchByText } from '../../../common/async/AsyncCalls';
+import { CssBaseline, Grid, Typography } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
+// custom
 import { IAppContextState, useGlobalState } from '../../../common/context/AppContext';
 import EmptySearchCard from '../../../components/card/404/EmptySearchCard';
+import CloseActionButton from '../../../components/notifications/CloseActionButton';
 import { ISearch } from '../../../components/search/search-interface';
+import { useStyles } from './my-recipe.view.styles';
 import SearchCard from '../../../components/search/SearchCard';
 import { DASHBOARD_ROUTES, useDashboardRouteDispatch } from '../../../layouts/dashboard/router/DashboardRouterContext';
 import GroupListSkeleton from '../../groups/loading/GroupListSkeleton';
 import MyRecipeCard from '../card/MyRecipeCard';
 import { IRecipe } from '../common/recipe-interfaces';
-import { useStyles } from './my-recipe.view.styles';
+import { deleteRecipeById, getAllRecipes, getAllRecipesByUserId, searchByText } from '../../../common/async/AsyncCalls';
 
 
 const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
     // classes
     const classes = useStyles();
+    const { enqueueSnackbar} = useSnackbar();
+    const dashboardDispatch: any =  useDashboardRouteDispatch();
     const appContext: IAppContextState = useGlobalState();
     const dashboardRouteDispatch: any = useDashboardRouteDispatch();
     // lifecycle methods
@@ -25,6 +30,10 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
             <GroupListSkeleton/>
         </React.Fragment>;
     };
+    // notificationBox action - OK
+    const okActionButton = (key:number) => (
+        <CloseActionButton keyObj={key} />
+    );
 
     // states
     const [recipeListContent, setRecipeListContent] = useState<JSX.Element>(defaultCardContent());
@@ -42,7 +51,7 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
         }
         asyncFetchCall()
             .then((res: any) => {
-                console.log('Response is: ', res.data);
+                // console.log('Response is: ', res.data);
                 if (res.data.length > 0) {
                     const list: JSX.Element[] = res.data?.map((recipe: any, index:number) => <MyRecipeCard
                         key={index}
@@ -68,11 +77,26 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
     },[]);
     
     const handleRecipeItemEdit = (data: IRecipe) => {
-        console.log('Recipe to edit: ', data);
+        // console.log('Recipe to edit: ', data);
+        dashboardDispatch ({
+            type: DASHBOARD_ROUTES.UPDATE_RECIPES,
+            payload: data.id
+        });
     };
 
     const handleRecipeItemDelete = (id: string) => {
-        console.log('Recipe to delete: ', id);
+        setRecipeListContent(defaultCardContent);
+        deleteRecipeById(id)
+            .then((res: any) => {
+                fetchRecipes();
+                enqueueSnackbar(`Successfully deleted recipe...`,
+                {variant: 'info', action: okActionButton });
+            })
+            .catch((err: any) => {
+                console.log('Error deleting recipe: ', err);
+                enqueueSnackbar(`Error deleting Group record...`,
+                {variant: 'error', action: okActionButton });
+            });
     };
 
     // event handlers
@@ -80,7 +104,7 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
         setRecipeListContent(defaultCardContent());
         searchByText(data)
             .then((res: any) => {
-                console.log('Search Result is: ', res.data);
+                // console.log('Search Result is: ', res.data);
                 // if (res.data.length > 0) {
                 //     const list: JSX.Element[] = res.data?.map((item: any, index:number) => <GroupCard
                 //         key={index}

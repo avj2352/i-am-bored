@@ -28,6 +28,16 @@ export const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         minWidth: 175,
     },
+    row: {
+        width: '100%',
+        display: 'flex',
+        '&>div': {
+            margin: 5
+        },
+        '&>div:nth-child(1)': {
+            marginLeft: 0
+        }
+    },
     cardContent: {
         display: 'flex',
         flexDirection: 'column',
@@ -103,7 +113,9 @@ const MyRecipeCard: FunctionComponent<IMyRecipeCardProps> = (props): JSX.Element
                 <Typography className={classes.pos} component="p">
                     {getSubText(props.content)}
                 </Typography>
+                <div className={classes.row}>
                 {tagContent}
+                </div>
             </CardContent>
             <CardActions className={classes.action}>
                 <Fab

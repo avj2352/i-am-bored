@@ -66,7 +66,7 @@ const RecipeAddView: FunctionComponent = (props): JSX.Element => {
     // event handlers
     const handleFormSubmit = (data: IRecipe) => {
         setLoading(true);
-        console.log('New Recipe form data is: ', data);
+        // console.log('New Recipe form data is: ', data);
         const group = data.group._id;
         const tags = data.tags?.map((item: any) => item._id);
         const items = data.items?.map((item: any) => item._id);
