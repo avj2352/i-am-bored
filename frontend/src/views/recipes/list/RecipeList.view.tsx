@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { CssBaseline, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 // custom
-import { getAllRecipes } from '../../../common/async/AsyncCalls';
+import { getAllRecipes, getAllRecipesByGroupId } from '../../../common/async/AsyncCalls';
 import RecipeListSkeleton from '../loading/RecipeListSkeleton';
 import { useStyles } from './recipe-list.view.styles';
 import EmptySearchCard from '../../../components/card/404/EmptySearchCard';
@@ -31,14 +31,14 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
     const fetchRecipesOfType = useCallback((id: string)=>{
         setRecipeListContent(defaultCardContent());
         let asyncFetch = getAllRecipes();
+        if (id === 'all') setTitle('All Recipes') 
+        else setTitle('Loading...');
         switch(id) {
             case 'all':
-                setTitle('All Recipes');
                 asyncFetch = getAllRecipes();
                 break;
             default:
-                setTitle('All Recipes');
-                asyncFetch = getAllRecipes();
+                asyncFetch = getAllRecipesByGroupId(id);
         }
         asyncFetch
             .then((res: any) => {
@@ -46,7 +46,7 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
                     const list: JSX.Element[] = res.data?.map((el: any, index:number) => <SimpleRecipeCard
                         key={index}
                         onView={(id: string)=>console.log('Card detail to see: ', id)}
-                        id = {el.id}
+                        id = {el._id}
                         title = {el.title}
                         link = {el.link}
 	                    isPrivate = {el.isPrivate}
@@ -59,6 +59,7 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
 	                    timers = {el.timers}
                         />
                     );
+                    if (id !== 'all') setTitle(`Recipes under: ${res.data[0].group.title}`);
                     setRecipeListContent(<React.Fragment>
                         {list}
                     </React.Fragment>);
@@ -71,9 +72,9 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
 
     //component did mount
     useEffect(()=>{
-        console.log('List recipe type: ', id);
+        // console.log('List recipe type: ', id);
         fetchRecipesOfType(id);
-    },[]);
+    },[id]);
     return <React.Fragment>
         <div className = {classes.root}>
             <CssBaseline />

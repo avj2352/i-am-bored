@@ -68,7 +68,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
         .then((res: any) => {
           // console.log('Result is: ', res.data);
           const listContent: any = res.data && res.data.map((item: any, index: number)=> {
-            return <ListItem button onClick={navigateLink.bind(null, `recipes/list/${item.slug}`)} key={index}>
+            return <ListItem button onClick={navigateLink.bind(null, `recipes/list/${item._id}`)} key={index}>
                 <ListItemIcon><TurnedInNotIcon/></ListItemIcon>
                 <ListItemText primary={item.title} />
               </ListItem>
@@ -98,7 +98,7 @@ const Sidebar: FunctionComponent<ISidebarProps> = (props): JSX.Element => {
                         <ListItemIcon><DashboardIcon/></ListItemIcon>
                         <ListItemText primary='My Dashboard' />
                     </ListItem>
-                    <ListItem button onClick={navigateLink.bind(null, 'recipes/list/my')}>
+                    <ListItem button onClick={navigateLink.bind(null, 'recipes/profile')}>
                         <ListItemIcon><ImportContactsIcon/></ListItemIcon>
                         <ListItemText primary='My Recipes' />
                     </ListItem>

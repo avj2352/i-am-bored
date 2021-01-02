@@ -175,6 +175,13 @@ export const getAllRecipesByUserId = async () => {
 };
 
 /**
+ * Get a list of all records under particular Group
+ */
+export const getAllRecipesByGroupId = async (id: string) => {
+    return axios.get(`/recipes/group/${id}`);
+};
+
+/**
  * Get record details by its Id
  */
 export const getRecipeById = async (id: string) => {

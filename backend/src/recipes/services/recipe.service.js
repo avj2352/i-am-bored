@@ -13,7 +13,7 @@ export class RecipeService {
         this.getRecipesByUserId = this.getRecipesByUserId.bind(this);
         this.getAllRecipesByUserId = this.getAllRecipesByUserId.bind(this);
         this.getRecipebyId = this.getRecipebyId.bind(this);
-        this.getRecipebyGroupId = this.getRecipebyGroupId.bind(this);
+        this.getPublicRecipesbyGroupId = this.getPublicRecipesbyGroupId.bind(this);
         this.addNewRecipe = this.addNewRecipe.bind(this);
         this.updateRecipeById = this.updateRecipeById.bind(this);
         this.deleteRecipeById = this.deleteRecipeById.bind(this);
@@ -125,14 +125,14 @@ export class RecipeService {
         });
     }
 
-     /**
+    /**
      * Get recipe by record id
      * @param id
      * @returns {Promise<any>}
      */
-    async getRecipebyGroupId (id) {
+    async getPublicRecipesbyGroupId (id) {
         return new Promise((resolve, reject) => {
-            RecipeModel.find({group: id})
+            RecipeModel.find({group: id, isPrivate: false})
                 .lean().populate('createdBy', 'name email')
                 .lean().populate('updatedBy', 'name email')
                 .populate('group')
@@ -145,6 +145,8 @@ export class RecipeService {
                 });
         });
     }
+
+
 
     /**
      * Add new recipe record

@@ -93,9 +93,9 @@ export class RecipeController {
      * @returns {Promise<any>}
      */
     async getRecipeByGroupId (req, res) {
-        // console.log(`Fetching Recipe record: ${req.params.recipeId}`.info);
         try {
-            const result = await this.recipeService.getRecipebyGroupId(req.params.groupId);
+            console.log(`Fetching all public recipes`.info);
+            const result = await this.recipeService.getPublicRecipesbyGroupId(req.params.groupId);
             return res.json(result);
         } catch (err) {
             console.log(`${this.logger} Error Retrieving Id: ${JSON.stringify(err)}`.error);
