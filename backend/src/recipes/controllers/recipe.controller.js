@@ -19,6 +19,7 @@ export class RecipeController {
         this.addNewRecipe = this.addNewRecipe.bind(this);
         this.updateRecipeById = this.updateRecipeById.bind(this);
         this.deleteRecipeById = this.deleteRecipeById.bind(this);
+        this.getRecipeByGroupId = this.getRecipeByGroupId.bind(this);
         this.search = this.search.bind(this);
     }
 
@@ -81,6 +82,23 @@ export class RecipeController {
             return res.json(result);
         } catch (err) {
             console.log(`${this.logger} error fetch recipes by user id : ${JSON.stringify(err)}`.error);
+            return res.sendStatus(400);
+        }
+    }
+
+    /***
+     * PAJ - Get Recipe By Group Id
+     * @param req
+     * @param res
+     * @returns {Promise<any>}
+     */
+    async getRecipeByGroupId (req, res) {
+        // console.log(`Fetching Recipe record: ${req.params.recipeId}`.info);
+        try {
+            const result = await this.recipeService.getRecipebyGroupId(req.params.groupId);
+            return res.json(result);
+        } catch (err) {
+            console.log(`${this.logger} Error Retrieving Id: ${JSON.stringify(err)}`.error);
             return res.sendStatus(400);
         }
     }
