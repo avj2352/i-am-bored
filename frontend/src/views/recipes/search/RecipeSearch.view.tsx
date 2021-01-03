@@ -65,10 +65,13 @@ const RecipeSearchView: FunctionComponent = (props): JSX.Element => {
                     {list}
                 </React.Fragment>);
             } else {
-                setRecipeListContent(<EmptySearchCard type="empty"/>);
+                setRecipeListContent(<EmptySearchCard type="search" query={data.query}/>);
             }
         })
-        .catch((err: any) => console.log('Error fetching: ', err));
+        .catch((err: any) => {
+            console.log('Error fetching: ', err);
+            setRecipeListContent(<EmptySearchCard type="search" query={data.query}/>);
+        });
     };
 
     const handleSearchReset = () => {

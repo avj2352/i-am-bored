@@ -15,7 +15,7 @@ const useStylesBootstrap = makeStyles((theme: Theme) => ({
 interface ISmallBadgeProps {
     name: string;
     description: string;
-    color: 'primary' | 'secondary';
+    color?: 'primary' | 'secondary';
 }
 
 const SmallBadge: FunctionComponent<ISmallBadgeProps> = (props): JSX.Element => {

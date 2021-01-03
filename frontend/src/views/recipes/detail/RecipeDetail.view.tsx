@@ -7,6 +7,7 @@ import RecipeFormSkeleton from '../loading/RecipeFormSkeleton';
 import { getRecipeById } from '../../../common/async/AsyncCalls';
 import RecipeDetailCard from '../card/RecipeDetailCard';
 import { getSubText } from '../../../common/util/HelperFunctions';
+import EmptySearchCard from '../../../components/card/404/EmptySearchCard';
 // styles
 const useStyles = makeStyles(theme => ({
     container: {
@@ -26,13 +27,13 @@ const RecipeDetailView: FunctionComponent = (props): JSX.Element => {
         getRecipeById(id)
             .then((res: any) => {
                 if (res.data.length > 0) {
-                    document.title = res.data[0].title;
-                    const metaDom = document.querySelector('meta[name="description"]');
-                    metaDom?.setAttribute("content", getSubText(res.data[0].content, 100));
                     setFormContent(<RecipeDetailCard data={res.data[0]}/>);
                 }
             })
-            .catch((err: any) => console.log('Error retrieving recipe details: ', err));
+            .catch((err: any) => {
+                console.log('Error retrieving recipe details: ', err);
+                setFormContent(<EmptySearchCard type="error"/>);
+            });
     },[]);
     // component did mount
     useEffect(()=>{

@@ -17,7 +17,7 @@ import noResultsImg from './../../../assets/img/broke.png';
 
 interface IEmptySearchCardProps {
     query?: string;
-    type: 'search' | 'empty'
+    type: 'search' | 'empty' | 'error';
 }
 
 //styles
@@ -76,14 +76,18 @@ const EmptySearchCard: FunctionComponent<IEmptySearchCardProps>= (props): JSX.El
     const classes = useStyles();
     const { query, type } = props;
     // event handlers
-    const getContent = (type: 'search' | 'empty', query?: string):JSX.Element => {
+    const getContent = (type: 'search' | 'empty' | 'error', query?: string):JSX.Element => {
         if (type === 'empty') {
             return <Typography className={classes.pos} component="p">
                 Sorry but there is currently nothing to see here. How about you add some content ?
             </Typography>
-        } else {
+        } else if (type === 'search') {
             return <Typography className={classes.pos} component="p">
                 Sorry but your search { query ? ` "${query}" `: "" } yielded nothing. Try again!
+            </Typography>
+        } else {
+            return <Typography className={classes.pos} component="p">
+                Oops! There is nothing to see here. Try again or go to the main menu...
             </Typography>
         }
     }
