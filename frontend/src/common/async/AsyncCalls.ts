@@ -166,6 +166,14 @@ export const getAllRecipes = async () => {
 };
 
 
+/**
+ * Get a list of all public records
+ */
+export const getAllPublicRecipes = async () => {
+    return axios.get('/publicRecipes');
+};
+
+
 
 /**
  * Get a list of all records

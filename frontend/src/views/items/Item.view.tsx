@@ -24,7 +24,7 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
             <ItemListSkeleton/>
     </React.Fragment>;
     // states
-    const [groupListContent, setItemListContent] = useState<JSX.Element>(getDefaultListContent());
+    const [itemListContent, setItemListContent] = useState<JSX.Element>(getDefaultListContent());
     const [isModal, setModal] = useState<boolean>(false);
     const [itemModalData, setItemModalData] = useState<ItemInterface>({
         id: '',
@@ -137,7 +137,7 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
                 <Grid container spacing={1}>
                     <ItemCreate onCreateItem={handleItemCreate}/>
                     <SearchCard table="items" onSearch={handleItemSearch}/>
-                    {groupListContent}
+                    {itemListContent}
                     <ItemUpdateModal isOpen={isModal} data={itemModalData} onModalClose={handleItemModalClose}/>
                 </Grid>
             </div>

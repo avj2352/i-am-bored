@@ -11,6 +11,7 @@ import RecipeListView from '../../../views/recipes/list/RecipeList.view';
 import RecipeUpdateView from '../../../views/recipes/edit/RecipeUpdate.view';
 import RecipeSearchView from '../../../views/recipes/search/RecipeSearch.view';
 import MyRecipeListView from '../../../views/recipes/profile/MyRecipe.view';
+import RecipeDetailView from '../../../views/recipes/detail/RecipeDetail.view';
 
 const DashboardRouterApp: FunctionComponent = () => {
     return (
@@ -25,6 +26,7 @@ const DashboardRouterApp: FunctionComponent = () => {
                     <Route strict path="/app/recipes/profile" component={MyRecipeListView}/>
                     <Route strict path="/app/recipes/list/:id" component={RecipeListView}/>
                     <Route strict path="/app/recipes/update/:id" component={RecipeUpdateView}/>
+                    <Route strict path="/app/recipes/detail/:id" component={RecipeDetailView}/>
                     <Route path="/app/" component={HomeView}/>
                 </Switch>
             </Router>

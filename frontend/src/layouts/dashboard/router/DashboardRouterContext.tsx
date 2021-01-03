@@ -21,6 +21,7 @@ export enum DASHBOARD_ROUTES {
     UPDATE_RECIPES = 'updateRecipes',
     LIST_RECIPES = 'listRecipes',
     MY_RECIPES = 'myRecipes',
+    PREVIEW_RECIPE = 'previewRecipe',
     SEARCH_RECIPES = 'searchRecipes',
     GROUPS = 'groups',
     TAGS = 'tags',
@@ -139,6 +140,13 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.SEARCH_RECIPES};
+
+        case DASHBOARD_ROUTES.PREVIEW_RECIPE:
+            location = {
+                pathname: `/app/recipes/detail/${action.payload}`
+            };
+            history.push(location);
+            return  {...state, name: DASHBOARD_ROUTES.PREVIEW_RECIPE};
 
         default:
             throw new Error(`Sorry...Unknown Dashboard Route Name: ${action.type}`);

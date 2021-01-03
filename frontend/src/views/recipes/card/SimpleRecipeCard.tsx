@@ -29,6 +29,7 @@ export const useStyles = makeStyles(theme => ({
         padding: 5,
         width: '100%',
         display: 'flex',
+        flexWrap: 'wrap',
         '&>div': {
             margin: 5
         },
