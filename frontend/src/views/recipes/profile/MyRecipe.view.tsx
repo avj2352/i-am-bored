@@ -51,6 +51,7 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
     },[]);
 
     const fetchRecipes = useCallback(()=>{
+        setRecipeListContent(defaultCardContent());
         let asyncFetchCall:()=>Promise<any> = getAllRecipesByUserId;
         const userProfile = appContext.profile;
         if (!userProfile) {
@@ -111,7 +112,7 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
     };
 
     // event handlers
-    const handleGroupSearch = (data: ISearch) => {
+    const handleRecipeSearch = (data: ISearch) => {
         setRecipeListContent(defaultCardContent());
         searchByText(data)
             .then((res: any) => {
@@ -140,6 +141,10 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
             });
     };
 
+    const handleRecipeReset = () => {
+        fetchRecipes();
+    };
+
     useEffect(()=>{
         fetchRecipes();
     },[]);
@@ -149,7 +154,7 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
             <CssBaseline />
         <Grid container spacing={1}>
             <Typography  variant="h5" component="h2">My Recipes</Typography>
-            <SearchCard table="recipes" onSearch={handleGroupSearch}/>
+            <SearchCard table="recipes" onSearch={handleRecipeSearch} onReset={handleRecipeReset}/>
             {recipeListContent}
         </Grid>
         </div>

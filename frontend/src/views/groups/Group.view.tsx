@@ -110,6 +110,10 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
         setModal(true);
     };
 
+    const handleSearchReset = () => {
+        fetchAllGroups();
+    };
+
     const handleGroupDelete = (id: string) => {
         deleteGroupById(id)
             .then((res: any) => {
@@ -142,7 +146,7 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
-                    <SearchCard table="groups" onSearch={handleGroupSearch}/>
+                    <SearchCard table="groups" onSearch={handleGroupSearch} onReset={handleSearchReset}/>
                     {groupListContent}
                     <GroupUpdateModal
                         isOpen={isModal}

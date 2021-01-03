@@ -114,6 +114,10 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
             }).catch((err: any) => console.log('Error fetching data: ', err));
     };
 
+    const handleItemReset = () => {
+        fetchAllItems();
+    };
+
     const handleItemModalClose = (status: boolean, value: 'success' | 'failure' | 'cancel') => {
         // console.log('Modal status is: ', status);
         if (value === 'success') {
@@ -136,7 +140,7 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <ItemCreate onCreateItem={handleItemCreate}/>
-                    <SearchCard table="items" onSearch={handleItemSearch}/>
+                    <SearchCard table="items" onSearch={handleItemSearch} onReset={handleItemReset}/>
                     {itemListContent}
                     <ItemUpdateModal isOpen={isModal} data={itemModalData} onModalClose={handleItemModalClose}/>
                 </Grid>

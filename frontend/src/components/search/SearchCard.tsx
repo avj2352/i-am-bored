@@ -9,11 +9,14 @@ import CardContent from '@material-ui/core/CardContent';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
 import SearchIcon from "@material-ui/icons/Search";
 import Fab from "@material-ui/core/Fab";
+import ResetIcon from '@material-ui/icons/Cached';
+// custom
 import {ISearch} from "./search-interface";
 
 // interface
 interface ISearchCardProps extends ISearch {
     onSearch: (data: ISearch) => void;
+    onReset: () => void;
 }
 
 // styles
@@ -62,7 +65,7 @@ const useStyles = makeStyles({
 
 const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
     const classes = useStyles();
-    const { table, onSearch } = props;
+    const { table, onSearch, onReset } = props;
     // state
     const [groupQuery, setGroupQuery] = useState('');
     const [isDisabled, toggleDisabled] = useState(true);
@@ -74,7 +77,7 @@ const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
         if (event.target.name === 'query') {
             setGroupQuery(event.target.value);
         }
-        buttonRef.current.focus();
+        // buttonRef.current.focus();
     };
 
     const toggleSearchType = () => {
@@ -85,6 +88,11 @@ const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
         onSearch ({table, type: 'partial', query: groupQuery}): onSearch ({table, type: 'full',
             query: groupQuery
         });
+
+    const handleReset = () => {
+        setGroupQuery('');
+        onReset();
+    }
 
 
     useEffect(()=>{
@@ -104,11 +112,20 @@ const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
                         id="query"
                         label={`Search ${table}`}
                         name="query"
-                        defaultValue = {groupQuery}
+                        value = {groupQuery}
                         autoFocus
-                        onBlur={handleChange}/>
+                        onChange={handleChange}/>
                 </CardContent>
                 <CardActions className={classes.action}>
+                    <Fab
+                        size="small"
+                        title="Clear search"
+                        ref={buttonRef}
+                        onClick={handleReset}
+                        color={isPartial ? 'secondary': 'primary'}
+                        aria-label="Enable partial search">
+                        <ResetIcon />
+                    </Fab>
                     <Fab
                         size="small"
                         title={`${isPartial ? `Disable`: `Enable`} partial search`}
