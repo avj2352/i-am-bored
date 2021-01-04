@@ -7,6 +7,7 @@ export interface IRecipe {
 	html: string;
 	group: any | null;
 	createdBy? : any;
+	created?: string;
 	tags?: any[];
 	items?: any[];
 	timers?: any[];

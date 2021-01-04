@@ -6,6 +6,10 @@ export const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column'
     },
+    row: {
+        margin: '10px 0px',
+        width: '100%'
+    },
     rowSeparate: {
         width: '100%',
         display: 'flex',

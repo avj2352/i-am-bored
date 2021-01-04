@@ -7,6 +7,7 @@ import SimpleBadge from '../../../components/badges/simple/SimpleBadge';
 import ShareButton from '../../../components/buttons/share/ShareButton';
 import SmallBadge from '../../../components/badges/simple/SmallBadge';
 import YoutubeBadge from '../../../components/badges/media/YoutubeBadge';
+import RecipeAccordian from '../../../components/accordians/RecipeAccordian';
 
 interface IRecipeDetailCardProps {
     data: IRecipe;
@@ -15,6 +16,8 @@ interface IRecipeDetailCardProps {
 const RecipeDetailCard: FunctionComponent<IRecipeDetailCardProps> = (props): JSX.Element => {
     const { data } = props;
     const { title, link, html, group } = data;
+    const date = data.created ? data.created : '';
+    const author = data.createdBy ? data.createdBy : null;
     const tags = data.tags? data.tags : [];
     const items = data.items ? data.items : [];
     const timers = data.timers ? data.timers : null;
@@ -32,6 +35,8 @@ const RecipeDetailCard: FunctionComponent<IRecipeDetailCardProps> = (props): JSX
     const groupCard = group.title && <SmallBadge name={group.title} description={group.description} color={'primary'}/>;
     const youtubeButton = link !== '' && <YoutubeBadge link={link}/>
 
+    useEffect(()=>{console.log('Author details: ', data)});
+
     return <React.Fragment>
         <Card className={classes.card}>
             <CardContent className={classes.cardContent}>
@@ -45,6 +50,9 @@ const RecipeDetailCard: FunctionComponent<IRecipeDetailCardProps> = (props): JSX
                 </div>
                 <div className={classes.rowItems}>
                     {tagContent}
+                </div>
+                <div className={classes.row}>
+                    {author && items && <RecipeAccordian date={date} author={author.name} items={items}/>}
                 </div>
                 <div className={classes.htmlContent} dangerouslySetInnerHTML={createMarkup()}></div>
             </CardContent>
