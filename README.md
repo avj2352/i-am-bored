@@ -204,6 +204,12 @@ Include the following code in your `index.html` page
 
 ---
 
+## Mongo DB Scripts to Copy from one Collection to Another
+
+```bash
+db.orders.find({"cust_id": "B212"}).forEach(function(d){db.getSiblingDB('db2')['orders1'].insert(d);});
+```
+
 ## Build Scripts
 
 Because its a simple Node JS Express project, The following scripts serve most useful when
