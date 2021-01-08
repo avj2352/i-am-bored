@@ -234,8 +234,8 @@ export class RecipeController {
      */
     async search (req, res) {
         // check if authenticated
-        const user = this.authService.fetchUserDetails(req);
-        if (!Boolean(user)) return res.sendStatus(401);
+        // const user = this.authService.fetchUserDetails(req);
+        // if (!Boolean(user)) return res.sendStatus(401);
         console.log(`${this.logger} - Search Text: ${JSON.stringify(req.query.text)}`.info);
         if (
             !req.query.text || req.query.text === '' ||

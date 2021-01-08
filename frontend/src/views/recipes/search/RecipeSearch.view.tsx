@@ -44,6 +44,7 @@ const RecipeSearchView: FunctionComponent = (props): JSX.Element => {
         setRecipeListContent(defaultCardContent());
         searchByText(data)
         .then((res: any) => {
+            console.log('Search result is: ', res.data);
             if (res.data.length > 0) {
                 const list: JSX.Element[] = res.data?.map((el: any, index:number) => <SimpleRecipeCard
                     key={index}
