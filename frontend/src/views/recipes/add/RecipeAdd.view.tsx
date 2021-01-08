@@ -8,6 +8,7 @@ import { IRecipe } from '../common/recipe-interfaces';
 import RecipeForm from '../components/form/RecipeForm';
 import RecipeFormSkeleton from '../loading/RecipeFormSkeleton';
 import CloseActionButton from '../../../components/notifications/CloseActionButton';
+import { DASHBOARD_ROUTES, useDashboardRouteDispatch } from '../../../layouts/dashboard/router/DashboardRouterContext';
 // styles
 const useStyles = makeStyles(theme => ({
     container: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 const RecipeAddView: FunctionComponent = (props): JSX.Element => {
     const classes = useStyles();
     const { enqueueSnackbar} = useSnackbar();
+    const dashboardRouterDispatch: any = useDashboardRouteDispatch();
     // states
     const [title, setTitle] = useState('Loading Form...');
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -83,6 +85,9 @@ const RecipeAddView: FunctionComponent = (props): JSX.Element => {
         })
         .then((res: any) => {
             enqueueSnackbar(`New Recipe Added!`, {variant: 'info', action: okActionButton });
+            dashboardRouterDispatch ({
+                type: DASHBOARD_ROUTES.MY_RECIPES
+            });
         })
         .catch((err: any) => {
             console.log(`Error creating new recipe..`, err);
