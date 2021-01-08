@@ -14,8 +14,12 @@ const useStyles = makeStyles((theme: Theme) =>
         flexDirection: 'column'
     },
     row: {
+        margin: '5px 0',
         width: '100%',
-        display: 'flex'
+        display: 'flex',
+        '&>div': {
+          margin: '0px 5px'
+        }
     },
     root: {
       width: '100%',
@@ -43,12 +47,20 @@ const RecipeAccordian: FunctionComponent<IRecipeAccordianProps> = (props):JSX.El
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
+  // event handlers
   const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const parseDateString = (data: string) => {
+      const currDate: Date = new Date(data);
+      return `${currDate.getDate()}/${currDate.getMonth()+1}/${currDate.getFullYear()}`;
+  }
+
   const itemsContent = items && items.length > 0 && items.map((item: any, index: number) => <ItemBadgeModal key={index} name={item.name} description={item.description} html={item.html}/>);
-  const itemDiv = itemsContent && <div className={classes.row}><Typography>Key Ingredients:</Typography>{itemsContent}</div>;
+  const itemDiv = itemsContent && <div className={classes.row}>
+                    <Typography>Key Ingredients:</Typography>{itemsContent}
+                  </div>;
 
   return (
     <div className={classes.root}>
@@ -65,7 +77,7 @@ const RecipeAccordian: FunctionComponent<IRecipeAccordianProps> = (props):JSX.El
             <strong>Created by: </strong> {author}
           </Typography>
           <Typography>
-            <strong>Created on: </strong> {date}
+            <strong>Created on: </strong> {parseDateString(date)}
           </Typography>
           {itemDiv}
         </AccordionDetails>
