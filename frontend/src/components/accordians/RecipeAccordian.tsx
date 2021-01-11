@@ -17,8 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: '5px 0',
         width: '100%',
         display: 'flex',
+        flexWrap: 'wrap',
         '&>div': {
-          margin: '0px 5px'
+          margin: 5
         }
     },
     root: {
@@ -59,7 +60,10 @@ const RecipeAccordian: FunctionComponent<IRecipeAccordianProps> = (props):JSX.El
 
   const itemsContent = items && items.length > 0 && items.map((item: any, index: number) => <ItemBadgeModal key={index} name={item.name} description={item.description} html={item.html}/>);
   const itemDiv = itemsContent && <div className={classes.row}>
-                    <Typography>Key Ingredients:</Typography>{itemsContent}
+                    <Typography className={classes.root}>
+                      <strong>Key Ingredients:</strong>
+                    </Typography>
+                    {itemsContent}
                   </div>;
 
   return (
@@ -69,14 +73,13 @@ const RecipeAccordian: FunctionComponent<IRecipeAccordianProps> = (props):JSX.El
           expandIcon={<ExpandMoreIcon />}
           aria-controls="recipePanelbh-content"
           id="recipePanelbh-header">
-          <Typography className={classes.heading}>Additional Info</Typography>
-          <Typography className={classes.secondaryHeading}>Author, Created Date, Key Ingredients..etc.,</Typography>
+          <Typography className={classes.heading}>Additional Info</Typography>          
         </AccordionSummary>
         <AccordionDetails className={classes.column}>
           <Typography>
             <strong>Created by: </strong> {author}
           </Typography>
-          <Typography>
+          <Typography className={classes.root}>
             <strong>Created on: </strong> {parseDateString(date)}
           </Typography>
           {itemDiv}
