@@ -10,6 +10,8 @@ import { useStyles } from './recipe-list.view.styles';
 import EmptySearchCard from '../../../components/card/404/EmptySearchCard';
 import SimpleRecipeCard from '../card/SimpleRecipeCard';
 import { DASHBOARD_ROUTES, useDashboardRouteDispatch } from '../../../layouts/dashboard/router/DashboardRouterContext';
+import RecipePanel from './panels/RecipePanel';
+import {mapChronologicalList, RecipeCollection} from '../components/collection/RecipeCollection';
 
 
 const RecipeListView: FunctionComponent = (props): JSX.Element => {
@@ -29,15 +31,21 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
     // states
     const [recipeListContent, setRecipeListContent] = useState<JSX.Element>(defaultCardContent());
     const [title, setTitle] = useState<string>('All Recipes');
+    const [panelState, setPanelState] = useState<number>(1);
+    const [recipeList, setRecipeList] = useState<any[]>([]);
 
     // event handlers
-    const handleView = (id: string) => {
+    const handleView = useCallback((id: string) => {
         console.log('Card detail to see: ', id);
         dispatchDashboard ({
             type: DASHBOARD_ROUTES.PREVIEW_RECIPE,
             payload: id
         });
-    };
+    },[dispatchDashboard]);
+
+    const handlePanelChange = (panelNumber: number) => {
+        setPanelState(panelNumber);
+    }
     
     //lifecycle methods
     const fetchRecipesOfType = useCallback((id: string)=>{
@@ -55,7 +63,18 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
         asyncFetch
             .then((res: any) => {
                 if (res.data.length > 0) {
-                    const list: JSX.Element[] = res.data?.map((el: any, index:number) => <SimpleRecipeCard
+                    if (id !== 'all') setTitle(`${res.data[0].group.title}`);
+                    setRecipeList(res.data);
+                } else {
+                    setRecipeListContent(<EmptySearchCard type="empty"/>);
+                }
+            })
+            .catch((err: any) => console.log('Error fetching: ', err));
+    },[]);
+
+    useEffect(()=>{
+        if (recipeList.length > 0 && panelState === 1) {
+            const list: JSX.Element[] = recipeList?.map((el: any, index:number) => <SimpleRecipeCard
                         key={index}
                         onView={handleView}
                         id = {el._id}
@@ -71,28 +90,31 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
 	                    timers = {el.timers}
                         />
                     );
-                    if (id !== 'all') setTitle(`Recipes under: ${res.data[0].group.title}`);
                     setRecipeListContent(<React.Fragment>
                         {list}
                     </React.Fragment>);
-                } else {
-                    setRecipeListContent(<EmptySearchCard type="empty"/>);
-                }
-            })
-            .catch((err: any) => console.log('Error fetching: ', err));
-    },[]);
+        } else if (recipeList.length > 0 && panelState === 2) {
+            setRecipeListContent(<RecipeCollection list={mapChronologicalList(recipeList)}/>);
+        } else {
+            setRecipeListContent(<EmptySearchCard type="empty"/>);
+        }
+    },[recipeList, handleView, panelState]);
     
 
     //component did mount
     useEffect(()=>{
         // console.log('List recipe type: ', id);
         fetchRecipesOfType(id);
-    },[id]);
+    },[fetchRecipesOfType, id]);
+
     return <React.Fragment>
         <div className = {classes.root}>
             <CssBaseline />
         <Grid container spacing={1}>
-            <Typography className={classes.fullWidth} variant="h5" component="h2">{title}</Typography>
+            <div className={classes.fullWidth}>
+                <Typography variant="h5" component="h2">{title}</Typography>
+                <RecipePanel onPanelChange={handlePanelChange}/>
+            </div>
             {recipeListContent}
         </Grid>
         </div>

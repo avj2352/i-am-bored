@@ -13,9 +13,15 @@ export const useStyles = makeStyles(theme => ({
         padding: 10,
         paddingBottom: '50px'
     },
-    fullWidth: {
-        
-        width: '100%'
+    fullWidth: {  
+        position: 'relative',
+        padding: 5,
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    panel: {
+        padding: '0 10px'
     },
     card: {
         display: 'flex',
