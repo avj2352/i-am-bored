@@ -119,7 +119,12 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
                 // console.log('Search Result is: ', filterByUserProfile(res.data));
                 const result = filterByUserProfile(res.data);
                 if (result.length > 0) {
-                    const list: JSX.Element[] = result.map((recipe: any, index:number) => <MyRecipeCard
+                    const sortedList = result.sort((a: any, b: any) => {
+                        const date1 = new Date(a?.created);
+                        const date2 = new Date(b?.created);
+                        return date2.getTime() - date1.getTime();
+                    });
+                    const list: JSX.Element[] = sortedList.map((recipe: any, index:number) => <MyRecipeCard
                     key={index}
                     id = {recipe._id}
                     title = {recipe.title}

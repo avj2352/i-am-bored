@@ -74,7 +74,12 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
 
     useEffect(()=>{
         if (recipeList.length > 0 && panelState === 1) {
-            const list: JSX.Element[] = recipeList?.map((el: any, index:number) => <SimpleRecipeCard
+            const sortedList = recipeList.sort((a: any, b: any) => {
+                const date1 = new Date(a?.created);
+                const date2 = new Date(b?.created);
+                return date2.getTime() - date1.getTime();
+            });
+            const list: JSX.Element[] = sortedList?.map((el: any, index:number) => <SimpleRecipeCard
                         key={index}
                         onView={handleView}
                         id = {el._id}
