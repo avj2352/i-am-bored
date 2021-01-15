@@ -24,7 +24,6 @@ export const useStyles = makeStyles(theme => ({
     cardContent: {
         display: 'flex',
         alignItems: 'flex-start',
-        paddingBottom: 0
     },
     text: {
         display: 'flex',
