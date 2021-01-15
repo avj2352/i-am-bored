@@ -35,7 +35,7 @@ const RecipeDetailCard: FunctionComponent<IRecipeDetailCardProps> = (props): JSX
     const groupCard = group.title && <SmallBadge name={group.title} description={group.description} color={'primary'}/>;
     const youtubeButton = link !== '' && <YoutubeBadge link={link}/>
 
-    useEffect(()=>{console.log('Author details: ', data)});
+    // useEffect(()=>{console.log('Author details: ', data)});
 
     return <React.Fragment>
         <Card className={classes.card}>

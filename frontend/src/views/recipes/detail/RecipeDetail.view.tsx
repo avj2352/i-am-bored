@@ -37,7 +37,7 @@ const RecipeDetailView: FunctionComponent = (props): JSX.Element => {
     },[]);
     // component did mount
     useEffect(()=>{
-        console.log('Recipe id to preview: ', id);
+        // console.log('Recipe id to preview: ', id);
         fetchRecipeDetails(id);
     },[]);
     return <React.Fragment>

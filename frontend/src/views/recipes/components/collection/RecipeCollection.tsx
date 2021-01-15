@@ -1,6 +1,36 @@
-import React, {
-    FunctionComponent
-} from 'react';
+import React, { FunctionComponent } from 'react';
+import { Card, CardActionArea, CardContent, makeStyles, Typography } from '@material-ui/core';
+import { getSubText } from '../../../../common/util/HelperFunctions';
+
+export const useStyles = makeStyles(theme => ({
+    column: {
+        position: 'relative',
+        width: '100%',
+        display: 'flex',
+        padding: 5,
+        paddingRight: 10,
+        flexDirection: 'column'
+    },
+    boldTitle: {
+        fontWeight: 'bold',
+        marginTop: 5
+    },
+    card: {
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: 175,
+        marginBottom: 5
+    },
+    cardContent: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        paddingBottom: 0
+    },
+    text: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+}));
 
 interface ILetter {
     letter: "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | 
@@ -10,7 +40,8 @@ interface ILetter {
 }
 
 interface IRecipeCollectionProps {
-    list: any[];
+    list: ILetter[];
+    onView: (id: string) => void;
 }
 
 const listReducer = (list: ILetter[], data: any) => {
@@ -42,7 +73,38 @@ export const mapChronologicalList = (list: any[]): ILetter[] => {
 
 
 export const RecipeCollection: FunctionComponent<IRecipeCollectionProps> = (props): JSX.Element => {
-    const { list } = props;
-    console.log(`Sorted List is: `, list);
-    return <React.Fragment> Recipe Collection comes here </React.Fragment>;
+    const { list, onView } = props;
+    const classes = useStyles();
+    const listContent = (list:ILetter[]):JSX.Element[]  => {
+        const content: JSX.Element[] = [];
+        list.map((item: ILetter, index: number) => {
+            content.push(<Typography key={index} component="h6" className={classes.boldTitle}>
+                {item.letter.toUpperCase()}
+            </Typography>);
+            {item.value.map((recipe: any, index01: number) => {
+                return content.push(
+                    <Card key={`${index}-${index01}`} className={classes.card}>
+                        <CardActionArea onClick={()=>onView(recipe._id)}>
+                        <CardContent className={classes.cardContent}>
+                            <div className={classes.text}>
+                                <Typography component="p" variant="subtitle1"><strong>
+                                    {recipe.title}
+                                    </strong></Typography>
+                                <Typography component="p" variant="subtitle2">{getSubText(recipe.content)}</Typography>
+                            </div>
+                        </CardContent>
+                        </CardActionArea>
+                    </Card>
+                );
+            })}
+        });
+        return content;
+    };
+
+    // console.log(`Sorted List is: `, list);
+    return <React.Fragment>
+        <div className={classes.column}>
+            {listContent(list)}
+        </div>
+        </React.Fragment>;
 };

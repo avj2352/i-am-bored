@@ -36,7 +36,7 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
 
     // event handlers
     const handleView = useCallback((id: string) => {
-        console.log('Card detail to see: ', id);
+        // console.log('Card detail to see: ', id);
         dispatchDashboard ({
             type: DASHBOARD_ROUTES.PREVIEW_RECIPE,
             payload: id
@@ -94,7 +94,9 @@ const RecipeListView: FunctionComponent = (props): JSX.Element => {
                         {list}
                     </React.Fragment>);
         } else if (recipeList.length > 0 && panelState === 2) {
-            setRecipeListContent(<RecipeCollection list={mapChronologicalList(recipeList)}/>);
+            setRecipeListContent(<RecipeCollection 
+                list={mapChronologicalList(recipeList)} 
+                onView={handleView}/>);
         } else {
             setRecipeListContent(<EmptySearchCard type="empty"/>);
         }
