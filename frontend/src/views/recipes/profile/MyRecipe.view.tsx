@@ -65,7 +65,12 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
             .then((res: any) => {
                 // console.log('Response is: ', res.data);
                 if (res.data.length > 0) {
-                    const list: JSX.Element[] = res.data?.map((recipe: any, index:number) => <MyRecipeCard
+                    const sortedList = res.data?.sort((a: any, b: any) => {
+                        const date1 = new Date(a?.created);
+                        const date2 = new Date(b?.created);
+                        return date2.getTime() - date1.getTime();
+                    });
+                    const list: JSX.Element[] = sortedList?.map((recipe: any, index:number) => <MyRecipeCard
                         key={index}
                         id = {recipe._id}
                         title = {recipe.title}
