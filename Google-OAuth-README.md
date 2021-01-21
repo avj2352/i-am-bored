@@ -88,8 +88,20 @@ We need to do these two things to enable Google to talk to our server
 - Select Web Application and fill out the **"Authorized JavaScript Origins"** and **"Authorized redirect URI"** and click the **"Create"** button.
 
 - Authorized JavaScript Origins: **http://localhost:5000**
+- For Heroku, You need to provide the following values
+
+```bash
+https://justbored.herokuapp.com
+http://justbored.herokuapp.com
+```
 
 - Authorized redirect URI: **http://localhost:5000/auth/google/callback**
+- For Heroku, You need to provide the following values
+
+```bash
+http://justbored.herokuapp.com/auth/google/callback
+https://justbored.herokuapp.com/auth/google/callback
+```
 
 >  **Note!** Google has made a number of changes to the OAuth credential's restrictions, and no longer allows wildcards in the redirect URI field. If you follow along with the upcoming video lecture you will get this error: ***Invalid Redirect: cannot contain a wildcard (\*)\***
 
