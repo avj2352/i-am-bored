@@ -19,10 +19,10 @@ jobs:
               "port": 5000
             },
             "google": {
-              "client_id": "${{GOOGLE_CLIENT_ID}}",
-              "client_secret": "${{GOOGLE_CLIENT_SECRET}}",
+              "client_id": "${{secrets.GOOGLE_CLIENT_ID}}",
+              "client_secret": "${{secrets.GOOGLE_CLIENT_SECRET}}",
               "login_dialog_uri": "",
-              "oauth_redirect_uri": "${{OAUTH_REDIRECT}}",
+              "oauth_redirect_uri": "${{secrets.OAUTH_REDIRECT}}",
               "access_token_uri": "",
               "scopes": [
                 "https://www.googleapis.com/auth/plus.login",
@@ -32,11 +32,11 @@ jobs:
               "grant_type": "authorization_code"
             },
             "jwt": {
-              "secret": "${{JWT_SECRET}}",
+              "secret": "${{secrets.JWT_SECRET}}",
               "expiry": 10
             },
             "db": {
-              "uri": "${{DB_URI}}"
+              "uri": "${{secrets.DB_URI}}"
             }
           }
           EOT
