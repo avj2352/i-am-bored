@@ -1,23 +1,28 @@
-# Remove any .json environment file under backend/config/ folder
-# Trigger on push to master
-name: Remove env files
+# Remove default.json environment file under backend/config/ folder
+# Remove Environment files - default.json & development.json
+name: Remove env file
 on: 
   push:
-    branches: 
+    branches:
       - master
       - main
-
+   
 jobs:
   run:
-    name: Remove env files
+    name: Remove env file
     runs-on: ubuntu-latest
     steps:
-      - name: Remove file
-        uses: JesseTG/rm@v1.0.2
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Remove files
+        run: |
+          rm -rf backend/config/default.json
+          rm -rf backend/config/development.json
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v7
         with:
-          path: /backend/config/default.json
-        
-      - name: Remove file
-        uses: JesseTG/rm@v1.0.2
-        with:
-          path: /backend/config/development.json
+          author_name: Pramod AJ
+          author_email: avj2352@gmail.com
+          message: 'Adding Environment file'
+          add: '*.json'
