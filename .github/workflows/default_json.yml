@@ -16,7 +16,7 @@ jobs:
           cat <<EOT >> backend/config/default.json
           {
             "server": {
-              "port": 5000
+              "port": ${{secrets.SERVER_PORT}}
             },
             "google": {
               "client_id": "${{secrets.GOOGLE_CLIENT_ID}}",
