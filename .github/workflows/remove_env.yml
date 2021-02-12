@@ -15,4 +15,8 @@ jobs:
       - name: Remove file
         uses: JesseTG/rm@v1.0.2
         with:
-          path: /backend/config/*.json
+          path: /backend/config/default.json
+      - name: Remove file
+        uses: JesseTG/rm@v1.0.2
+        with:
+          path: /backend/config/development.json
