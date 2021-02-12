@@ -1,8 +1,11 @@
 # Create a default.json environment file under backend/config/ folder
 # Add Environment Variables from Repository Secrets
 name: Create env file
-on: push
-
+on: 
+  push:
+    branches:
+      - dev
+   
 jobs:
   run:
     name: Create env file
