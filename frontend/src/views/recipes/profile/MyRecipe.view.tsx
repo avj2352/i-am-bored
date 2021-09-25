@@ -155,6 +155,10 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
         fetchRecipes();
     };
 
+    const handleSearchLoad = () => {
+        setRecipeListContent(defaultCardContent());
+    };
+
     useEffect(()=>{
         fetchRecipes();
     },[]);
@@ -164,7 +168,7 @@ const MyRecipeListView: FunctionComponent = (props): JSX.Element => {
             <CssBaseline />
         <Grid container spacing={1}>
             <Typography  variant="h5" component="h2">My Recipes</Typography>
-            <SearchCard table="recipes" onSearch={handleRecipeSearch} onReset={handleRecipeReset}/>
+            <SearchCard table="recipes" onLoad={handleSearchLoad} onSearch={handleRecipeSearch} onReset={handleRecipeReset}/>
             {recipeListContent}
         </Grid>
         </div>

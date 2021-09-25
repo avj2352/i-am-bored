@@ -42,7 +42,7 @@ const RecipeDetailCard: FunctionComponent<IRecipeDetailCardProps> = (props): JSX
             <CardContent className={classes.cardContent}>
                 <div className={classes.rowSeparate}>
                     <Typography variant="h5" component="h2">{title.toUpperCase()}</Typography>
-                    <ShareButton link={window.location.href}/>
+                    <ShareButton title={title} link={window.location.href}/>
                 </div>
                 <div className={classes.rowSeparate}>
                     {groupCard}

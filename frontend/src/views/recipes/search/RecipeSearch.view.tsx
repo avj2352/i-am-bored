@@ -79,8 +79,12 @@ const RecipeSearchView: FunctionComponent = (props): JSX.Element => {
         setRecipeListContent (getInitialContent());
     };
 
+    const handleSearchLoad = () => {
+        setRecipeListContent (defaultCardContent());
+    };
+
     return <Grid container spacing={1} className={classes.rowCenter}>
-        <SearchCard table="recipes" onSearch={handleRecipeSearch} onReset={handleSearchReset}/>
+        <SearchCard table="recipes" onLoad={handleSearchLoad} onSearch={handleRecipeSearch} onReset={handleSearchReset}/>
         {recipeListContent}
     </Grid>
 };

@@ -1,11 +1,11 @@
-import {createMuiTheme, ThemeOptions} from '@material-ui/core/styles';
+import {createTheme, ThemeOptions} from '@material-ui/core/styles';
 import { useGlobalState } from '../context/AppContext';
 
 export const useThemeOptions = () : ThemeOptions => {
     const appContext = useGlobalState();
     // default material theme configuration
 
-    let theme = createMuiTheme({
+    let theme = createTheme({
         palette: {
             type: appContext.theme,
             "common": {

@@ -124,6 +124,10 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
                 {variant: 'error', action: okActionButton }))
     };
 
+    const handleSearchLoad = () => {
+        setGroupListContent(defaultGroupContent());
+    };
+
     const handleGroupModalClose = (status: boolean, value: 'success' | 'failure' | 'cancel') => {
         console.log('Modal status is: ', status);
         if (value === 'success') {
@@ -146,7 +150,7 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
-                    <SearchCard table="groups" onSearch={handleGroupSearch} onReset={handleSearchReset}/>
+                    <SearchCard table="groups" onLoad={handleSearchLoad} onSearch={handleGroupSearch} onReset={handleSearchReset}/>
                     {groupListContent}
                     <GroupUpdateModal
                         isOpen={isModal}

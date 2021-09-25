@@ -16,7 +16,7 @@ export enum CONTEXT_ACTION_TYPE {
 export const initialState: IAppContextState = {
     profile: undefined,
     theme: 'light',
-    version: '0.4',
+    version: '1.0.0',
     title: 'B.O.R.E.D'
 };
 

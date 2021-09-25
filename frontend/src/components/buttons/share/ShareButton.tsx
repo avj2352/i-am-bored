@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
 // material
-import { Button, Dialog, DialogContent, DialogTitle, Divider, Fab, IconButton, InputBase, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Dialog, DialogContent, DialogTitle, Divider, IconButton, InputBase, makeStyles, Paper, Typography } from '@material-ui/core';
 import ShareIcon from '@material-ui/icons/Share';
 import CopyIcon from '@material-ui/icons/FileCopy';
 
 interface IShareButtonProps {
+    title: string;
     link: string;
 }
 
@@ -33,14 +34,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShareButton: FunctionComponent<IShareButtonProps> = (props): JSX.Element => {
-    const { link } = props;
+    const { link, title } = props;
     const classes = useStyles();
     // states
     const [copyText, setCopyText] = useState<string>('');
     const [isOpen, toggleOpen] = useState<boolean>(false);
     // event handlers
     const handleCopy = () => {
-        navigator.clipboard.writeText(`${link}`).then(()=>{
+        navigator.clipboard.writeText(`[${title}](${link})`).then(()=>{
             /* clipboard successfully set */
             setCopyText('Copied to clipboard !!');
         });
@@ -60,7 +61,7 @@ const ShareButton: FunctionComponent<IShareButtonProps> = (props): JSX.Element =
                     <small><em>Click on copy-to-clipboard icon</em></small>
                 </Typography>
                 <Paper component="form" className={classes.root}>
-                    <InputBase fullWidth className={classes.input} defaultValue={link}/>      
+                    <InputBase fullWidth className={classes.input} defaultValue={`[${title}](${link})`}/>      
                     <Divider className={classes.divider} orientation="vertical" />
                     <IconButton onClick={handleCopy} color="secondary" className={classes.iconButton} aria-label="copy-to-clipboard">
                         <CopyIcon />

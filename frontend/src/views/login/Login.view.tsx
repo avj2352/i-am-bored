@@ -11,7 +11,7 @@ import {useStyles} from './login.style';
 import logo from './../../assets/img/logo.png';
 import { LinearLoader } from './../../components/loaders/linear-loader/LinearLoader';
 // context
-import { RouterDispatchContext, NAMED_ROUTES } from '../../router/context/RouterContext';
+import { RouterDispatchContext } from '../../router/context/RouterContext';
 import {AppStateContext, CONTEXT_ACTION_TYPE, useGlobalDispatch} from './../../common/context/AppContext';
 // notification
 import SimpleLinkButton from '../../components/buttons/links/SimpleLinkButton';
@@ -23,8 +23,7 @@ gsap.registerPlugin(CSSPlugin);
 
 const LoginView : FunctionComponent = () => {
     const classes = useStyles();
-    const appContext = useContext(AppStateContext);
-    const routeDispatch: any = useContext(RouterDispatchContext);
+    const appContext = useContext(AppStateContext);    
     const appDispatch: any = useGlobalDispatch();
     //states
     const [isLoading, setLoading] = useState(false);

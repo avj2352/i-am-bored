@@ -123,6 +123,10 @@ const TagView: FunctionComponent = (props): JSX.Element => {
         fetchAllTags();
     };
 
+    const handleSearchLoad = () => {
+        setTagListContent(defaultTagContentList());
+    };
+
     // Component did mount
     useEffect(()=>{
         fetchAllTags();
@@ -134,7 +138,7 @@ const TagView: FunctionComponent = (props): JSX.Element => {
                 <Grid container spacing={1}>
                     <TagCreate onCreateTag={handleTagCreate}/>
                     <TagUpdateModal isOpen={isModal} data={tagModalData} onModalClose={handleTagModalClose}/>
-                    <SearchCard table="tags" onSearch={handleTagSearch} onReset={handleTagReset}/>
+                    <SearchCard table="tags" onLoad={handleSearchLoad} onSearch={handleTagSearch} onReset={handleTagReset}/>
                     {tagListContent}
                 </Grid>
             </div>

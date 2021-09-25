@@ -86,19 +86,19 @@ const SimpleRecipeCard: FunctionComponent<ISimpleRecipeCardProps> = (props): JSX
 
     return  <Grid item xs={12} md={4}>
         <Card className={classes.card}>
-                 <CardActionArea onClick={()=>onView(id)}>
-            <CardContent className={classes.cardContent}>
-                    <Typography variant="h5" component="h2">{title}</Typography>
-                    <Typography className={classes.pos} component="p">
-                        {getSubText(content)}
-                    </Typography>
-            </CardContent>
-                </CardActionArea>
-                <div className={classes.row}>
-                    {tagContent}
-                </div>
-            <CardActions className={classes.action}>
+            <CardActionArea onClick={()=>onView(id)}>
+                <CardContent className={classes.cardContent}>
+                        <Typography variant="h5" component="h2">{title}</Typography>
+                        <Typography className={classes.pos} component="p">
+                            {getSubText(content)}
+                        </Typography>
+                </CardContent>
+            </CardActionArea>
+            <div className={classes.row}>
+                {tagContent}
                 <SmallBadge name={group.title} description={group.description} color={'primary'}/>
+            </div>
+            <CardActions className={classes.action}>
                 <Button
                     variant="contained"
                     color="primary"
