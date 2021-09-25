@@ -24,7 +24,7 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
             <ItemListSkeleton/>
     </React.Fragment>;
     // states
-    const [groupListContent, setItemListContent] = useState<JSX.Element>(getDefaultListContent());
+    const [itemListContent, setItemListContent] = useState<JSX.Element>(getDefaultListContent());
     const [isModal, setModal] = useState<boolean>(false);
     const [itemModalData, setItemModalData] = useState<ItemInterface>({
         id: '',
@@ -114,6 +114,14 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
             }).catch((err: any) => console.log('Error fetching data: ', err));
     };
 
+    const handleItemReset = () => {
+        fetchAllItems();
+    };
+
+    const handleSearchLoad = () => {
+        setItemListContent(getDefaultListContent());
+    };
+
     const handleItemModalClose = (status: boolean, value: 'success' | 'failure' | 'cancel') => {
         // console.log('Modal status is: ', status);
         if (value === 'success') {
@@ -136,8 +144,8 @@ const ItemView: FunctionComponent = (props): JSX.Element => {
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <ItemCreate onCreateItem={handleItemCreate}/>
-                    <SearchCard table="items" onSearch={handleItemSearch}/>
-                    {groupListContent}
+                    <SearchCard table="items" onLoad={handleSearchLoad} onSearch={handleItemSearch} onReset={handleItemReset}/>
+                    {itemListContent}
                     <ItemUpdateModal isOpen={isModal} data={itemModalData} onModalClose={handleItemModalClose}/>
                 </Grid>
             </div>

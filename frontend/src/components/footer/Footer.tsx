@@ -92,7 +92,7 @@ const Footer: FunctionComponent<IFooterProps> = (props): JSX.Element => {
                     color="primary"
                     aria-label="add" 
                     className={classes.fabButton}
-                    onClick={() => navigateLink('search')}>
+                    onClick={() => navigateLink('recipes/search')}>
                     <SearchIcon />
                 </Fab>
                 <div className={classes.grow} />                

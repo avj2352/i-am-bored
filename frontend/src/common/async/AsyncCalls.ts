@@ -154,3 +154,68 @@ export const updateItemById = async (id: string, payload: any) => {
 export const deleteItemById = async(id: string) => {
     return axios.delete(`/items/${id}`);
 };
+
+// RECIPE RELATED =========================================
+
+
+/**
+ * Get a list of all records
+ */
+export const getAllRecipes = async () => {
+    return axios.get('/recipes');
+};
+
+
+/**
+ * Get a list of all public records
+ */
+export const getAllPublicRecipes = async () => {
+    return axios.get('/publicRecipes');
+};
+
+
+
+/**
+ * Get a list of all records
+ */
+export const getAllRecipesByUserId = async () => {
+    return axios.get('/recipes/search/user');
+};
+
+/**
+ * Get a list of all records under particular Group
+ */
+export const getAllRecipesByGroupId = async (id: string) => {
+    return axios.get(`/recipes/group/${id}`);
+};
+
+/**
+ * Get record details by its Id
+ */
+export const getRecipeById = async (id: string) => {
+    return axios.get(`/recipes/${id}`);
+};
+
+/**
+ * Add a New Item
+ * @param payload
+ */
+export const addNewRecipe = async (payload: any) => {
+    return axios.post('/recipes', payload);
+};
+
+/**
+ * Update record by its id
+ * @param id
+ * @param payload
+ */
+export const updateRecipeById = async (id: string, payload: any) => {
+    return axios.put(`/recipes/${id}`, payload);
+};
+
+/**
+ * delete record details by its Id
+ */
+export const deleteRecipeById = async (id: string) => {
+    return axios.delete(`/recipes/${id}`);
+};

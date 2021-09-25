@@ -81,7 +81,8 @@ const AboutView : FunctionComponent = () => {
                             your favourite recipes with people.
                         </Typography>                      
                         <Typography color="textSecondary" align="center" className={classes.content}>
-                            {`v${appContext.version}`} now supports Social Login, <br/>
+                            {`v${appContext.version}`} now supports Better Search, <br/>
+                            Share Recipe Title with Link, Social Login, <br/>
                             Dark & Light Themes, <br/>
                             Ability to create, store and tag recipe items
                         </Typography>

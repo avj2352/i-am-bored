@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 interface  ISimpleCardOverview {
     title: string;
     link: string;
+    params?: string;
     btnLabel?: string;
 };
 
@@ -35,6 +36,7 @@ export const SimpleCardOverview: FunctionComponent<ISimpleCardOverview> = (props
     const dashboardRouteDispatch: any = useDashboardRouteDispatch();
     const classes = useStyles();
     const { title, children, link, btnLabel } = props;
+    const params = props.params? props.params : '';
 
     // event handlers
     const handleNavigation = (link: string) => {
@@ -62,6 +64,29 @@ export const SimpleCardOverview: FunctionComponent<ISimpleCardOverview> = (props
             case 'about':
                 dashboardRouteDispatch ({
                     type: DASHBOARD_ROUTES.ABOUT
+                });
+                break;
+            case 'newRecipes':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.NEW_RECIPES
+                });
+                break;
+            case 'listRecipes':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.LIST_RECIPES,
+                    payload: params
+                });
+                break;
+            case 'allRecipes':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.LIST_RECIPES,
+                    payload: 'all'
+                });
+                break;
+            case 'myRecipes':
+                dashboardRouteDispatch ({
+                    type: DASHBOARD_ROUTES.MY_RECIPES,
+                    payload: params
                 });
                 break;
             default:

@@ -4,3 +4,4 @@
 declare module 'axios';
 declare module 'react-router-dom';
 declare module 'ckeditor4-react';
+declare module 'lodash';

@@ -17,6 +17,12 @@ export enum DASHBOARD_ROUTES {
     LOGIN = 'login',
     LIST = 'list',
     RECIPES = 'recipes',
+    NEW_RECIPES = 'newRecipes',
+    UPDATE_RECIPES = 'updateRecipes',
+    LIST_RECIPES = 'listRecipes',
+    MY_RECIPES = 'myRecipes',
+    PREVIEW_RECIPE = 'previewRecipe',
+    SEARCH_RECIPES = 'searchRecipes',
     GROUPS = 'groups',
     TAGS = 'tags',
     ITEMS = 'items'
@@ -97,6 +103,50 @@ const useDashboardRouterContextReducer = (state: IDashboardRouterContextState, a
             };
             history.push(location);
             return {...state, name: DASHBOARD_ROUTES.ITEMS};
+
+        case DASHBOARD_ROUTES.NEW_RECIPES:
+            location = {
+                pathname: `/app/recipes/add`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.NEW_RECIPES};
+
+        case DASHBOARD_ROUTES.UPDATE_RECIPES:
+            location = {
+                pathname: `/app/recipes/update/${action.payload}`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.UPDATE_RECIPES};
+
+        case DASHBOARD_ROUTES.LIST_RECIPES:
+            console.log('Routing to List Recipes: ', action.payload);
+            location = {
+                pathname: `/app/recipes/list/${action.payload}`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.LIST_RECIPES};
+
+        case DASHBOARD_ROUTES.MY_RECIPES:
+            console.log('Routing to List Recipes: ', action.payload);
+            location = {
+                pathname: `/app/recipes/profile`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.MY_RECIPES};
+
+        case DASHBOARD_ROUTES.SEARCH_RECIPES:
+            location = {
+                pathname: `/app/recipes/search`
+            };
+            history.push(location);
+            return {...state, name: DASHBOARD_ROUTES.SEARCH_RECIPES};
+
+        case DASHBOARD_ROUTES.PREVIEW_RECIPE:
+            location = {
+                pathname: `/app/recipes/detail/${action.payload}`
+            };
+            history.push(location);
+            return  {...state, name: DASHBOARD_ROUTES.PREVIEW_RECIPE};
 
         default:
             throw new Error(`Sorry...Unknown Dashboard Route Name: ${action.type}`);

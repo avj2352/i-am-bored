@@ -14,11 +14,13 @@ export class RecipeController {
         // bind context
         this.validatePayload = this.validatePayload.bind(this);
         this.getRecipes = this.getRecipes.bind(this);
+        this.getPublicRecipes = this.getPublicRecipes.bind(this);
         this.getRecipesByUserId = this.getRecipesByUserId.bind(this);
         this.getRecipeById = this.getRecipeById.bind(this);
         this.addNewRecipe = this.addNewRecipe.bind(this);
         this.updateRecipeById = this.updateRecipeById.bind(this);
         this.deleteRecipeById = this.deleteRecipeById.bind(this);
+        this.getRecipeByGroupId = this.getRecipeByGroupId.bind(this);
         this.search = this.search.bind(this);
     }
 
@@ -66,6 +68,22 @@ export class RecipeController {
         }
     }
 
+    /**
+     * PAJ - Fetch only public recipes
+     * @param req 
+     * @param res 
+     */
+    async getPublicRecipes (req, res) {
+        try {
+            console.log(`Fetching all public recipes`.info);
+            const result = await this.recipeService.getPublicRecipes();
+            return res.json(result);
+        } catch (err) {
+            console.log(`${this.logger} error fetch all recipes: ${JSON.stringify(err)}`.error);
+            return res.sendStatus(500);
+        }
+    }
+
     /***
      * PAJ - Get Recipe By Id
      * @param req
@@ -81,6 +99,23 @@ export class RecipeController {
             return res.json(result);
         } catch (err) {
             console.log(`${this.logger} error fetch recipes by user id : ${JSON.stringify(err)}`.error);
+            return res.sendStatus(400);
+        }
+    }
+
+    /***
+     * PAJ - Get Recipe By Group Id
+     * @param req
+     * @param res
+     * @returns {Promise<any>}
+     */
+    async getRecipeByGroupId (req, res) {
+        try {
+            console.log(`Fetching all public recipes`.info);
+            const result = await this.recipeService.getPublicRecipesbyGroupId(req.params.groupId);
+            return res.json(result);
+        } catch (err) {
+            console.log(`${this.logger} Error Retrieving Id: ${JSON.stringify(err)}`.error);
             return res.sendStatus(400);
         }
     }
@@ -199,8 +234,8 @@ export class RecipeController {
      */
     async search (req, res) {
         // check if authenticated
-        const user = this.authService.fetchUserDetails(req);
-        if (!Boolean(user)) return res.sendStatus(401);
+        // const user = this.authService.fetchUserDetails(req);
+        // if (!Boolean(user)) return res.sendStatus(401);
         console.log(`${this.logger} - Search Text: ${JSON.stringify(req.query.text)}`.info);
         if (
             !req.query.text || req.query.text === '' ||

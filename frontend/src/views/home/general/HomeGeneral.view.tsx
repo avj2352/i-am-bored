@@ -47,7 +47,7 @@ const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
                     </SimpleCardOverview>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <SimpleCardOverview title={'All Recipes'} link={'all'}>
+                    <SimpleCardOverview title={'All Recipes'} link={'allRecipes'}>
                         List all the free, public recipes
                     </SimpleCardOverview>
                 </Grid>
@@ -56,11 +56,6 @@ const HomeGeneralView: FunctionComponent = (props): JSX.Element => {
                         News, Features...
                     </SimpleCardOverview>
                 </Grid>
-            </Grid>
-            <Grid item xs={12} className={classes.row}>
-                <Typography variant="subtitle2" className={classes.footerText} color="secondary">
-                    Click on the <SearchIcon /> below to search recipes by title, content, items, groups or tags
-                </Typography>
             </Grid>
         </React.Fragment>
     );

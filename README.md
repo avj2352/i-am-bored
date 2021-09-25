@@ -249,3 +249,13 @@ echo "UI - Deleting source location..."
 rm -rf ../node-workspace/i-am-bored/frontend/build
 ```
 
+### Changing Header Parameters
+
+If, it were Server side component. One could change Header values as below -
+
+```javascript
+// Changing Header parameters
+document.title = res.data[0].title;
+const metaDom = document.querySelector('meta[name="description"]');
+metaDom?.setAttribute("content", getSubText(res.data[0].content, 100));
+```

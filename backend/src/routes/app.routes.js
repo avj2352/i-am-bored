@@ -87,6 +87,11 @@ const routes = (app) => {
         .get(recipe.getRecipes)
         .post(recipe.addNewRecipe);
 
+    app.route ('/publicRecipes')
+        .get(recipe.getPublicRecipes);
+        
+    app.route('/recipes/group/:groupId')
+        .get(recipe.getRecipeByGroupId);
     // RUD Recipes
     app.route('/recipes/:recipeId')
         .get(recipe.getRecipeById)

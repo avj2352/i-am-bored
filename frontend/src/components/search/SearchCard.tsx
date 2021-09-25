@@ -1,4 +1,5 @@
-import React, {useState, useContext, FunctionComponent, useEffect, createRef} from 'react';
+import React, {useState, FunctionComponent, useEffect, createRef} from 'react';
+import { debounce } from 'lodash';
 // material
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -7,13 +8,15 @@ import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import CardContent from '@material-ui/core/CardContent';
 import TextFormatIcon from '@material-ui/icons/TextFormat';
-import SearchIcon from "@material-ui/icons/Search";
 import Fab from "@material-ui/core/Fab";
+// custom
 import {ISearch} from "./search-interface";
 
 // interface
 interface ISearchCardProps extends ISearch {
     onSearch: (data: ISearch) => void;
+    onReset: () => void;
+    onLoad: () => void;
 }
 
 // styles
@@ -62,34 +65,48 @@ const useStyles = makeStyles({
 
 const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
     const classes = useStyles();
-    const { table, onSearch } = props;
+    const { table, onSearch, onReset, onLoad } = props;
+    const debounceFn = React.useCallback(debounce(handleDebounceFn, 1000), []);
     // state
-    const [groupQuery, setGroupQuery] = useState('');
-    const [isDisabled, toggleDisabled] = useState(true);
+    const [groupQuery, setGroupQuery] = useState('');    
     const [isPartial, togglePartial] = useState(false);
     const buttonRef = createRef<any>();
     // event handlers
+
+    // event handlers
+    async function handleDebounceFn (inputValue: string) {        
+        try {
+            isPartial ?
+            onSearch ({table, type: 'partial', query: groupQuery}): onSearch ({table, type: 'full',
+                query: inputValue
+            });
+        } catch (err) {
+            console.log(`Error searching `, err);
+        }
+    }        
 
     const handleChange = (event: any) => {
         if (event.target.name === 'query') {
             setGroupQuery(event.target.value);
         }
-        buttonRef.current.focus();
+        // buttonRef.current.focus();
     };
 
     const toggleSearchType = () => {
         togglePartial((prev) => !prev);
-    }
+    };    
 
-    const handleSubmit = () => isPartial ?
-        onSearch ({table, type: 'partial', query: groupQuery}): onSearch ({table, type: 'full',
-            query: groupQuery
-        });
+    const fetchSearch = React.useCallback(()=>{
+        onLoad();        
+        if (groupQuery !=='') {
+            debounceFn(groupQuery);
+        }        
+    },[debounceFn, onLoad, groupQuery]);
 
 
     useEffect(()=>{
-        if (groupQuery !== '') toggleDisabled(false);
-        else toggleDisabled(true);
+        if (groupQuery !== '') fetchSearch();
+        else onReset();
     },[groupQuery]);
 
     // render
@@ -102,13 +119,13 @@ const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
                         fullWidth
                         required
                         id="query"
-                        label="Search Group"
+                        label={`Search ${table}`}
                         name="query"
-                        defaultValue = {groupQuery}
+                        value = {groupQuery}
                         autoFocus
-                        onBlur={handleChange}/>
+                        onChange={handleChange}/>
                 </CardContent>
-                <CardActions className={classes.action}>
+                <CardActions className={classes.action}>                    
                     <Fab
                         size="small"
                         title={`${isPartial ? `Disable`: `Enable`} partial search`}
@@ -117,15 +134,7 @@ const SearchCard: FunctionComponent<ISearchCardProps> = (props) => {
                         color={isPartial ? 'secondary': 'primary'}
                         aria-label="Enable partial search">
                         <TextFormatIcon />
-                    </Fab>
-                    <Fab
-                        ref={buttonRef}
-                        onClick={handleSubmit}
-                        disabled={isDisabled}
-                        color="secondary"
-                        aria-label="add">
-                        <SearchIcon />
-                    </Fab>
+                    </Fab>                    
                 </CardActions>
             </Card>
         </Grid>

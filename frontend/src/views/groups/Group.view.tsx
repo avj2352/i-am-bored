@@ -110,6 +110,10 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
         setModal(true);
     };
 
+    const handleSearchReset = () => {
+        fetchAllGroups();
+    };
+
     const handleGroupDelete = (id: string) => {
         deleteGroupById(id)
             .then((res: any) => {
@@ -118,6 +122,10 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
             })
             .catch((err: any) => enqueueSnackbar(`Error deleting Group record...`,
                 {variant: 'error', action: okActionButton }))
+    };
+
+    const handleSearchLoad = () => {
+        setGroupListContent(defaultGroupContent());
     };
 
     const handleGroupModalClose = (status: boolean, value: 'success' | 'failure' | 'cancel') => {
@@ -142,7 +150,7 @@ const GroupView: FunctionComponent = (props): JSX.Element => {
             <div className={classes.cardContent}>
                 <Grid container spacing={1}>
                     <GroupCreate onCreateGroup={handleGroupCreate}/>
-                    <SearchCard table="groups" onSearch={handleGroupSearch}/>
+                    <SearchCard table="groups" onLoad={handleSearchLoad} onSearch={handleGroupSearch} onReset={handleSearchReset}/>
                     {groupListContent}
                     <GroupUpdateModal
                         isOpen={isModal}

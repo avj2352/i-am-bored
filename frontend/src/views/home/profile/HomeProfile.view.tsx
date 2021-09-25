@@ -37,17 +37,17 @@ const HomeProfileView: FunctionComponent<IHomeProfileViewProps> = (props): JSX.E
         <React.Fragment>
             <Grid item xs={12} className={classes.group}>
                 <Grid item xs={12} md={6} lg={3}>
-                    <SimpleCardOverview title={'New Recipe'} link={'login'} btnLabel={'Create New...'}>
+                    <SimpleCardOverview title={'New Recipe'} link={'newRecipes'} btnLabel={'Create New...'}>
                         Create a new Recipe
                     </SimpleCardOverview>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <SimpleCardOverview title={'All Recipes'} link={'all'}>
+                    <SimpleCardOverview title={'All Recipes'} link={'listRecipes'} params={'all'}>
                         List all the free, public recipes
                     </SimpleCardOverview>
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
-                    <SimpleCardOverview title={'My Recipes'} link={'recipes'} btnLabel={'View My Recipes'}>
+                    <SimpleCardOverview title={'My Recipes'} link={'myRecipes'} params={'my'} btnLabel={'View My Recipes'}>
                         Click here to view your recipes
                     </SimpleCardOverview>
                 </Grid>
@@ -64,11 +64,6 @@ const HomeProfileView: FunctionComponent<IHomeProfileViewProps> = (props): JSX.E
                     </SimpleCardOverview>
                 </Grid>
                 {groupContent}
-            </Grid>
-            <Grid item xs={12} className={classes.row}>
-                <Typography variant="subtitle2" className={classes.footerText} color="secondary">
-                    Click on the <SearchIcon /> below to search recipes by title, content, items, groups or tags
-                </Typography>
             </Grid>
         </React.Fragment>
     );

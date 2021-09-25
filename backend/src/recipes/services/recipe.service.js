@@ -13,6 +13,7 @@ export class RecipeService {
         this.getRecipesByUserId = this.getRecipesByUserId.bind(this);
         this.getAllRecipesByUserId = this.getAllRecipesByUserId.bind(this);
         this.getRecipebyId = this.getRecipebyId.bind(this);
+        this.getPublicRecipesbyGroupId = this.getPublicRecipesbyGroupId.bind(this);
         this.addNewRecipe = this.addNewRecipe.bind(this);
         this.updateRecipeById = this.updateRecipeById.bind(this);
         this.deleteRecipeById = this.deleteRecipeById.bind(this);
@@ -125,6 +126,29 @@ export class RecipeService {
     }
 
     /**
+     * Get recipe by record id
+     * @param id
+     * @returns {Promise<any>}
+     */
+    async getPublicRecipesbyGroupId (id) {
+        return new Promise((resolve, reject) => {
+            RecipeModel.find({group: id, isPrivate: false})
+                .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
+                .populate('group')
+                .populate('tags')
+                .populate('items')
+                .populate('timers')
+                .exec((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                });
+        });
+    }
+
+
+
+    /**
      * Add new recipe record
      * @param payload { title, link, isPrivate, description, content, html, userId, groupId, tags, items, timers }
      * @param userId
@@ -203,10 +227,17 @@ export class RecipeService {
     async searchFullText (text) {
         console.log('Calling Full text query: ', text);
         return new Promise((resolve, reject) => {
-            RecipeModel.find({$text: {$search: text}}, (err, data) => {
-                if (err) reject(err);
-                else resolve(data); // Get JSON format of contact
-            });
+            RecipeModel.find({$text: {$search: text}})
+            .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
+                .populate('group')
+                .populate('tags')
+                .populate('items')
+                .populate('timers')
+                .exec((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                })
         });
     }
 
@@ -217,10 +248,17 @@ export class RecipeService {
      */
     async searchPartialText (partial) {
         return new Promise((resolve, reject) => {
-            RecipeModel.find({html: {$regex: new RegExp(partial)}}, {_id:0, __v:0}, (err, data) => {
-                if (err) reject(err);
-                else resolve(data); // Get JSON format of contact
-            });
+            RecipeModel.find({html: {$regex: new RegExp(partial)}}, {_id:0, __v:0})
+            .lean().populate('createdBy', 'name email')
+                .lean().populate('updatedBy', 'name email')
+                .populate('group')
+                .populate('tags')
+                .populate('items')
+                .populate('timers')
+                .exec((err, data) => {
+                    if (err) reject(err);
+                    else resolve(data);
+                })
         });
     }
 

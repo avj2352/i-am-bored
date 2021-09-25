@@ -57,7 +57,7 @@ const ItemUpdateModal: FunctionComponent<ItemInterfaceModalProps> = (props): JSX
         setLoading(true);
         // console.log('Change details are: ', groupName, groupDescription, groupSlug, isChecked);
         if(itemData.name && itemData.description) {
-            console.log('Updated value is: ', id, itemData.name, itemData.description, itemData.html);
+            // console.log('Updated value is: ', id, itemData.name, itemData.description, itemData.html);
             setLoading(true);
             updateItemById(id, {
                 name: itemData.name,
@@ -90,7 +90,7 @@ const ItemUpdateModal: FunctionComponent<ItemInterfaceModalProps> = (props): JSX
     </Typography>;
 
     useEffect(()=>{
-        console.log('Modal value is: ', itemData);
+        // console.log('Modal value is: ', itemData);
         if (itemData.name !== '' && itemData.description !=='' ) setErrMsg(null);
         else setErrMsg(`Please fill in missing fields`);
     },[itemData]);
